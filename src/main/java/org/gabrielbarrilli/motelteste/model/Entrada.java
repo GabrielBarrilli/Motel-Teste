@@ -16,6 +16,7 @@ public class Entrada {
     @Column(name = "mt02_codigo_entrada")
     private Long id;
 
+    @Column(name = "mt02_data_registro_entrada")
     private LocalDate dataRegistroEntrada;
     private StatusEntrada statusEntrada;
     private TipoPagamento tipoPagamento;
