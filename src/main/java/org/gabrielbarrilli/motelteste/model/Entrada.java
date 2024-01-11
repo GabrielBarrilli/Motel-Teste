@@ -15,13 +15,18 @@ public class Entrada {
     @Column(name = "mt02_codigo_entrada")
     private Long id;
 
+    @Column(name = "mt02_nome_locador")
+    private String nomeLocador;
+
     @Column(name = "mt02_data_registro_entrada")
     private LocalDate dataRegistroEntrada;
 
     @Column(name = "mt02_status_entrada")
+    @Enumerated(EnumType.STRING)
     private StatusEntrada statusEntrada;
 
     @Column(name = "mt02_tipo_pagamento")
+    @Enumerated(EnumType.STRING)
     private TipoPagamento tipoPagamento;
 
     @Column(name = "mt02_placa")
@@ -34,6 +39,7 @@ public class Entrada {
     @JoinColumn(name = "fkmt02mt03_codigo_quartos")
     private Quartos quartos;
 
+    @Column(name = "mt02_status_pagamento")
     @Enumerated(EnumType.STRING)
     private StatusPagamento statusPagamento;
 

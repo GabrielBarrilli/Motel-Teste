@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "mt01_troco")
 public class Troco {
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mt01_codigo_troco")
     private Long id;
