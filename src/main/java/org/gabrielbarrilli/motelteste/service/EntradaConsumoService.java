@@ -11,4 +11,5 @@ public class EntradaConsumoService {
     public EntradaConsumoService(EntradaConsumoRepository entradaConsumoRepository) {
         this.entradaConsumoRepository = entradaConsumoRepository;
     }
+
 }

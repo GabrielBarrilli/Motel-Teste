@@ -15,8 +15,8 @@ public class Entrada {
     @Column(name = "mt02_codigo_entrada")
     private Long id;
 
-    @Column(name = "mt02_nome_locador")
-    private String nomeLocador;
+    //@Column(name = "mt02_nome_locador")
+    //private String nomeLocador;
 
     @Column(name = "mt02_data_registro_entrada")
     private LocalDate dataRegistroEntrada;
