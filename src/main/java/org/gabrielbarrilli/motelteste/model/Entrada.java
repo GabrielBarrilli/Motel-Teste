@@ -15,11 +15,14 @@ public class Entrada {
     @Column(name = "mt02_codigo_entrada")
     private Long id;
 
-    //@Column(name = "mt02_nome_locador")
-    //private String nomeLocador;
+    @Column(name = "mt02_nome_locador")
+    private String nomeLocador;
 
     @Column(name = "mt02_data_registro_entrada")
     private LocalDate dataRegistroEntrada;
+
+    @Column(name = "mt02_hora_entrada")
+    private LocalTime horaEntrada;
 
     @Column(name = "mt02_status_entrada")
     @Enumerated(EnumType.STRING)
@@ -45,9 +48,6 @@ public class Entrada {
 
     @Column(name = "mt02_total_entrada")
     private Float totalEntrada;
-
-    @Column(name = "mt02_hora_entrada")
-    private LocalTime horaEntrada;
 
     public Long getId() {
         return id;
@@ -127,5 +127,29 @@ public class Entrada {
 
     public void setHoraEntrada(LocalTime horaEntrada) {
         this.horaEntrada = horaEntrada;
+    }
+
+    public String getNomeLocador() {
+        return nomeLocador;
+    }
+
+    public void setNomeLocador(String nomeLocador) {
+        this.nomeLocador = nomeLocador;
+    }
+
+    public Entrada(String nomeLocador, LocalDate dataRegistroEntrada, StatusEntrada statusEntrada, TipoPagamento tipoPagamento, String placa, LocalTime horaSaida, Quartos quartos, StatusPagamento statusPagamento, Float totalEntrada, LocalTime horaEntrada) {
+        this.nomeLocador = nomeLocador;
+        this.dataRegistroEntrada = dataRegistroEntrada;
+        this.statusEntrada = statusEntrada;
+        this.tipoPagamento = tipoPagamento;
+        this.placa = placa;
+        this.horaSaida = horaSaida;
+        this.quartos = quartos;
+        this.statusPagamento = statusPagamento;
+        this.totalEntrada = totalEntrada;
+        this.horaEntrada = horaEntrada;
+    }
+
+    public Entrada() {
     }
 }
