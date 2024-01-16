@@ -28,6 +28,7 @@ import java.util.Optional;
 @Service
 public class EntradaService {
 
+    private static final Float VALOR_ENTRADA = 30F;
     private final EntradaRepository entradaRepository;
     private final QuartosRepository quartosRepository;
     private final EntradaConsumoRepository entradaConsumoRepository;
@@ -106,7 +107,7 @@ public class EntradaService {
         entrada.setHoraSaida(null);
 
         entrada.setStatusPagamento(StatusPagamento.PENDENTE);
-        entrada.setTotalEntrada(null);
+        entrada.setTotalEntrada(VALOR_ENTRADA);
 
         entrada.setHoraEntrada(LocalTime.now());
 
@@ -160,7 +161,7 @@ public class EntradaService {
                 entrada.setHoraSaida(LocalTime.now());
                 entrada.setStatusPagamento(StatusPagamento.PAGO);
                 entrada.setTotalEntrada(calculoTotalEntrada(idEntrada));
-                calculoPermanencia(idEntrada);
+                // calculoPermanencia(idEntrada);
             } else {
                 throw new IllegalArgumentException("O pagamento não pode estar pendente, selecione uma opção de pagamento!");
             }
@@ -184,7 +185,7 @@ public class EntradaService {
         );
     }
 
-    public HorarioResponse calculoPermanencia(Long idEntrada) {
+   /* public HorarioResponse calculoPermanencia(Long idEntrada) {
 
         var entrada = entradaRepository.findById(idEntrada).orElseThrow(() -> new EntityNotFoundException("Não achou id para calcular"));
 
@@ -206,16 +207,14 @@ public class EntradaService {
         }
     }
 
+    */
     public Float calculoTotalEntrada(Long idEntrada) {
-        calculoPermanencia(idEntrada);
+
         var entrada = entradaRepository.findById(idEntrada).orElseThrow(() -> new EntityNotFoundException("Não achou id para calcular"));
 
-        EntradaConsumo entradaConsumo = new EntradaConsumo();
-        entradaConsumo.getEntrada().setId(idEntrada);
+        float valorEstadia = 0;
 
-        int valorEstadia;
-
-        if (entrada.getHoraEntrada() != null && entrada.getHoraSaida() != null) {
+        if (entrada.getDataSaida() != null && entrada.getHoraSaida() != null) {
             LocalDate dataEntrada = entrada.getDataRegistroEntrada();
             LocalDate dataSaida = entrada.getDataSaida();
             LocalTime horaEntrada = entrada.getHoraEntrada();
@@ -228,14 +227,11 @@ public class EntradaService {
             if (horas > 2) {
                 long totalMinutos = duration.toMinutes();
                 int mins = (int) (totalMinutos / 30);
-                valorEstadia = 30 + (mins * 5);
-
-            } else {
-                valorEstadia = 30;
+                valorEstadia = entrada.getTotalEntrada() + (mins * 5);
             }
+
             entrada.setTotalEntrada(calculoTotalEntrada(idEntrada));
-            var totalEntrada = valorEstadia + entradaConsumo.getTotal();
-            return totalEntrada;
+            return valorEstadia + entrada.getTotalEntrada();
 
         } else {
             LocalDate dataEntrada = entrada.getDataRegistroEntrada();
@@ -250,8 +246,6 @@ public class EntradaService {
                 int mins = (int) (totalMinutos / 30);
                 valorEstadia = 30 + (mins * 5);
 
-            } else {
-                valorEstadia = 30;
             }
 
             entrada.setTotalEntrada(calculoTotalEntrada(idEntrada));
