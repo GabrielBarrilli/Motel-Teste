@@ -6,6 +6,7 @@ import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.PublicKey;
+import java.util.List;
 
 @Service
 public class QuartosService {
@@ -13,6 +14,10 @@ public class QuartosService {
 
     public QuartosService(QuartosRepository quartosRepository) {
         this.quartosRepository = quartosRepository;
+    }
+
+    public List<Quartos> findAll(){
+        return quartosRepository.findAll();
     }
 
     public Quartos createQuarto(Quartos quartos) {

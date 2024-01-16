@@ -62,7 +62,7 @@ public class EntradaController {
     }
 
     @GetMapping("/finalizarEntrada")
-    public Entrada finalizarEntrada(Long idEntrada, TipoPagamento tipoPagamento){
+    public EntradaResponse finalizarEntrada(Long idEntrada, TipoPagamento tipoPagamento){
         return entradaService.finalizarEntrada(idEntrada, tipoPagamento);
     }
 
