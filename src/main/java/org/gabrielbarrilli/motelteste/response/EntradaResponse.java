@@ -20,7 +20,7 @@ public record EntradaResponse(
         LocalTime horaSaida,
         Long numero,
         StatusPagamento statusPagamento,
-        Float totalEntrada,
-        HorarioResponse horarioResponse
+        Float totalEntrada
+//        HorarioResponse horarioResponse
 ) {
 }

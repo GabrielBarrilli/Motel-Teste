@@ -7,6 +7,7 @@ import org.gabrielbarrilli.motelteste.model.Itens;
 import org.gabrielbarrilli.motelteste.repository.EntradaConsumoRepository;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.ItensRepository;
+import org.gabrielbarrilli.motelteste.response.ConsumoRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,29 +32,19 @@ public class EntradaConsumoService {
         return entradaConsumoRepository.findAll();
     }
 
-    public EntradaConsumo createEntradaConsumo(EntradaConsumo entradaConsumo, Long idEntrada, Long idItem) {
+    public EntradaConsumo createEntradaConsumo(ConsumoRequest consumoRequest, Long idEntrada, Long idItem) {
         Entrada entrada = entradaRepository.findById(idEntrada).orElseThrow(()-> new EntityNotFoundException(""));
 
-        Optional<EntradaConsumo> existingConsumo = entradaConsumoRepository
-                .findByEntradaAndItens(entradaConsumo.getEntrada(), entradaConsumo.getItens());
+        EntradaConsumo entradaConsumo = new EntradaConsumo();
 
-        Itens itens = itensRepository.findById(idItem).orElseThrow(()-> new EntityNotFoundException("Item não encontrado"));
+        Itens itens = itensRepository.findById(idItem).orElseThrow(()-> new RuntimeException("Item não encontrado"));
 
         entradaConsumo.setEntrada(entrada);
-
         entradaConsumo.setItens(itens);
+        entradaConsumo.setQuantidade(consumoRequest.quantidade());
+        entradaConsumo.setTotal(consumoRequest.quantidade() * itens.getValor());
 
-        if (existingConsumo.isPresent()) {
-            var valorTotal = existingConsumo.get().getItens().getValor() * existingConsumo.get().getQuantidade();
-
-            existingConsumo.get().setTotal(valorTotal);
-
-            return entradaConsumoRepository.save(existingConsumo.get());
-        } else {
-            var valorTotal = (entradaConsumo.getItens().getValor() * entradaConsumo.getQuantidade());
-            entradaConsumo.setTotal(valorTotal);
-            return entradaConsumoRepository.save(entradaConsumo);
-        }
+        return entradaConsumoRepository.save(entradaConsumo);
     }
 
 

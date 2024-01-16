@@ -2,6 +2,7 @@ package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
 import org.gabrielbarrilli.motelteste.model.Itens;
+import org.gabrielbarrilli.motelteste.response.ConsumoRequest;
 import org.gabrielbarrilli.motelteste.service.EntradaConsumoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class EntradaConsumoController {
     }
 
     @PostMapping("/createEntradaConsumo")
-    public EntradaConsumo createEntradaConsumo(EntradaConsumo entradaConsumo, Long idEntrada, Long idItens) {
-        return entradaConsumoService.createEntradaConsumo(entradaConsumo, idEntrada, idItens);
+    public EntradaConsumo createEntradaConsumo(ConsumoRequest consumoRequest, Long idEntrada, Long idItens) {
+        return entradaConsumoService.createEntradaConsumo(consumoRequest, idEntrada, idItens);
     }
 }

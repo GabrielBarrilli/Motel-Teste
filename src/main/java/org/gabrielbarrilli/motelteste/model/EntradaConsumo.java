@@ -13,7 +13,7 @@ public class EntradaConsumo {
     @Column(name = "mt03_total")
     private Float total;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fkmt03mt04_codigo_itens")
     private Itens itens;
 

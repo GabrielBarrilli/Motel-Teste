@@ -44,46 +44,30 @@ public class EntradaService {
         List<Entrada> entradas = entradaRepository.findAll();
         List<EntradaResponse> entradaResponses = new ArrayList<>();
 
-        for (Entrada entrada : entradas) {
-            EntradaResponse response = new EntradaResponse(
-                    entrada.getId(),
-                    entrada.getNomeLocador(),
-                    entrada.getDataRegistroEntrada(),
-                    entrada.getHoraEntrada(),
-                    entrada.getStatusEntrada(),
-                    entrada.getTipoPagamento(),
-                    entrada.getPlaca(),
-                    entrada.getDataSaida(),
-                    entrada.getHoraSaida(),
-                    entrada.getQuartos().getNumero(),
-                    entrada.getStatusPagamento(),
-                    entrada.getTotalEntrada(),
-                    calculoPermanencia(entrada.getId())
-            );
-
-            entradaResponses.add(response);
-        }
+            entradas.forEach(entrada1 -> {
+                EntradaResponse response = new EntradaResponse(
+                        entrada1.getId(),
+                        entrada1.getNomeLocador(),
+                        entrada1.getDataRegistroEntrada(),
+                        entrada1.getHoraEntrada(),
+                        entrada1.getStatusEntrada(),
+                        entrada1.getTipoPagamento(),
+                        entrada1.getPlaca(),
+                        entrada1.getDataSaida(),
+                        entrada1.getHoraSaida(),
+                        entrada1.getQuartos().getNumero(),
+                        entrada1.getStatusPagamento(),
+                        entrada1.getTotalEntrada()
+                );
+                entradaResponses.add(response);
+            });
 
         return entradaResponses;
     }
 
     public EntradaResponse getEntradaById(Long id) {
         var entrada = entradaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Não achou"));
-        return new EntradaResponse(
-                entrada.getId(),
-                entrada.getNomeLocador(),
-                entrada.getDataRegistroEntrada(),
-                entrada.getHoraEntrada(),
-                entrada.getStatusEntrada(),
-                entrada.getTipoPagamento(),
-                entrada.getPlaca(),
-                entrada.getDataSaida(),
-                entrada.getHoraSaida(),
-                entrada.getQuartos().getNumero(),
-                entrada.getStatusPagamento(),
-                entrada.getTotalEntrada(),
-                calculoPermanencia(id)
-        );
+        return entradaResponse(entrada);
     }
 
     public List<Entrada> findAllByStatusEntrada(StatusEntrada statusEntrada) {
@@ -169,20 +153,7 @@ public class EntradaService {
             throw new IllegalArgumentException("A entrada já foi finalizada!");
         }
 
-        return new EntradaResponse(entrada.getId(),
-                entrada.getNomeLocador(),
-                entrada.getDataRegistroEntrada(),
-                entrada.getHoraEntrada(),
-                entrada.getStatusEntrada(),
-                entrada.getTipoPagamento(),
-                entrada.getPlaca(),
-                entrada.getDataSaida(),
-                entrada.getHoraSaida(),
-                entrada.getQuartos().getNumero(),
-                entrada.getStatusPagamento(),
-                entrada.getTotalEntrada(),
-                calculoPermanencia(idEntrada)
-        );
+        return entradaResponse(entrada);
     }
 
    /* public HorarioResponse calculoPermanencia(Long idEntrada) {
@@ -248,10 +219,24 @@ public class EntradaService {
 
             }
 
-            entrada.setTotalEntrada(calculoTotalEntrada(idEntrada));
-            var totalEntrada = valorEstadia + entradaConsumo.getTotal();
-            return totalEntrada;
+            return valorEstadia + entrada.getTotalEntrada();
         }
+    }
+
+
+    private EntradaResponse entradaResponse(Entrada entrada){
+        return new EntradaResponse(entrada.getId(),
+                entrada.getNomeLocador(),
+                entrada.getDataRegistroEntrada(),
+                entrada.getHoraEntrada(),
+                entrada.getStatusEntrada(),
+                entrada.getTipoPagamento(),
+                entrada.getPlaca(),
+                entrada.getDataSaida(),
+                entrada.getHoraSaida(),
+                entrada.getQuartos().getNumero(),
+                entrada.getStatusPagamento(),
+                entrada.getTotalEntrada());
     }
 
 }
