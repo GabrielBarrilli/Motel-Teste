@@ -3,25 +3,25 @@ package org.gabrielbarrilli.motelteste.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "mt04_entrada_consumo")
+@Table(name = "mt03_entrada_consumo")
 public class EntradaConsumo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mt04_codigo_entrada_produto")
+    @Column(name = "mt03_codigo_entrada_produto")
     private Long id;
 
-    @Column(name = "mt04_total")
+    @Column(name = "mt03_total")
     private Float total;
 
     @OneToOne
-    @JoinColumn(name = "fkmt04mt05_codigo_itens")
+    @JoinColumn(name = "fkmt03mt04_codigo_itens")
     private Itens itens;
 
-    @Column(name = "mt04_quantidade")
+    @Column(name = "mt03_quantidade")
     private Integer quantidade;
 
     @ManyToOne
-    @JoinColumn(name = "fkmt04mt02_codigo_entrada")
+    @JoinColumn(name = "fkmt03mt01_codigo_entrada")
     private Entrada entrada;
 
     public Long getId() {

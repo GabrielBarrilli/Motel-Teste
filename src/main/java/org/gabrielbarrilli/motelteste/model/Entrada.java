@@ -8,48 +8,48 @@ import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
 import java.time.*;
 
 @Entity
-@Table(name = "mt02_entrada")
+@Table(name = "mt01_entrada")
 public class Entrada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mt02_codigo_entrada")
+    @Column(name = "mt01_codigo_entrada")
     private Long id;
 
-    @Column(name = "mt02_nome_locador")
+    @Column(name = "mt01_nome_locador")
     private String nomeLocador;
 
-    @Column(name = "mt02_data_registro_entrada")
+    @Column(name = "mt01_data_registro_entrada")
     private LocalDate dataRegistroEntrada;
 
-    @Column(name = "mt02_hora_entrada")
+    @Column(name = "mt01_hora_entrada")
     private LocalTime horaEntrada;
 
-    @Column(name = "mt02_status_entrada")
+    @Column(name = "mt01_status_entrada")
     @Enumerated(EnumType.STRING)
     private StatusEntrada statusEntrada;
 
-    @Column(name = "mt02_tipo_pagamento")
+    @Column(name = "mt01_tipo_pagamento")
     @Enumerated(EnumType.STRING)
     private TipoPagamento tipoPagamento;
 
-    @Column(name = "mt02_placa")
+    @Column(name = "mt01_placa")
     private String placa;
 
-    @Column(name = "mt02_data_saida")
+    @Column(name = "mt01_data_saida")
     private LocalDate dataSaida;
 
-    @Column(name = "mt02_hora_saida")
+    @Column(name = "mt01_hora_saida")
     private LocalTime horaSaida;
 
     @ManyToOne
-    @JoinColumn(name = "fkmt02mt03_codigo_quartos")
+    @JoinColumn(name = "fkmt01mt02_codigo_quartos")
     private Quartos quartos;
 
-    @Column(name = "mt02_status_pagamento")
+    @Column(name = "mt01_status_pagamento")
     @Enumerated(EnumType.STRING)
     private StatusPagamento statusPagamento;
 
-    @Column(name = "mt02_total_entrada")
+    @Column(name = "mt01_total_entrada")
     private Float totalEntrada;
 
     public Long getId() {

@@ -3,17 +3,17 @@ package org.gabrielbarrilli.motelteste.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "mt05_itens")
+@Table(name = "mt04_itens")
 public class Itens {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mt05_codigo_itens")
+    @Column(name = "mt04_codigo_itens")
     private Long id;
 
-    @Column(name = "mt05_descricao")
-    private String descricao;
+    @Column(name = "mt04_descricao")
+    private String nomeItem;
 
-    @Column(name = "mt05_valor")
+    @Column(name = "mt04_valor")
     private Float valor;
 
     public Long getId() {
@@ -24,12 +24,12 @@ public class Itens {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNomeItem() {
+        return nomeItem;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNomeItem(String nomeItem) {
+        this.nomeItem = nomeItem;
     }
 
     public Float getValor() {
@@ -40,5 +40,11 @@ public class Itens {
         this.valor = valor;
     }
 
-    // getters and setters
+    public Itens(String nomeItem, Float valor) {
+        this.nomeItem = nomeItem;
+        this.valor = valor;
+    }
+
+    public Itens() {
+    }
 }

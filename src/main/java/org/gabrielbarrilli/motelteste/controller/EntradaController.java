@@ -7,6 +7,7 @@ import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
 import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.Quartos;
+import org.gabrielbarrilli.motelteste.request.EntradaRequest;
 import org.gabrielbarrilli.motelteste.response.EntradaResponse;
 import org.gabrielbarrilli.motelteste.service.EntradaService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,9 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
 @Controller
 @RestController
 @RequestMapping("/api")
@@ -56,8 +56,7 @@ public class EntradaController {
     }
 
     @PostMapping("/registrarEntrada/{idQuarto}")
-    public Entrada createEntrada(Entrada entrada, @RequestBody @PathVariable Long idQuarto){
-
+    public Entrada createEntrada(@RequestBody Entrada entrada, @PathVariable Long idQuarto){
         return entradaService.createEntrada(entrada, idQuarto);
     }
 
@@ -67,7 +66,7 @@ public class EntradaController {
     }
 
     @GetMapping("/atualizarEntrada")
-    public Entrada updtateEntrada(Long idEntrada, Entrada entrada, Long idNovoQuarto){
-        return entradaService.updtateEntrada(idEntrada, entrada, idNovoQuarto);
+    public Entrada updtateEntrada(Long idEntrada, EntradaRequest entradaRequest, Long idNovoQuarto){
+        return entradaService.updtateEntrada(idEntrada, entradaRequest, idNovoQuarto);
     }
 }

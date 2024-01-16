@@ -6,32 +6,32 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "mt06_mapa_geral")
+@Table(name = "mt05_mapa_geral")
 public class MapaGeral {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mt06_codigo_mapa_geral")
+    @Column(name = "mt05_codigo_mapa_geral")
     private Long id;
 
-    @Column(name = "mt06_apartamento")
+    @Column(name = "mt05_apartamento")
     private Integer apartamento;
 
-    @Column(name = "mt06_entrada")
+    @Column(name = "mt05_entrada")
     private Float entrada;
 
-    @Column(name = "mt06_report")
+    @Column(name = "mt05_report")
     private String report;
 
-    @Column(name = "mt06_saida")
+    @Column(name = "mt05_saida")
     private Float saida;
 
-    @Column(name = "mt06_total")
+    @Column(name = "mt05_total")
     private Float total;
 
-    @Column(name = "mt06_hora")
+    @Column(name = "mt05_hora")
     private LocalTime hora;
 
-    @Column(name = "mt06_data")
+    @Column(name = "mt05_data")
     private LocalDate data;
 
     public Long getId() {

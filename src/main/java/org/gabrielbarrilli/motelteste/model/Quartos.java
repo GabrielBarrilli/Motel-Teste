@@ -4,23 +4,24 @@ import jakarta.persistence.*;
 import org.gabrielbarrilli.motelteste.Enum.StatusDoQuarto;
 
 @Entity
-@Table(name = "mt03_quartos")
+@Table(name = "mt02_quartos")
 public class Quartos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mt03_codigo_quartos")
+    @Column(name = "mt02_codigo_quartos")
     private Long id;
 
-    @Column(name = "mt03_numero")
+    @Column(name = "mt02_numero")
     private Long numero;
 
-    @Column(name = "mt03_descricao")
+    @Column(name = "mt02_descricao")
     private String descricao;
 
-    @Column(name = "mt03_capacidade_pessoa")
+    @Column(name = "mt02_capacidade_pessoa")
     private Integer capacidadePessoa;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "mt02_status_do_quarto")
     private StatusDoQuarto statusDoQuarto;
 
     public Long getId() {
