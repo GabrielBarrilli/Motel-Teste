@@ -7,8 +7,10 @@ import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
 import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.Quartos;
+import org.gabrielbarrilli.motelteste.response.EntradaResponse;
 import org.gabrielbarrilli.motelteste.service.EntradaService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +30,13 @@ public class EntradaController {
     }
 
     @GetMapping("/findAllEntradas")
-    public List<Entrada> getAllEntrada() {
-        return entradaService.getAllEntrada();
+    public ResponseEntity<List<EntradaResponse>> getAllEntradas() {
+        List<EntradaResponse> entradas = entradaService.getAllEntrada();
+        return ResponseEntity.ok(entradas);
     }
 
     @GetMapping("/findEntradaById")
-    public Entrada getEntradaById(Long id) {
+    public EntradaResponse getEntradaById(Long id) {
         return entradaService.getEntradaById(id);
     }
 
@@ -54,18 +57,17 @@ public class EntradaController {
 
     @PostMapping("/registrarEntrada/{idQuarto}")
     public Entrada createEntrada(Entrada entrada, @RequestBody @PathVariable Long idQuarto){
-        entrada.setStatusEntrada(StatusEntrada.ATIVA);
-        entrada.setTipoPagamento(TipoPagamento.PENDENTE);
-        entrada.setHoraSaida(null);
-
-        entrada.setStatusPagamento(StatusPagamento.PENDENTE);
-        entrada.setTotalEntrada(null);
 
         return entradaService.createEntrada(entrada, idQuarto);
     }
 
+    @GetMapping("/finalizarEntrada")
+    public Entrada finalizarEntrada(Long idEntrada, TipoPagamento tipoPagamento){
+        return entradaService.finalizarEntrada(idEntrada, tipoPagamento);
+    }
+
     @GetMapping("/atualizarEntrada")
-    public Entrada updtateEntrada( Long idEntrada){
-        return entradaService.updtateEntrada(idEntrada);
+    public Entrada updtateEntrada(Long idEntrada, Entrada entrada, Long idNovoQuarto){
+        return entradaService.updtateEntrada(idEntrada, entrada, idNovoQuarto);
     }
 }
