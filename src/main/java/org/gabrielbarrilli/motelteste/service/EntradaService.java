@@ -14,17 +14,13 @@ import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
 import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
 import org.gabrielbarrilli.motelteste.request.EntradaRequest;
 import org.gabrielbarrilli.motelteste.response.EntradaResponse;
-import org.gabrielbarrilli.motelteste.response.HorarioResponse;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EntradaService {
@@ -142,6 +138,9 @@ public class EntradaService {
         Entrada entrada = entradaRepository.findById(idEntrada).
                 orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada!"));
 
+        EntradaConsumo entradaConsumo = new EntradaConsumo();
+        entradaConsumoRepository.findAllByEntradaId(idEntrada);
+
         if (entrada.getStatusEntrada() != StatusEntrada.FINALIZADA) {
             if (tipoPagamento != TipoPagamento.PENDENTE) {
                 entrada.setStatusEntrada(StatusEntrada.FINALIZADA);
@@ -149,8 +148,8 @@ public class EntradaService {
                 entrada.setDataSaida(LocalDate.now());
                 entrada.setHoraSaida(LocalTime.now());
                 entrada.setStatusPagamento(StatusPagamento.PAGO);
-                entrada.setTotalEntrada(calculoTotalEntrada(idEntrada));
-                // calculoPermanencia(idEntrada);
+                var valorT = calculoTotalEntradaTempo(idEntrada) + entrada.getTotalEntrada();
+                entrada.setTotalEntrada(valorT);
             } else {
                 throw new IllegalArgumentException("O pagamento não pode estar pendente, selecione uma opção de pagamento!");
             }
@@ -162,7 +161,7 @@ public class EntradaService {
     }
 
 
-    public Float calculoTotalEntrada(Long idEntrada) {
+    public Float calculoTotalEntradaTempo(Long idEntrada) {
 
         var entrada = entradaRepository.findById(idEntrada).orElseThrow(() -> new EntityNotFoundException("Não achou id para calcular"));
 
@@ -182,11 +181,10 @@ public class EntradaService {
                 if (horas > 2) {
                     long totalMinutos = duration.toMinutes();
                     int mins = (int) (totalMinutos / 30);
-                    valorEstadia = entrada.getTotalEntrada() + (mins * 5);
+                    valorEstadia =  (mins * 5);
                 }
 
-                entrada.setTotalEntrada(calculoTotalEntrada(idEntrada));
-                return valorEstadia + entrada.getTotalEntrada();
+                return valorEstadia;
 
             } else {
                 LocalDate dataEntrada = entrada.getDataRegistroEntrada();
@@ -199,23 +197,17 @@ public class EntradaService {
                 if (horas > 2) {
                     long totalMinutos = duration.toMinutes();
                     int mins = (int) (totalMinutos / 30);
-                    valorEstadia = 30 + (mins * 5);
+                    valorEstadia = (mins * 5);
 
                 }
 
-                return valorEstadia + entrada.getTotalEntrada();
+                return valorEstadia;
             }
         } else {
             throw new IllegalArgumentException("A entrada já foi finalizada!");
         }
     }
 
-
-
-   /* public Float calculoTotalEntrada(Long idEntrada) {
-
-    }
-*/
     private EntradaResponse entradaResponse(Entrada entrada) {
         return new EntradaResponse(entrada.getId(),
                 entrada.getNomeLocador(),
