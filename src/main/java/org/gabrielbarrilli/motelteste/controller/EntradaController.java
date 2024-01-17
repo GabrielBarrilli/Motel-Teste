@@ -7,6 +7,7 @@ import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
 import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.Quartos;
+import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
 import org.gabrielbarrilli.motelteste.request.EntradaRequest;
 import org.gabrielbarrilli.motelteste.response.EntradaResponse;
 import org.gabrielbarrilli.motelteste.service.EntradaService;
@@ -56,8 +57,8 @@ public class EntradaController {
     }
 
     @PostMapping("/registrarEntrada/{idQuarto}")
-    public Entrada createEntrada(@RequestBody Entrada entrada, @PathVariable Long idQuarto){
-        return entradaService.createEntrada(entrada, idQuarto);
+    public Entrada createEntrada(@RequestBody CriarEntradaRequest criarEntradaRequest, @PathVariable Long idQuarto){
+        return entradaService.createEntrada(criarEntradaRequest, idQuarto);
     }
 
     @GetMapping("/finalizarEntrada")

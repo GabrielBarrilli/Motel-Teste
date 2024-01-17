@@ -11,6 +11,7 @@ import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.repository.EntradaConsumoRepository;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
+import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
 import org.gabrielbarrilli.motelteste.request.EntradaRequest;
 import org.gabrielbarrilli.motelteste.response.EntradaResponse;
 import org.gabrielbarrilli.motelteste.response.HorarioResponse;
@@ -44,23 +45,23 @@ public class EntradaService {
         List<Entrada> entradas = entradaRepository.findAll();
         List<EntradaResponse> entradaResponses = new ArrayList<>();
 
-            entradas.forEach(entrada1 -> {
-                EntradaResponse response = new EntradaResponse(
-                        entrada1.getId(),
-                        entrada1.getNomeLocador(),
-                        entrada1.getDataRegistroEntrada(),
-                        entrada1.getHoraEntrada(),
-                        entrada1.getStatusEntrada(),
-                        entrada1.getTipoPagamento(),
-                        entrada1.getPlaca(),
-                        entrada1.getDataSaida(),
-                        entrada1.getHoraSaida(),
-                        entrada1.getQuartos().getNumero(),
-                        entrada1.getStatusPagamento(),
-                        entrada1.getTotalEntrada()
-                );
-                entradaResponses.add(response);
-            });
+        entradas.forEach(entrada1 -> {
+            EntradaResponse response = new EntradaResponse(
+                    entrada1.getId(),
+                    entrada1.getNomeLocador(),
+                    entrada1.getDataRegistroEntrada(),
+                    entrada1.getHoraEntrada(),
+                    entrada1.getStatusEntrada(),
+                    entrada1.getTipoPagamento(),
+                    entrada1.getPlaca(),
+                    entrada1.getDataSaida(),
+                    entrada1.getHoraSaida(),
+                    entrada1.getQuartos().getNumero(),
+                    entrada1.getStatusPagamento(),
+                    entrada1.getTotalEntrada()
+            );
+            entradaResponses.add(response);
+        });
 
         return entradaResponses;
     }
@@ -82,8 +83,12 @@ public class EntradaService {
         return entradaRepository.findAllByDataRegistroEntrada(LocalDate.now());
     }
 
-    public Entrada createEntrada(Entrada entrada, Long idQuarto) {
+    public Entrada createEntrada(CriarEntradaRequest criarEntradaRequest, Long idQuarto) {
+        Entrada entrada = new Entrada();
         var quarto = quartosRepository.findById(idQuarto).orElseThrow(() -> new EntityNotFoundException("Não há quarto com essa numeração"));
+
+        entrada.setNomeLocador(criarEntradaRequest.nomeLocador());
+        entrada.setPlaca(criarEntradaRequest.placa());
         entrada.setQuartos(quarto);
         entrada.getQuartos().setStatusDoQuarto(StatusDoQuarto.OCUPADO);
         entrada.setStatusEntrada(StatusEntrada.ATIVA);
@@ -156,75 +161,62 @@ public class EntradaService {
         return entradaResponse(entrada);
     }
 
-   /* public HorarioResponse calculoPermanencia(Long idEntrada) {
 
-        var entrada = entradaRepository.findById(idEntrada).orElseThrow(() -> new EntityNotFoundException("Não achou id para calcular"));
-
-        if (entrada.getHoraEntrada() != null && entrada.getHoraSaida() != null) {
-            LocalDate dataEntrada = entrada.getDataRegistroEntrada();
-            LocalDate dataSaida = entrada.getDataSaida();
-            LocalTime horaEntrada = entrada.getHoraEntrada();
-            LocalTime horaSaida = entrada.getHoraSaida();
-
-            var duration = Duration.between(dataEntrada.atTime(horaEntrada), dataSaida.atTime(horaSaida));
-
-            long horas = duration.toHours();
-            long minutos = duration.toMinutes() % 60;
-            long segundos = duration.toSeconds() % 60;
-
-            return new HorarioResponse(horas, minutos, segundos);
-        } else {
-            return new HorarioResponse(0L, 0L, 0L);
-        }
-    }
-
-    */
     public Float calculoTotalEntrada(Long idEntrada) {
 
         var entrada = entradaRepository.findById(idEntrada).orElseThrow(() -> new EntityNotFoundException("Não achou id para calcular"));
 
         float valorEstadia = 0;
 
-        if (entrada.getDataSaida() != null && entrada.getHoraSaida() != null) {
-            LocalDate dataEntrada = entrada.getDataRegistroEntrada();
-            LocalDate dataSaida = entrada.getDataSaida();
-            LocalTime horaEntrada = entrada.getHoraEntrada();
-            LocalTime horaSaida = entrada.getHoraSaida();
+        if(entrada.getStatusEntrada() != StatusEntrada.FINALIZADA) {
+            if (entrada.getDataSaida() != null && entrada.getHoraSaida() != null) {
+                LocalDate dataEntrada = entrada.getDataRegistroEntrada();
+                LocalDate dataSaida = entrada.getDataSaida();
+                LocalTime horaEntrada = entrada.getHoraEntrada();
+                LocalTime horaSaida = entrada.getHoraSaida();
 
-            var duration = Duration.between(dataEntrada.atTime(horaEntrada), dataSaida.atTime(horaSaida));
+                var duration = Duration.between(dataEntrada.atTime(horaEntrada), dataSaida.atTime(horaSaida));
 
-            long horas = duration.toHours();
+                long horas = duration.toHours();
 
-            if (horas > 2) {
-                long totalMinutos = duration.toMinutes();
-                int mins = (int) (totalMinutos / 30);
-                valorEstadia = entrada.getTotalEntrada() + (mins * 5);
+                if (horas > 2) {
+                    long totalMinutos = duration.toMinutes();
+                    int mins = (int) (totalMinutos / 30);
+                    valorEstadia = entrada.getTotalEntrada() + (mins * 5);
+                }
+
+                entrada.setTotalEntrada(calculoTotalEntrada(idEntrada));
+                return valorEstadia + entrada.getTotalEntrada();
+
+            } else {
+                LocalDate dataEntrada = entrada.getDataRegistroEntrada();
+                LocalTime horaEntrada = entrada.getHoraEntrada();
+
+                var duration = Duration.between(dataEntrada.atTime(horaEntrada), LocalDate.now().atTime(LocalTime.now()));
+
+                var horas = duration.toHours();
+
+                if (horas > 2) {
+                    long totalMinutos = duration.toMinutes();
+                    int mins = (int) (totalMinutos / 30);
+                    valorEstadia = 30 + (mins * 5);
+
+                }
+
+                return valorEstadia + entrada.getTotalEntrada();
             }
-
-            entrada.setTotalEntrada(calculoTotalEntrada(idEntrada));
-            return valorEstadia + entrada.getTotalEntrada();
-
         } else {
-            LocalDate dataEntrada = entrada.getDataRegistroEntrada();
-            LocalTime horaEntrada = entrada.getHoraEntrada();
-
-            var duration = Duration.between(dataEntrada.atTime(horaEntrada), LocalDate.now().atTime(LocalTime.now()));
-
-            var horas = duration.toHours();
-
-            if (horas > 2) {
-                long totalMinutos = duration.toMinutes();
-                int mins = (int) (totalMinutos / 30);
-                valorEstadia = 30 + (mins * 5);
-
-            }
-
-            return valorEstadia + entrada.getTotalEntrada();
+            throw new IllegalArgumentException("A entrada já foi finalizada!");
         }
     }
 
 
-    private EntradaResponse entradaResponse(Entrada entrada){
+
+   /* public Float calculoTotalEntrada(Long idEntrada) {
+
+    }
+*/
+    private EntradaResponse entradaResponse(Entrada entrada) {
         return new EntradaResponse(entrada.getId(),
                 entrada.getNomeLocador(),
                 entrada.getDataRegistroEntrada(),

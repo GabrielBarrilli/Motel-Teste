@@ -20,9 +20,9 @@ public class EntradaConsumoController {
         this.entradaConsumoService = entradaConsumoService;
     }
 
-    @GetMapping("/findAllEntradaConsumo")
-    public List<EntradaConsumo> findAllEntradaConsumo(){
-        return entradaConsumoService.findAllEntradaConsumo();
+    @GetMapping("/findAllEntradaConsumoByEntradaId/{idEntrada}")
+    public List<EntradaConsumo> findAllEntradaConsumoByEntradaId(@PathVariable Long idEntrada){
+        return entradaConsumoService.findAllEntradaConsumoByEntradaId(idEntrada);
     }
 
     @PostMapping("/createEntradaConsumo")

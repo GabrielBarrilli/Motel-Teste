@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface EntradaConsumoRepository extends JpaRepository<EntradaConsumo, Long> {
 
-    Optional<EntradaConsumo> findByEntradaAndItens(Entrada entrada, Itens itens);
+    List<EntradaConsumo> findAllByEntradaId(Long idEntrada);
 }

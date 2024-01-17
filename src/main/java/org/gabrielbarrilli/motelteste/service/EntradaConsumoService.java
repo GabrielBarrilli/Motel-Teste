@@ -28,21 +28,23 @@ public class EntradaConsumoService {
         this.itensRepository = itensRepository;
     }
 
-    public List<EntradaConsumo> findAllEntradaConsumo(){
-        return entradaConsumoRepository.findAll();
+    public List<EntradaConsumo> findAllEntradaConsumoByEntradaId(Long idEntrada) {
+        return entradaConsumoRepository.findAllByEntradaId(idEntrada);
     }
 
     public EntradaConsumo createEntradaConsumo(ConsumoRequest consumoRequest, Long idEntrada, Long idItem) {
-        Entrada entrada = entradaRepository.findById(idEntrada).orElseThrow(()-> new EntityNotFoundException(""));
+        Entrada entrada = entradaRepository.findById(idEntrada).orElseThrow(() -> new EntityNotFoundException("Entrada não existe"));
 
         EntradaConsumo entradaConsumo = new EntradaConsumo();
 
-        Itens itens = itensRepository.findById(idItem).orElseThrow(()-> new RuntimeException("Item não encontrado"));
+        Itens itens = itensRepository.findById(idItem).orElseThrow(() -> new RuntimeException("Item não encontrado"));
 
         entradaConsumo.setEntrada(entrada);
         entradaConsumo.setItens(itens);
         entradaConsumo.setQuantidade(consumoRequest.quantidade());
         entradaConsumo.setTotal(consumoRequest.quantidade() * itens.getValor());
+        var valorT = entrada.getTotalEntrada() + entradaConsumo.getTotal();
+        entrada.setTotalEntrada(valorT);
 
         return entradaConsumoRepository.save(entradaConsumo);
     }
