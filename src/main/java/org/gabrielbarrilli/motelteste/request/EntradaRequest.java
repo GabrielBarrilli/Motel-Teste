@@ -8,5 +8,4 @@ public record EntradaRequest(
         Long idQuarto,
         String nomeLocador,
         String placa
-) {
-}
+) { }

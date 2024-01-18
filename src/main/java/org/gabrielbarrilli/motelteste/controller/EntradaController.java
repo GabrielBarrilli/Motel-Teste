@@ -53,12 +53,12 @@ public class EntradaController {
     }
 
     @PostMapping("/registrarEntrada/{idQuarto}")
-    public Entrada createEntrada(@RequestBody CriarEntradaRequest criarEntradaRequest, @PathVariable Long idQuarto){
+    public Entrada createEntrada(@RequestBody CriarEntradaRequest criarEntradaRequest, @PathVariable Long idQuarto) {
         return entradaService.createEntrada(criarEntradaRequest, idQuarto);
     }
 
     @GetMapping("/atualizarEntrada")
-    public Entrada updtateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento){
+    public Entrada updtateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
         return entradaService.updateEntrada(idEntrada, entradaRequest, statusEntrada, tipoPagamento);
     }
 }

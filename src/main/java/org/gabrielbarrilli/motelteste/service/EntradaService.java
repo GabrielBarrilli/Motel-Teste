@@ -1,18 +1,11 @@
 package org.gabrielbarrilli.motelteste.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.gabrielbarrilli.motelteste.Enum.StatusDoQuarto;
-import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
-import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
-import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
-import org.gabrielbarrilli.motelteste.model.Entrada;
-import org.gabrielbarrilli.motelteste.model.Quartos;
-import org.gabrielbarrilli.motelteste.repository.EntradaConsumoRepository;
-import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
-import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
-import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
-import org.gabrielbarrilli.motelteste.request.EntradaRequest;
-import org.gabrielbarrilli.motelteste.response.EntradaResponse;
+import org.gabrielbarrilli.motelteste.Enum.*;
+import org.gabrielbarrilli.motelteste.model.*;
+import org.gabrielbarrilli.motelteste.repository.*;
+import org.gabrielbarrilli.motelteste.request.*;
+import org.gabrielbarrilli.motelteste.response.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -27,13 +20,13 @@ public class EntradaService {
     private static final Float VALOR_ENTRADA = 30F;
     private final EntradaRepository entradaRepository;
     private final QuartosRepository quartosRepository;
-    private final EntradaConsumoRepository entradaConsumoRepository;
+    private final MapaGeralRepository mapaGeralRepository;
 
     public EntradaService(EntradaRepository entradaRepository, QuartosRepository quartoRepository,
-                          EntradaConsumoRepository entradaConsumoRepository) {
+                          MapaGeralRepository mapaGeralRepository) {
         this.entradaRepository = entradaRepository;
         this.quartosRepository = quartoRepository;
-        this.entradaConsumoRepository = entradaConsumoRepository;
+        this.mapaGeralRepository = mapaGeralRepository;
     }
 
     private EntradaResponse entradaResponse(Entrada entrada) {
@@ -103,6 +96,7 @@ public class EntradaService {
     }
 
     public Entrada updateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
+        MapaGeralService mapaGeralService = new MapaGeralService(mapaGeralRepository, entradaRepository);
         Entrada entrada = entradaRepository.findById(idEntrada).
                 orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada!"));
 
@@ -118,6 +112,7 @@ public class EntradaService {
 
         if (entrada.getStatusEntrada().equals(StatusEntrada.FINALIZADA)) {
             finalizarEntrada(idEntrada, entrada.getTipoPagamento());
+            mapaGeralService.criarMapa(idEntrada);
         }
 
         return entradaRepository.save(entrada);
@@ -174,7 +169,7 @@ public class EntradaService {
 
                 case RESERVADO -> throw new IllegalArgumentException("O quarto está reservado!");
             }
-
+            entrada.getQuartos().setStatusDoQuarto(StatusDoQuarto.DISPONIVEL);
             quarto.setStatusDoQuarto(StatusDoQuarto.OCUPADO);
             entrada.setQuartos(quarto);
             quartosRepository.save(quarto);
