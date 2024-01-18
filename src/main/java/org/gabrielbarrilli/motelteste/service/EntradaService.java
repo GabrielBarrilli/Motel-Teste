@@ -6,7 +6,6 @@ import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
 import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
 import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
-import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.repository.EntradaConsumoRepository;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
@@ -37,25 +36,27 @@ public class EntradaService {
         this.entradaConsumoRepository = entradaConsumoRepository;
     }
 
+    private EntradaResponse entradaResponse(Entrada entrada) {
+        return new EntradaResponse(entrada.getId(),
+                entrada.getNomeLocador(),
+                entrada.getDataRegistroEntrada(),
+                entrada.getHoraEntrada(),
+                entrada.getStatusEntrada(),
+                entrada.getTipoPagamento(),
+                entrada.getPlaca(),
+                entrada.getDataSaida(),
+                entrada.getHoraSaida(),
+                entrada.getQuartos().getNumero(),
+                entrada.getStatusPagamento(),
+                entrada.getTotalEntrada());
+    }
+
     public List<EntradaResponse> getAllEntrada() {
         List<Entrada> entradas = entradaRepository.findAll();
         List<EntradaResponse> entradaResponses = new ArrayList<>();
 
         entradas.forEach(entrada1 -> {
-            EntradaResponse response = new EntradaResponse(
-                    entrada1.getId(),
-                    entrada1.getNomeLocador(),
-                    entrada1.getDataRegistroEntrada(),
-                    entrada1.getHoraEntrada(),
-                    entrada1.getStatusEntrada(),
-                    entrada1.getTipoPagamento(),
-                    entrada1.getPlaca(),
-                    entrada1.getDataSaida(),
-                    entrada1.getHoraSaida(),
-                    entrada1.getQuartos().getNumero(),
-                    entrada1.getStatusPagamento(),
-                    entrada1.getTotalEntrada()
-            );
+            var response = entradaResponse(entrada1);
             entradaResponses.add(response);
         });
 
@@ -101,128 +102,85 @@ public class EntradaService {
         return entradaRepository.save(entrada);
     }
 
-    public Entrada updtateEntrada(Long idEntrada, EntradaRequest entradaRequest, Long idNovoQuarto) {
-
-        var entradaExistente = entradaRepository.findById(idEntrada).
-                orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada!"));
-
-        Quartos novoQuarto = quartosRepository.findById(idNovoQuarto).
-                orElseThrow(() -> new EntityNotFoundException("Quarto não encontrado"));
-
-        if (entradaExistente.getQuartos().getId().equals(novoQuarto.getId())) {
-            entradaExistente.getQuartos().setStatusDoQuarto(StatusDoQuarto.OCUPADO);
-
-            entradaExistente.setQuartos(novoQuarto);
-
-        } else {
-            if (novoQuarto.getStatusDoQuarto() != StatusDoQuarto.OCUPADO ||
-                    novoQuarto.getStatusDoQuarto() != StatusDoQuarto.RESERVADO) {
-                novoQuarto.setStatusDoQuarto(StatusDoQuarto.OCUPADO);
-                entradaExistente.getQuartos().setStatusDoQuarto(StatusDoQuarto.DISPONIVEL);
-                entradaExistente.setQuartos(novoQuarto);
-
-            } else if (novoQuarto.getStatusDoQuarto() == StatusDoQuarto.OCUPADO) {
-                throw new EntityNotFoundException("Quarto está ocupado!");
-            } else if (novoQuarto.getStatusDoQuarto() == StatusDoQuarto.NECESSITA_LIMPEZA) {
-                throw new EntityNotFoundException("Quarto está para limpeza!");
-            }
-        }
-
-        entradaExistente.setNomeLocador(entradaRequest.nomeLocador());
-        entradaExistente.setPlaca(entradaRequest.placa());
-
-        return entradaRepository.save(entradaExistente);
-    }
-
-    public EntradaResponse finalizarEntrada(Long idEntrada, TipoPagamento tipoPagamento) {
+    public Entrada updateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
         Entrada entrada = entradaRepository.findById(idEntrada).
                 orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada!"));
 
-        EntradaConsumo entradaConsumo = new EntradaConsumo();
-        entradaConsumoRepository.findAllByEntradaId(idEntrada);
-
-        if (entrada.getStatusEntrada() != StatusEntrada.FINALIZADA) {
-            if (tipoPagamento != TipoPagamento.PENDENTE) {
-                entrada.setStatusEntrada(StatusEntrada.FINALIZADA);
-                entrada.setTipoPagamento(tipoPagamento);
-                entrada.setDataSaida(LocalDate.now());
-                entrada.setHoraSaida(LocalTime.now());
-                entrada.setStatusPagamento(StatusPagamento.PAGO);
-                var valorT = calculoTotalEntradaTempo(idEntrada) + entrada.getTotalEntrada();
-                entrada.setTotalEntrada(valorT);
-            } else {
-                throw new IllegalArgumentException("O pagamento não pode estar pendente, selecione uma opção de pagamento!");
-            }
-        } else {
-            throw new IllegalArgumentException("A entrada já foi finalizada!");
+        if (entrada.getStatusEntrada().equals(StatusEntrada.FINALIZADA)) {
+            throw new IllegalArgumentException("");
         }
 
-        return entradaResponse(entrada);
+        entrada.setNomeLocador(entradaRequest.nomeLocador());
+        entrada.setPlaca(entradaRequest.placa());
+        entrada.setStatusEntrada(statusEntrada);
+        entrada.setTipoPagamento(tipoPagamento);
+        updateQuarto(idEntrada, entradaRequest);
+
+        if (entrada.getStatusEntrada().equals(StatusEntrada.FINALIZADA)) {
+            finalizarEntrada(idEntrada, entrada.getTipoPagamento());
+        }
+
+        return entradaRepository.save(entrada);
     }
 
+    private void finalizarEntrada(Long idEntrada, TipoPagamento tipoPagamento) {
+        Entrada entrada = entradaRepository.findById(idEntrada).
+                orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada!"));
 
-    public Float calculoTotalEntradaTempo(Long idEntrada) {
+        if (tipoPagamento == TipoPagamento.PENDENTE) {
+            throw new IllegalArgumentException("O pagamento não pode estar pendente, selecione uma opção de pagamento!");
+        }
 
-        var entrada = entradaRepository.findById(idEntrada).orElseThrow(() -> new EntityNotFoundException("Não achou id para calcular"));
+        entrada.setDataSaida(LocalDate.now());
+        entrada.setHoraSaida(LocalTime.now());
+        entrada.setStatusPagamento(StatusPagamento.PAGO);
+        calculoTotalEntradaTempo(entrada);
+        entradaRepository.save(entrada);
 
-        float valorEstadia = 0;
+    }
 
-        if(entrada.getStatusEntrada() != StatusEntrada.FINALIZADA) {
-            if (entrada.getDataSaida() != null && entrada.getHoraSaida() != null) {
-                LocalDate dataEntrada = entrada.getDataRegistroEntrada();
-                LocalDate dataSaida = entrada.getDataSaida();
-                LocalTime horaEntrada = entrada.getHoraEntrada();
-                LocalTime horaSaida = entrada.getHoraSaida();
+    public void calculoTotalEntradaTempo(Entrada entrada) {
 
-                var duration = Duration.between(dataEntrada.atTime(horaEntrada), dataSaida.atTime(horaSaida));
+        if (entrada.getDataSaida() != null && entrada.getHoraSaida() != null) {
+            LocalDate dataEntrada = entrada.getDataRegistroEntrada();
+            LocalDate dataSaida = entrada.getDataSaida();
+            LocalTime horaEntrada = entrada.getHoraEntrada();
+            LocalTime horaSaida = entrada.getHoraSaida();
 
-                long horas = duration.toHours();
+            var duration = Duration.between(dataEntrada.atTime(horaEntrada), dataSaida.atTime(horaSaida));
 
-                if (horas > 2) {
-                    long totalMinutos = duration.toMinutes();
-                    int mins = (int) (totalMinutos / 30);
-                    valorEstadia =  (mins * 5);
-                }
+            long horas = duration.toHours();
 
-                return valorEstadia;
-
-            } else {
-                LocalDate dataEntrada = entrada.getDataRegistroEntrada();
-                LocalTime horaEntrada = entrada.getHoraEntrada();
-
-                var duration = Duration.between(dataEntrada.atTime(horaEntrada), LocalDate.now().atTime(LocalTime.now()));
-
-                var horas = duration.toHours();
-
-                if (horas > 2) {
-                    long totalMinutos = duration.toMinutes();
-                    int mins = (int) (totalMinutos / 30);
-                    valorEstadia = (mins * 5);
-
-                }
-
-                return valorEstadia;
+            if (horas > 2) {
+                long totalMinutos = duration.toMinutes();
+                int mins = (int) (totalMinutos / 30);
+                float valorEstadia = (mins * 5);
+                entrada.setTotalEntrada(entrada.getTotalEntrada() + valorEstadia);
             }
-        } else {
-            throw new IllegalArgumentException("A entrada já foi finalizada!");
         }
     }
 
-    private EntradaResponse entradaResponse(Entrada entrada) {
-        return new EntradaResponse(entrada.getId(),
-                entrada.getNomeLocador(),
-                entrada.getDataRegistroEntrada(),
-                entrada.getHoraEntrada(),
-                entrada.getStatusEntrada(),
-                entrada.getTipoPagamento(),
-                entrada.getPlaca(),
-                entrada.getDataSaida(),
-                entrada.getHoraSaida(),
-                entrada.getQuartos().getNumero(),
-                entrada.getStatusPagamento(),
-                entrada.getTotalEntrada());
-    }
+    private void updateQuarto(Long idEntrada, EntradaRequest entradaRequest) {
+        Entrada entrada = entradaRepository.findById(idEntrada).
+                orElseThrow(() -> new EntityNotFoundException("Não há entrada com esse id"));
+        Quartos quarto = quartosRepository.findById(entradaRequest.idQuarto()).
+                orElseThrow(() -> new EntityNotFoundException("Não há quarto com esse id"));
 
+        if (!entradaRequest.idQuarto().equals(entrada.getQuartos().getId())){
+            switch (quarto.getStatusDoQuarto()) {
+                case OCUPADO -> throw new IllegalArgumentException("O quarto está ocupado!");
+
+                case NECESSITA_LIMPEZA -> throw new IllegalArgumentException("O quarto necessita limpeza!");
+
+                case RESERVADO -> throw new IllegalArgumentException("O quarto está reservado!");
+            }
+
+            quarto.setStatusDoQuarto(StatusDoQuarto.OCUPADO);
+            entrada.setQuartos(quarto);
+            quartosRepository.save(quarto);
+        }
+
+    }
 }
 
 

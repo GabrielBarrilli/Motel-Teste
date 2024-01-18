@@ -21,6 +21,5 @@ public record EntradaResponse(
         Long numero,
         StatusPagamento statusPagamento,
         Float totalEntrada
-//        HorarioResponse horarioResponse
 ) {
 }

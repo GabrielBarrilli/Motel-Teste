@@ -1,12 +1,8 @@
 package org.gabrielbarrilli.motelteste.controller;
 
-import jakarta.persistence.EntityNotFoundException;
-import org.gabrielbarrilli.motelteste.Enum.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
-import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
 import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
-import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
 import org.gabrielbarrilli.motelteste.request.EntradaRequest;
 import org.gabrielbarrilli.motelteste.response.EntradaResponse;
@@ -61,13 +57,8 @@ public class EntradaController {
         return entradaService.createEntrada(criarEntradaRequest, idQuarto);
     }
 
-    @GetMapping("/finalizarEntrada")
-    public EntradaResponse finalizarEntrada(Long idEntrada, TipoPagamento tipoPagamento){
-        return entradaService.finalizarEntrada(idEntrada, tipoPagamento);
-    }
-
     @GetMapping("/atualizarEntrada")
-    public Entrada updtateEntrada(Long idEntrada, EntradaRequest entradaRequest, Long idNovoQuarto){
-        return entradaService.updtateEntrada(idEntrada, entradaRequest, idNovoQuarto);
+    public Entrada updtateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento){
+        return entradaService.updateEntrada(idEntrada, entradaRequest, statusEntrada, tipoPagamento);
     }
 }

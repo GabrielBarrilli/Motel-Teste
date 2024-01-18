@@ -1,7 +1,7 @@
 package org.gabrielbarrilli.motelteste.controller;
 
-import org.gabrielbarrilli.motelteste.Enum.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.model.Quartos;
+import org.gabrielbarrilli.motelteste.request.RegistrarQuartoRequest;
 import org.gabrielbarrilli.motelteste.service.QuartosService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,7 @@ public class QuartosController {
     }
 
     @PostMapping("/registrarQuarto")
-    public Quartos createQuarto(Quartos quartos) {
-        return quartosService.createQuarto(quartos);
+    public Quartos createQuarto(RegistrarQuartoRequest registrarQuartoRequest) {
+        return quartosService.createQuarto(registrarQuartoRequest);
     }
 }
