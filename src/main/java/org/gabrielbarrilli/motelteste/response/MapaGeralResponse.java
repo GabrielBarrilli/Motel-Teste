@@ -12,7 +12,6 @@ public record MapaGeralResponse(
         Float saida,
         Float totalCaixa,
         LocalTime hora,
-        LocalDate data,
-        Long idEntrada
+        LocalDate data
 ) {
 }

@@ -36,10 +36,6 @@ public class MapaGeral {
     @Column(name = "mt05_data")
     private LocalDate data;
 
-    @OneToOne
-    @JoinColumn(name = "fkmt05mt01_codigo_entrada")
-    private Entrada idEntrada;
-
     public Long getId() {
         return id;
     }
@@ -104,15 +100,8 @@ public class MapaGeral {
         this.data = data;
     }
 
-    public Entrada getIdEntrada() {
-        return idEntrada;
-    }
 
-    public void setIdEntrada(Entrada idEntrada) {
-        this.idEntrada = idEntrada;
-    }
-
-    public MapaGeral(Integer apartamento, Float entrada, String report, Float saida, Float total, LocalTime hora, LocalDate data, Entrada idEntrada) {
+    public MapaGeral(Integer apartamento, Float entrada, String report, Float saida, Float total, LocalTime hora, LocalDate data) {
         this.apartamento = apartamento;
         this.entrada = entrada;
         this.report = report;
@@ -120,7 +109,6 @@ public class MapaGeral {
         this.total = total;
         this.hora = hora;
         this.data = data;
-        this.idEntrada = idEntrada;
     }
 
     public MapaGeral() {

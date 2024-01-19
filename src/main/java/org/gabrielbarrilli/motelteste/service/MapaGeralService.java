@@ -34,9 +34,7 @@ public class MapaGeralService {
                 mapaGeral.getSaida(),
                 mapaGeralRepository.calculaTotal(),
                 mapaGeral.getHora(),
-                mapaGeral.getData(),
-                mapaGeral.getIdEntrada().getId()
-        );
+                mapaGeral.getData());
     }
 
     public List<MapaGeralResponse> getAllMapaGeral() {
@@ -104,7 +102,6 @@ public class MapaGeralService {
 
         mapaGeral.setSaida(0F);
         mapaGeral.setTotal(totalMap);
-        mapaGeral.setIdEntrada(entrada);
         mapaGeral.setData(LocalDate.now());
         mapaGeral.setHora(LocalTime.now());
 
