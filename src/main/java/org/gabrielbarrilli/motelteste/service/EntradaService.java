@@ -57,7 +57,8 @@ public class EntradaService {
     }
 
     public EntradaResponse getEntradaById(Long id) {
-        var entrada = entradaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Não achou"));
+        var entrada = entradaRepository.findById(id).
+                orElseThrow(() -> new EntityNotFoundException("Não achou"));
         return entradaResponse(entrada);
     }
 
@@ -75,7 +76,8 @@ public class EntradaService {
 
     public Entrada createEntrada(CriarEntradaRequest criarEntradaRequest, Long idQuarto) {
         Entrada entrada = new Entrada();
-        var quarto = quartosRepository.findById(idQuarto).orElseThrow(() -> new EntityNotFoundException("Não há quarto com essa numeração"));
+        var quarto = quartosRepository.findById(idQuarto).
+                orElseThrow(() -> new EntityNotFoundException("Não há quarto com essa numeração"));
 
         entrada.setNomeLocador(criarEntradaRequest.nomeLocador());
         entrada.setPlaca(criarEntradaRequest.placa());
@@ -101,7 +103,7 @@ public class EntradaService {
                 orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada!"));
 
         if (entrada.getStatusEntrada().equals(StatusEntrada.FINALIZADA)) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("A entrada já está finalizada");
         }
 
         entrada.setNomeLocador(entradaRequest.nomeLocador());
@@ -129,6 +131,7 @@ public class EntradaService {
         entrada.setDataSaida(LocalDate.now());
         entrada.setHoraSaida(LocalTime.now());
         entrada.setStatusPagamento(StatusPagamento.PAGO);
+        entrada.getQuartos().setStatusDoQuarto(StatusDoQuarto.DISPONIVEL);
         calculoTotalEntradaTempo(entrada);
         entradaRepository.save(entrada);
 
@@ -176,6 +179,7 @@ public class EntradaService {
         }
 
     }
+
 }
 
 

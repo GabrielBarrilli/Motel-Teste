@@ -10,10 +10,9 @@ public record MapaGeralResponse(
         Float entrada,
         String report,
         Float saida,
-        Float total,
+        Float totalCaixa,
         LocalTime hora,
-
         LocalDate data,
-        Entrada idEntrada
+        Long idEntrada
 ) {
 }

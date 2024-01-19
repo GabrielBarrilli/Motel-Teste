@@ -1,6 +1,7 @@
 package org.gabrielbarrilli.motelteste.model;
 
 import jakarta.persistence.*;
+import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -8,6 +9,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "mt05_mapa_geral")
 public class MapaGeral {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mt05_codigo_mapa_geral")
@@ -35,7 +37,7 @@ public class MapaGeral {
     private LocalDate data;
 
     @OneToOne
-    @JoinColumn(name = "fk0501_codigo_entrada")
+    @JoinColumn(name = "fkmt05mt01_codigo_entrada")
     private Entrada idEntrada;
 
     public Long getId() {

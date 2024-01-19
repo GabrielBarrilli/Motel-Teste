@@ -26,15 +26,16 @@ public class MapaGeralService {
     }
 
     private MapaGeralResponse mapaGeralResponse(MapaGeral mapaGeral) {
+
         return new MapaGeralResponse(
                 mapaGeral.getId(),
                 mapaGeral.getEntrada(),
                 mapaGeral.getReport(),
                 mapaGeral.getSaida(),
-                mapaGeral.getTotal(),
+                mapaGeralRepository.calculaTotal(),
                 mapaGeral.getHora(),
                 mapaGeral.getData(),
-                mapaGeral.getIdEntrada()
+                mapaGeral.getIdEntrada().getId()
         );
     }
 
@@ -57,7 +58,8 @@ public class MapaGeralService {
 
     public void criarMapa(Long idEntrada) {
         MapaGeral mapaGeral = new MapaGeral();
-        Entrada entrada = entradaRepository.findById(idEntrada).orElseThrow(()-> new EntityNotFoundException("Não existe essa entrada"));
+        Entrada entrada = entradaRepository.findById(idEntrada).
+                orElseThrow(()-> new EntityNotFoundException("Não existe essa entrada"));
 
         if (mapaGeral.getTotal() == null){
             mapaGeral.setTotal(0F);
@@ -68,21 +70,24 @@ public class MapaGeralService {
         switch (entrada.getTipoPagamento()) {
             case PIX:
                 mapaGeral.setReport("Pagamento feito via pix!");
-                totalMap = mapaGeral.getTotal() + 0;
-                mapaGeral.setTotal(totalMap);
+                mapaGeral.setEntrada(0F);
+                totalMap += 0;
                 break;
             case CARTAO:
                 mapaGeral.setReport("Pagamento feito via cartão!");
-                totalMap = mapaGeral.getTotal() + 0;
-                mapaGeral.setTotal(totalMap);
+                mapaGeral.setEntrada(0F);
+                totalMap += 0;
                 break;
             case DINHEIRO:
                 mapaGeral.setReport("Pagamento feito via dinheiro!");
                 var valorPago = entrada.getTotalEntrada();
-                totalMap = mapaGeral.getTotal() + valorPago;
-                mapaGeral.setTotal(totalMap);
+                mapaGeral.setEntrada(valorPago);
+                totalMap += valorPago;
                 break;
         }
+
+        mapaGeral.setTotal(totalMap);
+        mapaGeral.setIdEntrada(entrada);
         mapaGeral.setData(LocalDate.now());
         mapaGeral.setHora(LocalTime.now());
 

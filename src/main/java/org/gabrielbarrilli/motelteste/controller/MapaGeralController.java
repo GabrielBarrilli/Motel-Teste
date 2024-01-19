@@ -1,6 +1,7 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.gabrielbarrilli.motelteste.model.MapaGeral;
 import org.gabrielbarrilli.motelteste.response.EntradaResponse;
 import org.gabrielbarrilli.motelteste.response.MapaGeralResponse;
 import org.gabrielbarrilli.motelteste.service.MapaGeralService;
@@ -23,6 +24,13 @@ public class MapaGeralController {
     public MapaGeralController(MapaGeralService mapaGeralService) {
         this.mapaGeralService = mapaGeralService;
     }
+/*
+    @GetMapping("/mostraTotalCaixa")
+    public Float mostraTotal(){
+        return mapaGeralService.mostraTotal();
+    }
+
+ */
 
     @GetMapping("/findAllMapas")
     public ResponseEntity<List<MapaGeralResponse>> getAllMapaGeral() {
