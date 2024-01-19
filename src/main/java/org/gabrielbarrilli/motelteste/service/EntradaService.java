@@ -6,6 +6,7 @@ import org.gabrielbarrilli.motelteste.model.*;
 import org.gabrielbarrilli.motelteste.repository.*;
 import org.gabrielbarrilli.motelteste.request.*;
 import org.gabrielbarrilli.motelteste.response.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -22,8 +23,7 @@ public class EntradaService {
     private final QuartosRepository quartosRepository;
     private final MapaGeralRepository mapaGeralRepository;
 
-    public EntradaService(EntradaRepository entradaRepository, QuartosRepository quartoRepository,
-                          MapaGeralRepository mapaGeralRepository) {
+    public EntradaService(EntradaRepository entradaRepository, QuartosRepository quartoRepository, MapaGeralRepository mapaGeralRepository) {
         this.entradaRepository = entradaRepository;
         this.quartosRepository = quartoRepository;
         this.mapaGeralRepository = mapaGeralRepository;

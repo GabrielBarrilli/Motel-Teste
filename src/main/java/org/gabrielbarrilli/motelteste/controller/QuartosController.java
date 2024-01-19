@@ -4,10 +4,7 @@ import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.request.RegistrarQuartoRequest;
 import org.gabrielbarrilli.motelteste.service.QuartosService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +27,5 @@ public class QuartosController {
     public Quartos createQuarto(RegistrarQuartoRequest registrarQuartoRequest) {
         return quartosService.createQuarto(registrarQuartoRequest);
     }
+
 }
