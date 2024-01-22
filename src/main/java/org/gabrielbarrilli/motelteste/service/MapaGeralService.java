@@ -37,7 +37,7 @@ public class MapaGeralService {
                 mapaGeral.getData());
     }
 
-    public List<MapaGeralResponse> getAllMapaGeral() {
+    public List<MapaGeral> getAllMapaGeral() {
         List<MapaGeral> mapaGeral = mapaGeralRepository.findAll();
         List<MapaGeralResponse> mapaGeralResponse = new ArrayList<>();
 
@@ -45,13 +45,23 @@ public class MapaGeralService {
             var response = mapaGeralResponse(mapaGeral1);
             mapaGeralResponse.add(response);
         });
-        return mapaGeralResponse;
+        return mapaGeral;
     }
 
     public MapaGeralResponse findMapaGeralById(Long id) {
         var mapa = mapaGeralRepository.findById(id).
                 orElseThrow(() -> new EntityNotFoundException("Mapa não encontrado, digite outro id!"));
         return mapaGeralResponse(mapa);
+    }
+
+    public MapaGeral adicionarValor(MapaGeral mapaGeral){
+
+        mapaGeral.setData(LocalDate.now());
+        mapaGeral.setHora(LocalTime.now());
+        var total = mapaGeralRepository.calculaTotal();
+        mapaGeral.setTotal(total + mapaGeral.getEntrada());
+
+        return mapaGeralRepository.save(mapaGeral);
     }
 
     public void criarMapa(Long idEntrada) {
@@ -63,7 +73,7 @@ public class MapaGeralService {
             mapaGeral.setTotal(0F);
         }
 
-        float totalMap = 0;
+        float totalMap = mapaGeralRepository.calculaTotal();
         String relatorio = "";
 
         LocalTime horarioAtual = LocalTime.now();
