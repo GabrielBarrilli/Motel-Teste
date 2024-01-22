@@ -68,16 +68,19 @@ public class MapaGeralService {
 
         LocalTime horarioAtual = LocalTime.now();
 
+        LocalTime inicioMadrugada = LocalTime.of(0, 0);
+        LocalTime fimMadrugada = LocalTime.of(5, 59, 59);
+
         LocalTime inicioDia = LocalTime.of(6, 0);
         LocalTime fimDia = LocalTime.of(17, 59, 59);
 
         LocalTime inicioNoite = LocalTime.of(18, 0);
-        LocalTime fimNoite = LocalTime.of(5, 59, 59);
+        LocalTime fimNoite = LocalTime.of(23, 59, 59);
 
         if (horarioAtual.isAfter(inicioDia) && horarioAtual.isBefore(fimDia)){
             relatorio = "ENTRADA DIA";
         }
-        if (horarioAtual.isAfter(inicioNoite) && horarioAtual.isBefore(fimNoite)){
+        if (horarioAtual.isAfter(inicioNoite) && horarioAtual.isBefore(fimNoite) || horarioAtual.isAfter(inicioMadrugada) && horarioAtual.isBefore(fimMadrugada)){
             relatorio = "ENTRADA NOITE";
         }
 
@@ -88,7 +91,7 @@ public class MapaGeralService {
                 totalMap += 0;
                 break;
             case CARTAO:
-                mapaGeral.setReport(relatorio + " (CARTAO)" );
+                mapaGeral.setReport(relatorio + " (CARTAO)");
                 mapaGeral.setEntrada(0F);
                 totalMap += 0;
                 break;
