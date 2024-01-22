@@ -1,7 +1,6 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
-import org.gabrielbarrilli.motelteste.model.Itens;
 import org.gabrielbarrilli.motelteste.response.ConsumoRequest;
 import org.gabrielbarrilli.motelteste.service.EntradaConsumoService;
 import org.springframework.stereotype.Controller;
@@ -21,12 +20,17 @@ public class EntradaConsumoController {
     }
 
     @GetMapping("/findAllEntradaConsumoByEntradaId/{idEntrada}")
-    public List<EntradaConsumo> findAllEntradaConsumoByEntradaId(@PathVariable Long idEntrada){
+    public List<EntradaConsumo> findAllEntradaConsumoByEntradaId(@PathVariable Long idEntrada) {
         return entradaConsumoService.findAllEntradaConsumoByEntradaId(idEntrada);
     }
 
     @PostMapping("/createEntradaConsumo")
     public EntradaConsumo createEntradaConsumo(ConsumoRequest consumoRequest, Long idEntrada, Long idItens) {
         return entradaConsumoService.createEntradaConsumo(consumoRequest, idEntrada, idItens);
+    }
+
+    @DeleteMapping("/deletarConsumo")
+    public void deleteConsumo(Long idConsumo) {
+        entradaConsumoService.deleteConsumo(idConsumo);
     }
 }

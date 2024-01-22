@@ -1,6 +1,7 @@
 package org.gabrielbarrilli.motelteste.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
 import org.gabrielbarrilli.motelteste.model.Itens;
@@ -49,5 +50,15 @@ public class EntradaConsumoService {
         return entradaConsumoRepository.save(entradaConsumo);
     }
 
+    public void deleteConsumo(Long idConsumo){
+        EntradaConsumo entradaConsumo = entradaConsumoRepository.findById(idConsumo).
+                orElseThrow(() -> new EntityNotFoundException("Não foi encontrado consumo com esse id"));
+
+        if (entradaConsumo.getEntrada().getStatusEntrada() == StatusEntrada.FINALIZADA) {
+            throw new IllegalArgumentException("Não foi possível excluir esse consumo pois a entrada já foi finalizada!");
+        }
+
+        entradaConsumoRepository.delete(entradaConsumo);
+    }
 
 }
