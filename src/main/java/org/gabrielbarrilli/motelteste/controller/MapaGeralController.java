@@ -1,17 +1,12 @@
 package org.gabrielbarrilli.motelteste.controller;
 
-import jakarta.persistence.EntityNotFoundException;
-import org.aspectj.lang.annotation.Pointcut;
 import org.gabrielbarrilli.motelteste.model.MapaGeral;
-import org.gabrielbarrilli.motelteste.response.EntradaResponse;
 import org.gabrielbarrilli.motelteste.response.MapaGeralResponse;
 import org.gabrielbarrilli.motelteste.service.MapaGeralService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -25,9 +20,9 @@ public class MapaGeralController {
         this.mapaGeralService = mapaGeralService;
     }
 
-    @PostMapping("/adicionarValorCaixa")
+    @PostMapping("/alterarValorCaixa")
     public MapaGeral adicionarValor(MapaGeral mapaGeral){
-        return mapaGeralService.adicionarValor(mapaGeral);
+        return mapaGeralService.aterarValor(mapaGeral);
     }
 
     @GetMapping("/findAllMapas")

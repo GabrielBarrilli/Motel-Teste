@@ -58,6 +58,10 @@ public class EntradaConsumoService {
             throw new IllegalArgumentException("Não foi possível excluir esse consumo pois a entrada já foi finalizada!");
         }
 
+        var total = entradaConsumo.getEntrada().getTotalEntrada() - entradaConsumo.getTotal();
+
+        entradaConsumo.getEntrada().setTotalEntrada(total);
+
         entradaConsumoRepository.delete(entradaConsumo);
     }
 

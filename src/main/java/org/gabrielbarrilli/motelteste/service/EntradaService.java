@@ -79,20 +79,24 @@ public class EntradaService {
         var quarto = quartosRepository.findById(idQuarto).
                 orElseThrow(() -> new EntityNotFoundException("Não há quarto com essa numeração"));
 
-        entrada.setNomeLocador(criarEntradaRequest.nomeLocador());
-        entrada.setPlaca(criarEntradaRequest.placa());
-        entrada.setQuartos(quarto);
-        entrada.getQuartos().setStatusDoQuarto(StatusDoQuarto.OCUPADO);
-        entrada.setStatusEntrada(StatusEntrada.ATIVA);
-        entrada.setTipoPagamento(TipoPagamento.PENDENTE);
-        entrada.setHoraSaida(null);
+        if(quarto.getStatusDoQuarto() == StatusDoQuarto.DISPONIVEL) {
+            entrada.setNomeLocador(criarEntradaRequest.nomeLocador());
+            entrada.setPlaca(criarEntradaRequest.placa());
+            entrada.setQuartos(quarto);
+            entrada.getQuartos().setStatusDoQuarto(StatusDoQuarto.OCUPADO);
+            entrada.setStatusEntrada(StatusEntrada.ATIVA);
+            entrada.setTipoPagamento(TipoPagamento.PENDENTE);
+            entrada.setHoraSaida(null);
 
-        entrada.setStatusPagamento(StatusPagamento.PENDENTE);
-        entrada.setTotalEntrada(VALOR_ENTRADA);
+            entrada.setStatusPagamento(StatusPagamento.PENDENTE);
+            entrada.setTotalEntrada(VALOR_ENTRADA);
 
-        entrada.setHoraEntrada(LocalTime.now());
+            entrada.setHoraEntrada(LocalTime.now());
 
-        entrada.setDataRegistroEntrada(LocalDate.now());
+            entrada.setDataRegistroEntrada(LocalDate.now());
+        } else {
+            throw new IllegalArgumentException("O quarto está indisponível");
+        }
 
         return entradaRepository.save(entrada);
     }
