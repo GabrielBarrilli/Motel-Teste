@@ -10,6 +10,8 @@ import java.time.*;
 @Entity
 @Table(name = "mt01_entrada")
 public class Entrada {
+
+    //testandoGit
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mt01_codigo_entrada")
