@@ -1,7 +1,7 @@
 package org.gabrielbarrilli.motelteste.model;
 
 import jakarta.persistence.*;
-import org.gabrielbarrilli.motelteste.Enum.StatusDoQuarto;
+import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 
 @Entity
 @Table(name = "mt02_quartos")

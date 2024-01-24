@@ -1,4 +1,4 @@
-package org.gabrielbarrilli.motelteste.response;
+package org.gabrielbarrilli.motelteste.request;
 
 public record ConsumoRequest(
         Integer quantidade

@@ -1,6 +1,7 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.MapaGeral;
+import org.gabrielbarrilli.motelteste.request.AlterarValorRequest;
 import org.gabrielbarrilli.motelteste.response.MapaGeralResponse;
 import org.gabrielbarrilli.motelteste.service.MapaGeralService;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,8 @@ public class MapaGeralController {
     }
    
     @PostMapping("/alterarValorDoCaixa")
-    public MapaGeral alterarValor(MapaGeral mapaGeral){
-        return mapaGeralService.alterarValor(mapaGeral);
+    public MapaGeral alterarValor(AlterarValorRequest alterarValorRequest){
+        return mapaGeralService.alterarValor(alterarValorRequest);
     }
 
     @GetMapping("/findAllMapas")

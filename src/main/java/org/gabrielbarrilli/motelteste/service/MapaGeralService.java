@@ -3,9 +3,9 @@ package org.gabrielbarrilli.motelteste.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.MapaGeral;
-import org.gabrielbarrilli.motelteste.model.builders.MapaGeralBuilder;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
+import org.gabrielbarrilli.motelteste.request.AlterarValorRequest;
 import org.gabrielbarrilli.motelteste.response.MapaGeralResponse;
 import org.springframework.stereotype.Service;
 
@@ -55,10 +55,13 @@ public class MapaGeralService {
         return mapaGeralResponse(mapa);
     }
 
-    public MapaGeral alterarValor(MapaGeral mapaGeral) {
+    public MapaGeral alterarValor(AlterarValorRequest alterarValorRequest){
+        MapaGeral mapaGeral = new MapaGeral();
 
         mapaGeral.setData(LocalDate.now());
         mapaGeral.setHora(LocalTime.now());
+        mapaGeral.setEntrada(alterarValorRequest.entrada());
+        mapaGeral.setApartamento(alterarValorRequest.apartamento());
 
         if (mapaGeral.getEntrada() >= 0) {
             String msg = ("Foi adicionado " + mapaGeral.getEntrada() + " reais ao caixa");
@@ -78,16 +81,19 @@ public class MapaGeralService {
     }
 
     public void criarMapa(Long idEntrada) {
+        MapaGeral mapaGeral = new MapaGeral();
         Entrada entrada = entradaRepository.findById(idEntrada).
-                orElseThrow(() -> new EntityNotFoundException("Não existe essa entrada"));
+                orElseThrow(()-> new EntityNotFoundException("Não existe essa entrada"));
+
+        if (mapaGeral.getTotal() == null){
+            mapaGeral.setTotal(0F);
+        }
 
         Float totalMap = mapaGeralRepository.calculaTotal();
         if (totalMap == null) {
             totalMap = 0F;
         }
 
-        Float totalEntrada = 0F;
-        String periodo = "";
         String relatorio = "";
 
         LocalTime horarioAtual = LocalTime.now();
@@ -101,42 +107,38 @@ public class MapaGeralService {
         LocalTime inicioNoite = LocalTime.of(18, 0);
         LocalTime fimNoite = LocalTime.of(23, 59, 59);
 
-        if (horarioAtual.isAfter(inicioDia) && horarioAtual.isBefore(fimDia)) {
-            periodo = "ENTRADA DIA";
+        if (horarioAtual.isAfter(inicioDia) && horarioAtual.isBefore(fimDia)){
+            relatorio = "ENTRADA DIA";
         }
-        if (horarioAtual.isAfter(inicioNoite) && horarioAtual.isBefore(fimNoite) || horarioAtual.isAfter(inicioMadrugada) && horarioAtual.isBefore(fimMadrugada)) {
-            periodo = "ENTRADA NOITE";
+        if (horarioAtual.isAfter(inicioNoite) && horarioAtual.isBefore(fimNoite) || horarioAtual.isAfter(inicioMadrugada) && horarioAtual.isBefore(fimMadrugada)){
+            relatorio = "ENTRADA NOITE";
         }
 
         switch (entrada.getTipoPagamento()) {
             case PIX:
-                relatorio = periodo + " (PIX)";
-                totalEntrada = 0F;
+                mapaGeral.setReport(relatorio + " (PIX)");
+                mapaGeral.setEntrada(0F);
                 totalMap += 0;
                 break;
             case CARTAO:
-                relatorio = periodo + " (CARTAO)";
-                totalEntrada = 0F;
+                mapaGeral.setReport(relatorio + " (CARTAO)");
+                mapaGeral.setEntrada(0F);
                 totalMap += 0;
                 break;
             case DINHEIRO:
-                relatorio = periodo + " (DINHEIRO)";
+                mapaGeral.setReport(relatorio + " (DINHEIRO)");
                 var valorPago = entrada.getTotalEntrada();
-                totalEntrada = valorPago;
+                mapaGeral.setEntrada(valorPago);
                 totalMap += valorPago;
                 break;
         }
 
-        MapaGeral mapaGeral = new MapaGeralBuilder().
-                entrada(totalEntrada).
-                saida(0F).
-                total(totalMap).
-                data(LocalDate.now()).
-                hora(LocalTime.now()).
-                apartamento(0).
-                build();
+        mapaGeral.setSaida(0F);
+        mapaGeral.setTotal(totalMap);
+        mapaGeral.setData(LocalDate.now());
+        mapaGeral.setHora(LocalTime.now());
+        mapaGeral.setApartamento(0);
 
         mapaGeralRepository.save(mapaGeral);
-
     }
 }

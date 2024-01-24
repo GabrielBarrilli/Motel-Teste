@@ -1,19 +1,11 @@
 package org.gabrielbarrilli.motelteste.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.gabrielbarrilli.motelteste.Enum.StatusDoQuarto;
-import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
-import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
-import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
-import org.gabrielbarrilli.motelteste.model.Entrada;
-import org.gabrielbarrilli.motelteste.model.Quartos;
-import org.gabrielbarrilli.motelteste.model.builders.EntradaBuilder;
-import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
-import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
-import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
-import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
-import org.gabrielbarrilli.motelteste.request.EntradaRequest;
-import org.gabrielbarrilli.motelteste.response.EntradaResponse;
+import org.gabrielbarrilli.motelteste.enums.*;
+import org.gabrielbarrilli.motelteste.model.*;
+import org.gabrielbarrilli.motelteste.repository.*;
+import org.gabrielbarrilli.motelteste.request.*;
+import org.gabrielbarrilli.motelteste.response.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -69,40 +61,67 @@ public class EntradaService {
         return entradaResponse(entrada);
     }
 
-    public List<Entrada> findAllByStatusEntrada(StatusEntrada statusEntrada) {
-        return entradaRepository.findAllByStatusEntrada(statusEntrada);
+    public List<EntradaResponse> findAllByStatusEntrada(StatusEntrada statusEntrada) {
+        List<Entrada> entradas = entradaRepository.findAllByStatusEntrada(statusEntrada);
+        List<EntradaResponse> entradaResponses = new ArrayList<>();
+
+        entradas.forEach(entrada1 -> {
+            var response = entradaResponse(entrada1);
+            entradaResponses.add(response);
+        });
+
+        return entradaResponses;
     }
 
-    public List<Entrada> findAllByDataRegistroEntrada(LocalDate data) {
-        return entradaRepository.findAllByDataRegistroEntrada(data);
+    public List<EntradaResponse> findAllByDataRegistroEntrada(LocalDate data) {
+        List<Entrada> entradas = entradaRepository.findAllByDataRegistroEntrada(data);
+        List<EntradaResponse> entradaResponses = new ArrayList<>();
+
+        entradas.forEach(entrada1 -> {
+            var response = entradaResponse(entrada1);
+            entradaResponses.add(response);
+        });
+
+        return entradaResponses;
     }
 
-    public List<Entrada> findAllByDataRegistroEntrada() {
-        return entradaRepository.findAllByDataRegistroEntrada(LocalDate.now());
+    public List<EntradaResponse> findAllByDataRegistroEntrada() {
+        List<Entrada> entradas = entradaRepository.findAllByDataRegistroEntrada(LocalDate.now());
+        List<EntradaResponse> entradaResponses = new ArrayList<>();
+
+        entradas.forEach(entrada1 -> {
+            var response = entradaResponse(entrada1);
+            entradaResponses.add(response);
+        });
+
+        return entradaResponses;
     }
 
     public Entrada createEntrada(CriarEntradaRequest criarEntradaRequest, Long idQuarto) {
+        Entrada entrada = new Entrada();
         var quarto = quartosRepository.findById(idQuarto).
                 orElseThrow(() -> new EntityNotFoundException("Não há quarto com essa numeração"));
 
-        if (quarto.getStatusDoQuarto() == StatusDoQuarto.DISPONIVEL) {
-            quarto.setStatusDoQuarto(StatusDoQuarto.OCUPADO);
-            Entrada entrada = new EntradaBuilder().
-                    nomeLocador(criarEntradaRequest.nomeLocador()).
-                    placa(criarEntradaRequest.placa()).
-                    quartos(quarto).
-                    statusEntrada(StatusEntrada.ATIVA).
-                    tipoPagamento(TipoPagamento.PENDENTE).
-                    horaSaida(null).
-                    statusPagamento(StatusPagamento.PENDENTE).
-                    totalEntrada(VALOR_ENTRADA).
-                    horaEntrada(LocalTime.now()).
-                    dataRegistroEntrada(LocalDate.now()).
-                    build();
-            return entradaRepository.save(entrada);
+        if(quarto.getStatusDoQuarto() == StatusDoQuarto.DISPONIVEL) {
+            entrada.setNomeLocador(criarEntradaRequest.nomeLocador());
+            entrada.setPlaca(criarEntradaRequest.placa());
+            entrada.setQuartos(quarto);
+            entrada.getQuartos().setStatusDoQuarto(StatusDoQuarto.OCUPADO);
+            entrada.setStatusEntrada(StatusEntrada.ATIVA);
+            entrada.setTipoPagamento(TipoPagamento.PENDENTE);
+            entrada.setHoraSaida(null);
+
+            entrada.setStatusPagamento(StatusPagamento.PENDENTE);
+            entrada.setTotalEntrada(VALOR_ENTRADA);
+
+            entrada.setHoraEntrada(LocalTime.now());
+
+            entrada.setDataRegistroEntrada(LocalDate.now());
         } else {
-            throw new EntityNotFoundException("O quarto está indisponível! ");
+            throw new IllegalArgumentException("O quarto está indisponível");
         }
+
+        return entradaRepository.save(entrada);
     }
 
     public Entrada updateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
@@ -172,7 +191,7 @@ public class EntradaService {
         Quartos quarto = quartosRepository.findById(entradaRequest.idQuarto()).
                 orElseThrow(() -> new EntityNotFoundException("Não há quarto com esse id"));
 
-        if (!entradaRequest.idQuarto().equals(entrada.getQuartos().getId())) {
+        if (!entradaRequest.idQuarto().equals(entrada.getQuartos().getId())){
             switch (quarto.getStatusDoQuarto()) {
                 case OCUPADO -> throw new IllegalArgumentException("O quarto está ocupado!");
 

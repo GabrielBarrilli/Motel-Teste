@@ -1,6 +1,6 @@
 package org.gabrielbarrilli.motelteste.service;
 
-import org.gabrielbarrilli.motelteste.Enum.StatusDoQuarto;
+import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.model.builders.QuartosBuilder;
 import org.gabrielbarrilli.motelteste.repository.QuartosRepository;

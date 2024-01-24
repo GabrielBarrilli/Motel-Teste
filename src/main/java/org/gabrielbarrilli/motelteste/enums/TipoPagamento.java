@@ -1,4 +1,4 @@
-package org.gabrielbarrilli.motelteste.Enum;
+package org.gabrielbarrilli.motelteste.enums;
 
 public enum TipoPagamento {
     PENDENTE,

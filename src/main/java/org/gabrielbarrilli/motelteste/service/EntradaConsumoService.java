@@ -1,7 +1,7 @@
 package org.gabrielbarrilli.motelteste.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
+import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
 import org.gabrielbarrilli.motelteste.model.Itens;
@@ -9,11 +9,12 @@ import org.gabrielbarrilli.motelteste.model.builders.EntradaConsumoBuilder;
 import org.gabrielbarrilli.motelteste.repository.EntradaConsumoRepository;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.ItensRepository;
-import org.gabrielbarrilli.motelteste.response.ConsumoRequest;
+import org.gabrielbarrilli.motelteste.request.ConsumoRequest;
+import org.gabrielbarrilli.motelteste.response.ConsumoResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EntradaConsumoService {
@@ -30,8 +31,30 @@ public class EntradaConsumoService {
         this.itensRepository = itensRepository;
     }
 
-    public List<EntradaConsumo> findAllEntradaConsumoByEntradaId(Long idEntrada) {
-        return entradaConsumoRepository.findAllByEntradaId(idEntrada);
+    private ConsumoResponse consumoResponse(EntradaConsumo entradaConsumo) {
+        return new ConsumoResponse(
+                entradaConsumo.getId(),
+                entradaConsumo.getTotal(),
+                entradaConsumo.getItens().getNomeItem(),
+                entradaConsumo.getQuantidade(),
+                entradaConsumo.getEntrada().getId(),
+                entradaConsumo.getEntrada().getNomeLocador(),
+                entradaConsumo.getEntrada().getQuartos().getNumero(),
+                entradaConsumo.getEntrada().getTotalEntrada()
+        );
+    }
+
+    public List<ConsumoResponse> findAllEntradaConsumoByEntradaId(Long idEntrada) {
+
+        List<EntradaConsumo> entradaConsumo = entradaConsumoRepository.findAllByEntradaId(idEntrada);
+        List<ConsumoResponse> entradaConsumoResponse = new ArrayList<>();
+
+        entradaConsumo.forEach(entradaConsumos1 -> {
+            var response = consumoResponse(entradaConsumos1);
+            entradaConsumoResponse.add(response);
+        });
+
+        return entradaConsumoResponse;
     }
 
     public EntradaConsumo createEntradaConsumo(ConsumoRequest consumoRequest, Long idEntrada, Long idItem) {
