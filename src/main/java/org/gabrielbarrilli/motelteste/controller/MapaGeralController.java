@@ -19,10 +19,10 @@ public class MapaGeralController {
     public MapaGeralController(MapaGeralService mapaGeralService) {
         this.mapaGeralService = mapaGeralService;
     }
-
-    @PostMapping("/alterarValorCaixa")
-    public MapaGeral adicionarValor(MapaGeral mapaGeral){
-        return mapaGeralService.aterarValor(mapaGeral);
+   
+    @PostMapping("/alterarValorDoCaixa")
+    public MapaGeral alterarValor(MapaGeral mapaGeral){
+        return mapaGeralService.alterarValor(mapaGeral);
     }
 
     @GetMapping("/findAllMapas")

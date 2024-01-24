@@ -54,8 +54,7 @@ public class MapaGeralService {
         return mapaGeralResponse(mapa);
     }
 
-    public MapaGeral aterarValor(MapaGeral mapaGeral){
-
+    public MapaGeral alterarValor(MapaGeral mapaGeral){
         mapaGeral.setData(LocalDate.now());
         mapaGeral.setHora(LocalTime.now());
 
@@ -91,7 +90,6 @@ public class MapaGeralService {
         }
 
         String relatorio = "";
-
 
         LocalTime horarioAtual = LocalTime.now();
 
