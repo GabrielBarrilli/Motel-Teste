@@ -55,12 +55,23 @@ public class MapaGeralService {
     }
 
     public MapaGeral alterarValor(MapaGeral mapaGeral){
-
         mapaGeral.setData(LocalDate.now());
         mapaGeral.setHora(LocalTime.now());
-        var total = mapaGeralRepository.calculaTotal();
-        mapaGeral.setTotal(total + mapaGeral.getEntrada());
 
+        if (mapaGeral.getEntrada() >= 0) {
+            String msg = ("Foi adicionado " + mapaGeral.getEntrada() + " reais ao caixa");
+            var total = mapaGeralRepository.calculaTotal();
+            mapaGeral.setTotal(total + mapaGeral.getEntrada());
+            mapaGeral.setReport(msg);
+            mapaGeral.setSaida(0F);
+        } else {
+            String msg = ("Foi retirado " + mapaGeral.getEntrada() + " reais do caixa");
+            mapaGeral.setSaida(mapaGeral.getEntrada());
+            var total = mapaGeralRepository.calculaTotal();
+            mapaGeral.setTotal(total + mapaGeral.getEntrada());
+            mapaGeral.setReport(msg);
+            mapaGeral.setEntrada(0F);
+        }
         return mapaGeralRepository.save(mapaGeral);
     }
 
@@ -73,7 +84,11 @@ public class MapaGeralService {
             mapaGeral.setTotal(0F);
         }
 
-        float totalMap = mapaGeralRepository.calculaTotal();
+        Float totalMap = mapaGeralRepository.calculaTotal();
+        if (totalMap == null) {
+            totalMap = 0F;
+        }
+
         String relatorio = "";
 
         LocalTime horarioAtual = LocalTime.now();
@@ -117,6 +132,7 @@ public class MapaGeralService {
         mapaGeral.setTotal(totalMap);
         mapaGeral.setData(LocalDate.now());
         mapaGeral.setHora(LocalTime.now());
+        mapaGeral.setApartamento(0);
 
         mapaGeralRepository.save(mapaGeral);
     }

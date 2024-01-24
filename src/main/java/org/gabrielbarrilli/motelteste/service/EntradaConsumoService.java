@@ -40,12 +40,16 @@ public class EntradaConsumoService {
 
         Itens itens = itensRepository.findById(idItem).orElseThrow(() -> new RuntimeException("Item não encontrado"));
 
-        entradaConsumo.setEntrada(entrada);
-        entradaConsumo.setItens(itens);
-        entradaConsumo.setQuantidade(consumoRequest.quantidade());
-        entradaConsumo.setTotal(consumoRequest.quantidade() * itens.getValor());
-        var valorT = entrada.getTotalEntrada() + entradaConsumo.getTotal();
-        entrada.setTotalEntrada(valorT);
+        if (entrada.getStatusEntrada() != StatusEntrada.FINALIZADA) {
+            entradaConsumo.setEntrada(entrada);
+            entradaConsumo.setItens(itens);
+            entradaConsumo.setQuantidade(consumoRequest.quantidade());
+            entradaConsumo.setTotal(consumoRequest.quantidade() * itens.getValor());
+            var valorT = entrada.getTotalEntrada() + entradaConsumo.getTotal();
+            entrada.setTotalEntrada(valorT);
+        } else {
+            throw new IllegalArgumentException("Não pode adicionar um novo consumo a uma entrada já finalizada!");
+        }
 
         return entradaConsumoRepository.save(entradaConsumo);
     }
@@ -57,6 +61,10 @@ public class EntradaConsumoService {
         if (entradaConsumo.getEntrada().getStatusEntrada() == StatusEntrada.FINALIZADA) {
             throw new IllegalArgumentException("Não foi possível excluir esse consumo pois a entrada já foi finalizada!");
         }
+
+        var total = entradaConsumo.getEntrada().getTotalEntrada() - entradaConsumo.getTotal();
+
+        entradaConsumo.getEntrada().setTotalEntrada(total);
 
         entradaConsumoRepository.delete(entradaConsumo);
     }
