@@ -1,10 +1,8 @@
 package org.gabrielbarrilli.motelteste.controller;
 
-import jakarta.persistence.EntityNotFoundException;
-import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
-import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
+import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
+import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
-import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
 import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
 import org.gabrielbarrilli.motelteste.request.EntradaRequest;
 import org.gabrielbarrilli.motelteste.response.EntradaResponse;
@@ -40,17 +38,17 @@ public class EntradaController {
     }
 
     @GetMapping("/buscaEntradasPorStatusEntrada")
-    public List<Entrada> findAllByStatusEntrada(StatusEntrada statusEntrada) {
+    public List<EntradaResponse> findAllByStatusEntrada(StatusEntrada statusEntrada) {
         return entradaService.findAllByStatusEntrada(statusEntrada);
     }
 
     @GetMapping("/buscaEntradasPorDataAtual")
-    public List<Entrada> findAllByDataRegistroEntrada() {
+    public List<EntradaResponse> findAllByDataRegistroEntrada() {
         return entradaService.findAllByDataRegistroEntrada();
     }
 
     @GetMapping("/buscaEntradasPorDataDigitada")
-    public List<Entrada> findAllByDataRegistroEntrada(@RequestParam("data") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate data) {
+    public List<EntradaResponse> findAllByDataRegistroEntrada(@RequestParam("data") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate data) {
         return entradaService.findAllByDataRegistroEntrada(data);
     }
 

@@ -1,12 +1,11 @@
 package org.gabrielbarrilli.motelteste.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.gabrielbarrilli.motelteste.Enum.*;
+import org.gabrielbarrilli.motelteste.enums.*;
 import org.gabrielbarrilli.motelteste.model.*;
 import org.gabrielbarrilli.motelteste.repository.*;
 import org.gabrielbarrilli.motelteste.request.*;
 import org.gabrielbarrilli.motelteste.response.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -62,16 +61,40 @@ public class EntradaService {
         return entradaResponse(entrada);
     }
 
-    public List<Entrada> findAllByStatusEntrada(StatusEntrada statusEntrada) {
-        return entradaRepository.findAllByStatusEntrada(statusEntrada);
+    public List<EntradaResponse> findAllByStatusEntrada(StatusEntrada statusEntrada) {
+        List<Entrada> entradas = entradaRepository.findAllByStatusEntrada(statusEntrada);
+        List<EntradaResponse> entradaResponses = new ArrayList<>();
+
+        entradas.forEach(entrada1 -> {
+            var response = entradaResponse(entrada1);
+            entradaResponses.add(response);
+        });
+
+        return entradaResponses;
     }
 
-    public List<Entrada> findAllByDataRegistroEntrada(LocalDate data) {
-        return entradaRepository.findAllByDataRegistroEntrada(data);
+    public List<EntradaResponse> findAllByDataRegistroEntrada(LocalDate data) {
+        List<Entrada> entradas = entradaRepository.findAllByDataRegistroEntrada(data);
+        List<EntradaResponse> entradaResponses = new ArrayList<>();
+
+        entradas.forEach(entrada1 -> {
+            var response = entradaResponse(entrada1);
+            entradaResponses.add(response);
+        });
+
+        return entradaResponses;
     }
 
-    public List<Entrada> findAllByDataRegistroEntrada() {
-        return entradaRepository.findAllByDataRegistroEntrada(LocalDate.now());
+    public List<EntradaResponse> findAllByDataRegistroEntrada() {
+        List<Entrada> entradas = entradaRepository.findAllByDataRegistroEntrada(LocalDate.now());
+        List<EntradaResponse> entradaResponses = new ArrayList<>();
+
+        entradas.forEach(entrada1 -> {
+            var response = entradaResponse(entrada1);
+            entradaResponses.add(response);
+        });
+
+        return entradaResponses;
     }
 
     public Entrada createEntrada(CriarEntradaRequest criarEntradaRequest, Long idQuarto) {

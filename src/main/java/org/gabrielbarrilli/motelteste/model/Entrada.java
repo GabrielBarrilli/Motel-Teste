@@ -1,17 +1,15 @@
 package org.gabrielbarrilli.motelteste.model;
 
 import jakarta.persistence.*;
-import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
-import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
-import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
+import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
+import org.gabrielbarrilli.motelteste.enums.StatusPagamento;
+import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
 
 import java.time.*;
 
 @Entity
 @Table(name = "mt01_entrada")
 public class Entrada {
-
-    //testandoNovamenteGit
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mt01_codigo_entrada")

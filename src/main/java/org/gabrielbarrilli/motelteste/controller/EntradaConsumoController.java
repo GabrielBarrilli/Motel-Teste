@@ -1,7 +1,8 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
-import org.gabrielbarrilli.motelteste.response.ConsumoRequest;
+import org.gabrielbarrilli.motelteste.request.ConsumoRequest;
+import org.gabrielbarrilli.motelteste.response.ConsumoResponse;
 import org.gabrielbarrilli.motelteste.service.EntradaConsumoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class EntradaConsumoController {
     }
 
     @GetMapping("/findAllEntradaConsumoByEntradaId/{idEntrada}")
-    public List<EntradaConsumo> findAllEntradaConsumoByEntradaId(@PathVariable Long idEntrada) {
+    public List<ConsumoResponse> findAllEntradaConsumoByEntradaId(@PathVariable Long idEntrada) {
         return entradaConsumoService.findAllEntradaConsumoByEntradaId(idEntrada);
     }
 

@@ -1,9 +1,8 @@
 package org.gabrielbarrilli.motelteste.response;
 
-import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
-import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
-import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
-import org.gabrielbarrilli.motelteste.model.Quartos;
+import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
+import org.gabrielbarrilli.motelteste.enums.StatusPagamento;
+import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

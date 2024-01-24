@@ -5,6 +5,7 @@ import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.MapaGeral;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
+import org.gabrielbarrilli.motelteste.request.AlterarValorRequest;
 import org.gabrielbarrilli.motelteste.response.MapaGeralResponse;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +55,13 @@ public class MapaGeralService {
         return mapaGeralResponse(mapa);
     }
 
-    public MapaGeral alterarValor(MapaGeral mapaGeral){
+    public MapaGeral alterarValor(AlterarValorRequest alterarValorRequest){
+        MapaGeral mapaGeral = new MapaGeral();
+
         mapaGeral.setData(LocalDate.now());
         mapaGeral.setHora(LocalTime.now());
+        mapaGeral.setEntrada(alterarValorRequest.entrada());
+        mapaGeral.setApartamento(alterarValorRequest.apartamento());
 
         if (mapaGeral.getEntrada() >= 0) {
             String msg = ("Foi adicionado " + mapaGeral.getEntrada() + " reais ao caixa");
