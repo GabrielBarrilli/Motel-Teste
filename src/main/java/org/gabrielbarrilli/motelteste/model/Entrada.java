@@ -11,7 +11,7 @@ import java.time.*;
 @Table(name = "mt01_entrada")
 public class Entrada {
 
-    //testandoGit
+    //testandoNovamenteGit
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mt01_codigo_entrada")
