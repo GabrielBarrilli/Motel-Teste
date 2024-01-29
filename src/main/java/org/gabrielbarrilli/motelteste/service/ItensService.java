@@ -1,8 +1,10 @@
 package org.gabrielbarrilli.motelteste.service;
 
 import org.gabrielbarrilli.motelteste.model.Itens;
+import org.gabrielbarrilli.motelteste.model.builders.ItensBuilder;
 import org.gabrielbarrilli.motelteste.repository.EntradaConsumoRepository;
 import org.gabrielbarrilli.motelteste.repository.ItensRepository;
+import org.gabrielbarrilli.motelteste.request.ItensRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,13 @@ public class ItensService {
         return itensRepository.findAll();
     }
 
-    public Itens createItem(Itens itens){
+    public Itens createItem(ItensRequest itensRequest){
+
+        Itens itens = new ItensBuilder().
+                nomeItem(itensRequest.nomeItem()).
+                valor(itensRequest.valor()).
+                build();
+
         return itensRepository.save(itens);
     }
 }

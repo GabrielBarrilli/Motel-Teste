@@ -1,6 +1,7 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.Itens;
+import org.gabrielbarrilli.motelteste.request.ItensRequest;
 import org.gabrielbarrilli.motelteste.service.ItensService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class ItensController {
     }
 
     @PostMapping("/createItem")
-    public Itens createItem(Itens itens){
-        return itensService.createItem(itens);
+    public Itens createItem(ItensRequest itensRequest){
+        return itensService.createItem(itensRequest);
     }
 
 }

@@ -5,6 +5,7 @@ import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
 import org.gabrielbarrilli.motelteste.model.Itens;
+import org.gabrielbarrilli.motelteste.model.builders.EntradaConsumoBuilder;
 import org.gabrielbarrilli.motelteste.repository.EntradaConsumoRepository;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.ItensRepository;
@@ -34,32 +35,35 @@ public class EntradaConsumoService {
     }
 
     public EntradaConsumo createEntradaConsumo(ConsumoRequest consumoRequest, Long idEntrada, Long idItem) {
-        Entrada entrada = entradaRepository.findById(idEntrada).orElseThrow(() -> new EntityNotFoundException("Entrada não existe"));
+        Entrada entrada = entradaRepository.findById(idEntrada).
+                orElseThrow(() -> new EntityNotFoundException("Entrada não existe "));
 
-        EntradaConsumo entradaConsumo = new EntradaConsumo();
-
-        Itens itens = itensRepository.findById(idItem).orElseThrow(() -> new RuntimeException("Item não encontrado"));
+        Itens itens = itensRepository.findById(idItem).
+                orElseThrow(() -> new RuntimeException("Item não encontrado "));
 
         if (entrada.getStatusEntrada() != StatusEntrada.FINALIZADA) {
-            entradaConsumo.setEntrada(entrada);
-            entradaConsumo.setItens(itens);
-            entradaConsumo.setQuantidade(consumoRequest.quantidade());
-            entradaConsumo.setTotal(consumoRequest.quantidade() * itens.getValor());
+            EntradaConsumo entradaConsumo = new EntradaConsumoBuilder().
+                    entrada(entrada).
+                    itens(itens).
+                    quantidade(consumoRequest.quantidade()).
+
+                    total(consumoRequest.quantidade() * itens.getValor()).
+                    build();
             var valorT = entrada.getTotalEntrada() + entradaConsumo.getTotal();
             entrada.setTotalEntrada(valorT);
-        } else {
-            throw new IllegalArgumentException("Não pode adicionar um novo consumo a uma entrada já finalizada!");
-        }
 
-        return entradaConsumoRepository.save(entradaConsumo);
+            return entradaConsumoRepository.save(entradaConsumo);
+        } else {
+            throw new IllegalArgumentException("Não pode adicionar um novo consumo a uma entrada já finalizada! ");
+        }
     }
 
     public void deleteConsumo(Long idConsumo){
         EntradaConsumo entradaConsumo = entradaConsumoRepository.findById(idConsumo).
-                orElseThrow(() -> new EntityNotFoundException("Não foi encontrado consumo com esse id"));
+                orElseThrow(() -> new EntityNotFoundException("Não foi encontrado consumo com esse id "));
 
         if (entradaConsumo.getEntrada().getStatusEntrada() == StatusEntrada.FINALIZADA) {
-            throw new IllegalArgumentException("Não foi possível excluir esse consumo pois a entrada já foi finalizada!");
+            throw new IllegalArgumentException("Não foi possível excluir esse consumo pois a entrada já foi finalizada! ");
         }
 
         var total = entradaConsumo.getEntrada().getTotalEntrada() - entradaConsumo.getTotal();
