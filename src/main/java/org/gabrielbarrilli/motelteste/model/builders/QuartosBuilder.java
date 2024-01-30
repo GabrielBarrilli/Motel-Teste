@@ -1,6 +1,6 @@
 package org.gabrielbarrilli.motelteste.model.builders;
 
-import org.gabrielbarrilli.motelteste.Enum.StatusDoQuarto;
+import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 
 public class QuartosBuilder {

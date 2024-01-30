@@ -137,6 +137,7 @@ public class EntradaService {
         entrada.setPlaca(entradaRequest.placa());
         entrada.setStatusEntrada(statusEntrada);
         entrada.setTipoPagamento(tipoPagamento);
+
         updateQuarto(idEntrada, entradaRequest);
 
         if (entrada.getStatusEntrada().equals(StatusEntrada.FINALIZADA)) {
@@ -159,6 +160,7 @@ public class EntradaService {
         entrada.setHoraSaida(LocalTime.now());
         entrada.setStatusPagamento(StatusPagamento.PAGO);
         entrada.getQuartos().setStatusDoQuarto(StatusDoQuarto.DISPONIVEL);
+
         calculoTotalEntradaTempo(entrada);
         entradaRepository.save(entrada);
 
@@ -186,9 +188,9 @@ public class EntradaService {
     }
 
     private void updateQuarto(Long idEntrada, EntradaRequest entradaRequest) {
-        Entrada entrada = entradaRepository.findById(idEntrada).
+        var entrada = entradaRepository.findById(idEntrada).
                 orElseThrow(() -> new EntityNotFoundException("Não há entrada com esse id"));
-        Quartos quarto = quartosRepository.findById(entradaRequest.idQuarto()).
+        var quarto = quartosRepository.findById(entradaRequest.idQuarto()).
                 orElseThrow(() -> new EntityNotFoundException("Não há quarto com esse id"));
 
         if (!entradaRequest.idQuarto().equals(entrada.getQuartos().getId())){
@@ -199,9 +201,11 @@ public class EntradaService {
 
                 case RESERVADO -> throw new IllegalArgumentException("O quarto está reservado!");
             }
+
             entrada.getQuartos().setStatusDoQuarto(StatusDoQuarto.DISPONIVEL);
             quarto.setStatusDoQuarto(StatusDoQuarto.OCUPADO);
             entrada.setQuartos(quarto);
+
             quartosRepository.save(quarto);
         }
 

@@ -1,9 +1,6 @@
 package org.gabrielbarrilli.motelteste.model.builders;
 
-import jakarta.persistence.*;
-import org.gabrielbarrilli.motelteste.Enum.StatusEntrada;
-import org.gabrielbarrilli.motelteste.Enum.StatusPagamento;
-import org.gabrielbarrilli.motelteste.Enum.TipoPagamento;
+import org.gabrielbarrilli.motelteste.enums.*;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 
