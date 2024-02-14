@@ -1,11 +1,18 @@
 package org.gabrielbarrilli.motelteste.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.gabrielbarrilli.motelteste.enums.*;
-import org.gabrielbarrilli.motelteste.model.*;
-import org.gabrielbarrilli.motelteste.repository.*;
-import org.gabrielbarrilli.motelteste.request.*;
-import org.gabrielbarrilli.motelteste.response.*;
+import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
+import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
+import org.gabrielbarrilli.motelteste.enums.StatusPagamento;
+import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
+import org.gabrielbarrilli.motelteste.model.Entrada;
+import org.gabrielbarrilli.motelteste.model.Quartos;
+import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
+import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
+import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
+import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
+import org.gabrielbarrilli.motelteste.request.EntradaRequest;
+import org.gabrielbarrilli.motelteste.response.EntradaResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -102,7 +109,7 @@ public class EntradaService {
         var quarto = quartosRepository.findById(idQuarto).
                 orElseThrow(() -> new EntityNotFoundException("Não há quarto com essa numeração"));
 
-        if(quarto.getStatusDoQuarto() == StatusDoQuarto.DISPONIVEL) {
+        if (quarto.getStatusDoQuarto() == StatusDoQuarto.DISPONIVEL) {
             entrada.setNomeLocador(criarEntradaRequest.nomeLocador());
             entrada.setPlaca(criarEntradaRequest.placa());
             entrada.setQuartos(quarto);
@@ -123,6 +130,7 @@ public class EntradaService {
 
         return entradaRepository.save(entrada);
     }
+
 
     public Entrada updateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
         MapaGeralService mapaGeralService = new MapaGeralService(mapaGeralRepository, entradaRepository);
@@ -193,7 +201,7 @@ public class EntradaService {
         var quarto = quartosRepository.findById(entradaRequest.idQuarto()).
                 orElseThrow(() -> new EntityNotFoundException("Não há quarto com esse id"));
 
-        if (!entradaRequest.idQuarto().equals(entrada.getQuartos().getId())){
+        if (!entradaRequest.idQuarto().equals(entrada.getQuartos().getId())) {
             switch (quarto.getStatusDoQuarto()) {
                 case OCUPADO -> throw new IllegalArgumentException("O quarto está ocupado!");
 
