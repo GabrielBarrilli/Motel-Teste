@@ -1,4 +1,4 @@
-package org.gabrielbarrilli.motelteste.response;
+package org.gabrielbarrilli.motelteste.model.response;
 
 public record HorarioResponse(
         long horas,

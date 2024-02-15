@@ -9,8 +9,8 @@ import org.gabrielbarrilli.motelteste.model.builders.EntradaConsumoBuilder;
 import org.gabrielbarrilli.motelteste.repository.EntradaConsumoRepository;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.ItensRepository;
-import org.gabrielbarrilli.motelteste.request.ConsumoRequest;
-import org.gabrielbarrilli.motelteste.response.ConsumoResponse;
+import org.gabrielbarrilli.motelteste.model.request.ConsumoRequest;
+import org.gabrielbarrilli.motelteste.model.response.ConsumoResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

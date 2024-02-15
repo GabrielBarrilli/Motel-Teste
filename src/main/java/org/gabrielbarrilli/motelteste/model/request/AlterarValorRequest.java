@@ -1,4 +1,4 @@
-package org.gabrielbarrilli.motelteste.request;
+package org.gabrielbarrilli.motelteste.model.request;
 
 public record AlterarValorRequest(
         Integer apartamento,

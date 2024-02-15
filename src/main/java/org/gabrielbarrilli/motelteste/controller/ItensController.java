@@ -1,7 +1,7 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.Itens;
-import org.gabrielbarrilli.motelteste.request.ItensRequest;
+import org.gabrielbarrilli.motelteste.model.request.ItensRequest;
 import org.gabrielbarrilli.motelteste.service.ItensService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

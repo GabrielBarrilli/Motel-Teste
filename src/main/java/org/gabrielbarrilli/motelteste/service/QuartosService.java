@@ -4,7 +4,7 @@ import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.model.builders.QuartosBuilder;
 import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
-import org.gabrielbarrilli.motelteste.request.RegistrarQuartoRequest;
+import org.gabrielbarrilli.motelteste.model.request.RegistrarQuartoRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

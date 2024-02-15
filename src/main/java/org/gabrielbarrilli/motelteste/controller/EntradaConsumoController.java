@@ -1,8 +1,8 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.EntradaConsumo;
-import org.gabrielbarrilli.motelteste.request.ConsumoRequest;
-import org.gabrielbarrilli.motelteste.response.ConsumoResponse;
+import org.gabrielbarrilli.motelteste.model.request.ConsumoRequest;
+import org.gabrielbarrilli.motelteste.model.response.ConsumoResponse;
 import org.gabrielbarrilli.motelteste.service.EntradaConsumoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

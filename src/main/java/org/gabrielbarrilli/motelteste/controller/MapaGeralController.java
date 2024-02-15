@@ -1,8 +1,8 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.MapaGeral;
-import org.gabrielbarrilli.motelteste.request.AlterarValorRequest;
-import org.gabrielbarrilli.motelteste.response.MapaGeralResponse;
+import org.gabrielbarrilli.motelteste.model.request.AlterarValorRequest;
+import org.gabrielbarrilli.motelteste.model.response.MapaGeralResponse;
 import org.gabrielbarrilli.motelteste.service.MapaGeralService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import org.gabrielbarrilli.motelteste.model.Quartos;
-import org.gabrielbarrilli.motelteste.request.RegistrarQuartoRequest;
+import org.gabrielbarrilli.motelteste.model.request.RegistrarQuartoRequest;
 import org.gabrielbarrilli.motelteste.service.QuartosService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

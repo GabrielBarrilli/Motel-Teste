@@ -64,6 +64,14 @@ public class Quartos {
         this.statusDoQuarto = statusDoQuarto;
     }
 
+    public Quartos(Long id, Long numero, String descricao, Integer capacidadePessoa, StatusDoQuarto statusDoQuarto) {
+        this.id = id;
+        this.numero = numero;
+        this.descricao = descricao;
+        this.capacidadePessoa = capacidadePessoa;
+        this.statusDoQuarto = statusDoQuarto;
+    }
+
     public Quartos(Long numero, String descricao, Integer capacidadePessoa, StatusDoQuarto statusDoQuarto) {
         this.numero = numero;
         this.descricao = descricao;

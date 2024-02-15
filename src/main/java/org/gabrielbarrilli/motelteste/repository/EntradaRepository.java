@@ -14,5 +14,6 @@ public interface EntradaRepository extends JpaRepository<Entrada, Long> {
     List<Entrada> findAllByStatusEntrada(StatusEntrada statusEntrada);
 
     List<Entrada> findAllByDataRegistroEntrada(LocalDate dataRegistroEntrada);
+   // List<Entrada> findAllByDataAtual(LocalDate dataAtual);
 
 }

@@ -5,8 +5,8 @@ import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.MapaGeral;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
-import org.gabrielbarrilli.motelteste.request.AlterarValorRequest;
-import org.gabrielbarrilli.motelteste.response.MapaGeralResponse;
+import org.gabrielbarrilli.motelteste.model.request.AlterarValorRequest;
+import org.gabrielbarrilli.motelteste.model.response.MapaGeralResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

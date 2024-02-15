@@ -148,6 +148,21 @@ public class Entrada {
         this.dataSaida = dataSaida;
     }
 
+    public Entrada(Long id, String nomeLocador, LocalDate dataRegistroEntrada, LocalTime horaEntrada, StatusEntrada statusEntrada, TipoPagamento tipoPagamento, String placa, LocalDate dataSaida, LocalTime horaSaida, Quartos quartos, StatusPagamento statusPagamento, Float totalEntrada) {
+        this.id = id;
+        this.nomeLocador = nomeLocador;
+        this.dataRegistroEntrada = dataRegistroEntrada;
+        this.horaEntrada = horaEntrada;
+        this.statusEntrada = statusEntrada;
+        this.tipoPagamento = tipoPagamento;
+        this.placa = placa;
+        this.dataSaida = dataSaida;
+        this.horaSaida = horaSaida;
+        this.quartos = quartos;
+        this.statusPagamento = statusPagamento;
+        this.totalEntrada = totalEntrada;
+    }
+
     public Entrada(String nomeLocador, LocalDate dataRegistroEntrada, LocalTime horaEntrada, StatusEntrada statusEntrada, TipoPagamento tipoPagamento, String placa, LocalDate dataSaida, LocalTime horaSaida, Quartos quartos, StatusPagamento statusPagamento, Float totalEntrada) {
         this.nomeLocador = nomeLocador;
         this.dataRegistroEntrada = dataRegistroEntrada;

@@ -3,9 +3,9 @@ package org.gabrielbarrilli.motelteste.controller;
 import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
 import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
-import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
-import org.gabrielbarrilli.motelteste.request.EntradaRequest;
-import org.gabrielbarrilli.motelteste.response.EntradaResponse;
+import org.gabrielbarrilli.motelteste.model.request.CriarEntradaRequest;
+import org.gabrielbarrilli.motelteste.model.request.EntradaRequest;
+import org.gabrielbarrilli.motelteste.model.response.EntradaResponse;
 import org.gabrielbarrilli.motelteste.service.EntradaService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -49,7 +49,7 @@ public class EntradaController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/buscaEntradasPorDataAtual")
     public List<EntradaResponse> findAllByDataRegistroEntrada() {
-        return entradaService.findAllByDataRegistroEntrada();
+        return entradaService.findAllByDataAtual();
     }
 
     @ResponseStatus(HttpStatus.OK)

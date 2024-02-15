@@ -6,13 +6,12 @@ import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
 import org.gabrielbarrilli.motelteste.enums.StatusPagamento;
 import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
-import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
 import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
-import org.gabrielbarrilli.motelteste.request.CriarEntradaRequest;
-import org.gabrielbarrilli.motelteste.request.EntradaRequest;
-import org.gabrielbarrilli.motelteste.response.EntradaResponse;
+import org.gabrielbarrilli.motelteste.model.request.CriarEntradaRequest;
+import org.gabrielbarrilli.motelteste.model.request.EntradaRequest;
+import org.gabrielbarrilli.motelteste.model.response.EntradaResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -92,7 +91,7 @@ public class EntradaService {
         return entradaResponses;
     }
 
-    public List<EntradaResponse> findAllByDataRegistroEntrada() {
+    public List<EntradaResponse> findAllByDataAtual() {
         List<Entrada> entradas = entradaRepository.findAllByDataRegistroEntrada(LocalDate.now());
         List<EntradaResponse> entradaResponses = new ArrayList<>();
 
