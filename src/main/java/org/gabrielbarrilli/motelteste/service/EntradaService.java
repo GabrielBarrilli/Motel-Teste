@@ -63,7 +63,7 @@ public class EntradaService {
 
     public EntradaResponse getEntradaById(Long id) {
         var entrada = entradaRepository.findById(id).
-                orElseThrow(() -> new EntityNotFoundException("Não achou"));
+                orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada"));
         return entradaResponse(entrada);
     }
 
@@ -173,7 +173,7 @@ public class EntradaService {
 
     }
 
-    public void calculoTotalEntradaTempo(Entrada entrada) {
+    private void calculoTotalEntradaTempo(Entrada entrada) {
 
         if (entrada.getDataSaida() != null && entrada.getHoraSaida() != null) {
             LocalDate dataEntrada = entrada.getDataRegistroEntrada();
