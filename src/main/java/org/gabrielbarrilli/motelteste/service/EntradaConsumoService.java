@@ -81,7 +81,7 @@ public class EntradaConsumoService {
         }
     }
 
-    public void deleteConsumo(Long idConsumo){
+    public String deleteConsumo(Long idConsumo){
         EntradaConsumo entradaConsumo = entradaConsumoRepository.findById(idConsumo).
                 orElseThrow(() -> new EntityNotFoundException("Não foi encontrado consumo com esse id "));
 
@@ -94,6 +94,8 @@ public class EntradaConsumoService {
         entradaConsumo.getEntrada().setTotalEntrada(total);
 
         entradaConsumoRepository.delete(entradaConsumo);
+
+        return "Consumo deletado!";
     }
 
 }

@@ -8,10 +8,19 @@ import java.util.List;
 
 public class EntradaConsumoFixture {
 
-    public static EntradaConsumo entradaConsumoInicial() {
+    public static EntradaConsumo entradaConsumo1() {
         return new EntradaConsumo(
-                //number.longValue(),
                 1L,
+                100F,
+                ItensFixture.item(),
+                1,
+                EntradaFixture.entradaAtiva()
+        );
+    }
+
+    public static EntradaConsumo entradaConsumo2() {
+        return new EntradaConsumo(
+                2L,
                 100F,
                 ItensFixture.item(),
                 1,
@@ -23,7 +32,8 @@ public class EntradaConsumoFixture {
 
         List<EntradaConsumo> consumoList = new ArrayList<>();
 
-            consumoList.add(entradaConsumoInicial());
+        consumoList.add(entradaConsumo1());
+        consumoList.add(entradaConsumo2());
 
         return consumoList;
     }
