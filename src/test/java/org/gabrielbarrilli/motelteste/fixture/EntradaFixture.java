@@ -23,7 +23,7 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto(),
+                QuartosFixture.quarto1(),
                 StatusPagamento.PENDENTE,
                 0F
         );
@@ -41,7 +41,7 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto(),
+                QuartosFixture.quarto1(),
                 StatusPagamento.PENDENTE,
                 0F
         );
@@ -59,7 +59,7 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto(),
+                QuartosFixture.quarto1(),
                 StatusPagamento.PENDENTE,
                 0F
         );
@@ -67,18 +67,17 @@ public class EntradaFixture {
 
     public static Entrada entradaFinalizada() {
 
-
         return new Entrada(
                 4L,
                 "Gabriel",
                 LocalDate.now().minusDays(1),
                 LocalTime.now(),
-                StatusEntrada.ATIVA,
+                StatusEntrada.FINALIZADA,
                 TipoPagamento.PENDENTE,
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto(),
+                QuartosFixture.quarto1(),
                 StatusPagamento.PENDENTE,
                 0F
         );
