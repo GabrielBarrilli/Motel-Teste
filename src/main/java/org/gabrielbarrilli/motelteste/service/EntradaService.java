@@ -150,6 +150,8 @@ public class EntradaService {
         if (entrada.getStatusEntrada().equals(StatusEntrada.FINALIZADA)) {
             finalizarEntrada(idEntrada, entrada.getTipoPagamento());
             mapaGeralService.criarMapa(idEntrada);
+        } else if (tipoPagamento != TipoPagamento.PENDENTE) {
+            throw new IllegalArgumentException("Não pode pagar se a entrada não for finalizada!");
         }
 
         return entradaRepository.save(entrada);
@@ -215,7 +217,6 @@ public class EntradaService {
 
             quartosRepository.save(quarto);
         }
-
     }
 
 }
