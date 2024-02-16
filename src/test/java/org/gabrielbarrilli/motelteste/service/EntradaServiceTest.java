@@ -24,7 +24,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,7 +59,7 @@ class EntradaServiceTest {
     EntradaRequest entradaRequestQuarto2 = EntradaRequestFixture.entradaRequestQuarto2();
 
     @Test
-    void getAllEntrada() {
+    void testGetAllEntrada() {
 
         when(entradaRepository.findAll()).thenReturn(entradasList);
 
@@ -70,7 +69,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void getEntradaById() {
+    void testGetEntradaById() {
 
         when(entradaRepository.findById(anyLong())).thenReturn(Optional.ofNullable(entradaAtiva));
 
@@ -80,7 +79,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void findAllByStatusEntrada() {
+    void testFindAllByStatusEntrada() {
 
         when(entradaRepository.findAllByStatusEntrada(StatusEntrada.ATIVA)).thenReturn(entradasList);
 
@@ -90,7 +89,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void findAllByDataRegistroEntrada() {
+    void testFindAllByDataRegistroEntrada() {
 
         when(entradaRepository.findAllByDataRegistroEntrada(entradaAtiva.getDataRegistroEntrada())).thenReturn(entradasList);
 
@@ -110,14 +109,14 @@ class EntradaServiceTest {
     }
 
     @Test
-    void testeObterEntradaPorIdInexistente() {
+    void testObterEntradaPorIdInexistente() {
         Assertions.assertThatExceptionOfType(EntityNotFoundException.class)
                 .isThrownBy(() -> entradaService.getEntradaById(entradaAtiva.getId()))
                 .withMessage("Entrada não encontrada");
     }
 
     @Test
-    void testeCriarEntradaComQuartoInexistente () {
+    void testCriarEntradaComQuartoInexistente () {
         when(quartosRepository.findById(quartos.getId())).thenReturn(Optional.empty());
 
         Assertions.assertThatExceptionOfType(EntityNotFoundException.class)
@@ -126,18 +125,18 @@ class EntradaServiceTest {
     }
 
     @Test
-    void testeCriarEntradaComQuartoOcupado () {
+    void testCriarEntradaComQuartoOcupado () {
 
         quartos.setStatusDoQuarto(StatusDoQuarto.OCUPADO);
         when(quartosRepository.findById(quartos.getId())).thenReturn(Optional.of(quartos));
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> entradaService.createEntrada(criarEntradaRequest, quartos.getId()))
-                .withMessage("Não há quarto com essa numeração");
+                .withMessage("O quarto está indisponível");
     }
 
     @Test
-    void createEntrada() {
+    void testCriarEntrada() {
 
         when(quartosRepository.findById(quartos.getId())).thenReturn(Optional.ofNullable(quartos));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(new Entrada());
@@ -150,7 +149,8 @@ class EntradaServiceTest {
         verify(entradaRepository, atLeastOnce()).save(any(Entrada.class));
     }
 
-    void criarEntradaVerificarDetalhes() {
+    @Test
+    void testCriarEntradaVerificarDetalhes() {
 
         when(quartosRepository.findById(quartos.getId())).thenReturn(Optional.of(quartos));
         when(entradaRepository.save(any(Entrada.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -163,14 +163,14 @@ class EntradaServiceTest {
         assertThat(entrada.getHoraEntrada()).isNotNull();
         assertThat(entrada.getStatusEntrada()).isEqualTo(StatusEntrada.ATIVA);
         assertThat(entrada.getStatusPagamento()).isEqualTo(StatusPagamento.PENDENTE);
-        assertThat(entrada.getTotalEntrada()).isEqualTo(0F);
+        assertThat(entrada.getTotalEntrada()).isEqualTo(30F);
     }
 
     @Test
-    void updateEntradaComQuartoIgual() {
+    void testUpdateEntradaComQuartoIgualNaoFinalizada() {
 
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
-        TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
+        TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
         when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
@@ -183,10 +183,10 @@ class EntradaServiceTest {
     }
 
     @Test
-    void updateEntradaComQuartoDifente() {
+    void testUpdateEntradaComQuartoDifenteNaoFinalizada() {
 
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
-        TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
+        TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
         when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
@@ -199,7 +199,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void updateEntradaComQuartoIgualFinalizada() {
+    void testUpdateEntradaComQuartoIgualFinalizada() {
 
         StatusEntrada statusEntrada = StatusEntrada.FINALIZADA;
         TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
@@ -217,7 +217,27 @@ class EntradaServiceTest {
     }
 
     @Test
-    void updateEntradaComQuartoDiferenteFinalizada() {
+    void testUpdateEntradaComQuartoIgualFinalizadaHorario() {
+
+        StatusEntrada statusEntrada = StatusEntrada.FINALIZADA;
+        TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
+
+        var valorEntrada = 250F;
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quartos));
+        when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
+
+        entradaAtiva.setDataSaida(LocalDate.now().plusDays(1));
+
+        Entrada entradaAtualizada = entradaService.updateEntrada(entradaAtiva.getId(), entradaRequestQuarto1, statusEntrada, tipoPagamento);
+
+        assertThat(entradaAtualizada.getStatusEntrada()).isEqualTo(statusEntrada);
+        assertThat(entradaAtualizada.getPlaca()).isEqualTo(entradaAtivaDiferente.getPlaca());
+    }
+
+    @Test
+    void testUpdateEntradaComQuartoDiferenteFinalizada() {
 
         StatusEntrada statusEntrada = StatusEntrada.FINALIZADA;
         TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
@@ -235,7 +255,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void updateEntradaComQuartoIgualEPagamentoPix() {
+    void testUpdateEntradaComQuartoIgualEPagamentoPix() {
 
         StatusEntrada statusEntrada = StatusEntrada.FINALIZADA;
         TipoPagamento tipoPagamento = TipoPagamento.PIX;
@@ -253,7 +273,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void updateEntradaComQuartoIgualEPagamentoPendente() {
+    void testUpdateEntradaComQuartoIgualEPagamentoPendente() {
 
         StatusEntrada statusEntrada = StatusEntrada.FINALIZADA;
         TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
@@ -270,7 +290,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void updateEntradaComQuartoIgualEStatusAtivaEPagamentoPix() {
+    void testUpdateEntradaComQuartoIgualEStatusAtivaEPagamentoPix() {
 
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
         TipoPagamento tipoPagamento = TipoPagamento.PIX;
@@ -287,7 +307,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void updateEntradaComQuartoIgualEStatusAtivaEPagamentoCartao() {
+    void testUpdateEntradaComQuartoIgualEStatusAtivaEPagamentoCartao() {
 
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
         TipoPagamento tipoPagamento = TipoPagamento.CARTAO;
@@ -304,7 +324,7 @@ class EntradaServiceTest {
     }
 
     @Test
-    void updateEntradaComQuartoIgualEStatusAtivaEPagamentoDinheiro() {
+    void testUpdateEntradaComQuartoIgualEStatusAtivaEPagamentoDinheiro() {
 
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
         TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
@@ -322,7 +342,7 @@ class EntradaServiceTest {
 
     @Test
     @DisplayName("Tenta atualizar uma entrada, mas a entrada não existe")
-    void updateEntradaEntradaInexistente() {
+    void testUpdateEntradaEntradaInexistente() {
 
         Assertions.assertThatExceptionOfType(EntityNotFoundException.class)
                 .isThrownBy(() -> entradaService.updateEntrada(entradaAtiva.getId(), entradaRequestQuarto1, StatusEntrada.ATIVA ,TipoPagamento.PENDENTE))
