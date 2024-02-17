@@ -12,7 +12,7 @@ public class EntradaConsumoFixture {
         return new EntradaConsumo(
                 1L,
                 100F,
-                ItensFixture.item(),
+                ItensFixture.item1(),
                 1,
                 EntradaFixture.entradaAtiva()
         );
@@ -22,7 +22,7 @@ public class EntradaConsumoFixture {
         return new EntradaConsumo(
                 2L,
                 100F,
-                ItensFixture.item(),
+                ItensFixture.item1(),
                 1,
                 EntradaFixture.entradaAtiva()
         );
