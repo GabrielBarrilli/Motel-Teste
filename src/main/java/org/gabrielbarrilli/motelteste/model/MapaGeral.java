@@ -100,6 +100,16 @@ public class MapaGeral {
         this.data = data;
     }
 
+    public MapaGeral(Long id, Integer apartamento, Float entrada, String report, Float saida, Float total, LocalTime hora, LocalDate data) {
+        this.id = id;
+        this.apartamento = apartamento;
+        this.entrada = entrada;
+        this.report = report;
+        this.saida = saida;
+        this.total = total;
+        this.hora = hora;
+        this.data = data;
+    }
 
     public MapaGeral(Integer apartamento, Float entrada, String report, Float saida, Float total, LocalTime hora, LocalDate data) {
         this.apartamento = apartamento;

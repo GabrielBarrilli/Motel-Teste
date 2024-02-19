@@ -17,7 +17,6 @@ import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.ItensRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,7 +26,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
@@ -47,7 +45,7 @@ class EntradaConsumoServiceTest {
 
     Entrada entradaAtiva = EntradaFixture.entradaAtiva();
     Entrada entradaFinalizada = EntradaFixture.entradaFinalizada();
-    Itens itens = ItensFixture.item();
+    Itens itens = ItensFixture.item1();
 
     List<EntradaConsumo> entradaConsumoList = EntradaConsumoFixture.entradaConsumoList();
 

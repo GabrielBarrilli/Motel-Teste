@@ -40,6 +40,12 @@ public class Itens {
         this.valor = valor;
     }
 
+    public Itens(Long id, String nomeItem, Float valor) {
+        this.id = id;
+        this.nomeItem = nomeItem;
+        this.valor = valor;
+    }
+
     public Itens(String nomeItem, Float valor) {
         this.nomeItem = nomeItem;
         this.valor = valor;

@@ -30,24 +30,6 @@ public class EntradaFixture {
         );
     }
 
-//    public static Entrada entradaAtivaConsumo() {
-//
-//        return new Entrada(
-//                1L,
-//                "Gabriel",
-//                LocalDate.now().minusDays(1),
-//                LocalTime.now(),
-//                StatusEntrada.ATIVA,
-//                TipoPagamento.PENDENTE,
-//                "Placa teste",
-//                null,
-//                null,
-//                QuartosFixture.quarto1(),
-//                StatusPagamento.PENDENTE,
-//                0F
-//        );
-//    }
-
     public static Entrada entradaAtivaDiferente() {
 
         return new Entrada(
@@ -108,26 +90,6 @@ public class EntradaFixture {
 
         entradasList.add(entradaAtiva());
         entradasList.add(entradaFinalizada());
-
-        return entradasList;
-    }
-
-    public static List<Entrada> entradasListAtiva() {
-
-        List<Entrada> entradasList = new ArrayList<>();
-
-        entradasList.add(entradaAtiva());
-        entradasList.add(entradaAtivaDiferente());
-
-        return entradasList;
-    }
-
-    public static List<Entrada> entradasListDataAtual() {
-
-        List<Entrada> entradasList = new ArrayList<>();
-
-        entradasList.add(entradaAtivaDiferente());
-        entradasList.add(entradaDataAtual());
 
         return entradasList;
     }

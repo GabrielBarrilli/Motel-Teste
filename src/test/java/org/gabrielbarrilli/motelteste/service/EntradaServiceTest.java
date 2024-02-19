@@ -24,9 +24,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
+import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
@@ -71,9 +75,21 @@ class EntradaServiceTest {
     }
 
     @Test
+    void testGetAllEntradaEmpty() {
+
+        List<Entrada> listaVazia = new ArrayList<>();
+
+        when(entradaRepository.findAll()).thenReturn(listaVazia);
+
+        entradaService.getAllEntrada();
+
+        verify(entradaRepository, atLeastOnce()).findAll();
+    }
+
+    @Test
     void testGetEntradaById() {
 
-        when(entradaRepository.findById(anyLong())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(anyLong())).thenReturn(ofNullable(entradaAtiva));
 
         entradaService.getEntradaById(anyLong());
 
@@ -119,7 +135,7 @@ class EntradaServiceTest {
 
     @Test
     void testCriarEntradaComQuartoInexistente () {
-        when(quartosRepository.findById(quarto1.getId())).thenReturn(Optional.empty());
+        when(quartosRepository.findById(quarto1.getId())).thenReturn(empty());
 
         Assertions.assertThatExceptionOfType(EntityNotFoundException.class)
                 .isThrownBy(() -> entradaService.createEntrada(criarEntradaRequest, quarto1.getId()))
@@ -130,7 +146,7 @@ class EntradaServiceTest {
     void testCriarEntradaComQuartoOcupado () {
 
         quarto1.setStatusDoQuarto(StatusDoQuarto.OCUPADO);
-        when(quartosRepository.findById(quarto1.getId())).thenReturn(Optional.of(quarto1));
+        when(quartosRepository.findById(quarto1.getId())).thenReturn(of(quarto1));
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> entradaService.createEntrada(criarEntradaRequest, quarto1.getId()))
@@ -140,7 +156,7 @@ class EntradaServiceTest {
     @Test
     void testCriarEntrada() {
 
-        when(quartosRepository.findById(quarto1.getId())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(quarto1.getId())).thenReturn(ofNullable(quarto1));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(new Entrada());
 
         Entrada entrada = entradaService.createEntrada(criarEntradaRequest, quarto1.getId());
@@ -154,7 +170,7 @@ class EntradaServiceTest {
     @Test
     void testCriarEntradaVerificarDetalhes() {
 
-        when(quartosRepository.findById(quarto1.getId())).thenReturn(Optional.of(quarto1));
+        when(quartosRepository.findById(quarto1.getId())).thenReturn(of(quarto1));
         when(entradaRepository.save(any(Entrada.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Entrada entrada = entradaService.createEntrada(criarEntradaRequest, quarto1.getId());
@@ -174,10 +190,10 @@ class EntradaServiceTest {
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
         TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
-        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(Optional.ofNullable(quarto2));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(ofNullable(quarto2));
 
         quarto2.setStatusDoQuarto(StatusDoQuarto.OCUPADO);
 
@@ -192,10 +208,10 @@ class EntradaServiceTest {
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
         TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
-        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(Optional.ofNullable(quarto2));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(ofNullable(quarto2));
 
         quarto2.setStatusDoQuarto(StatusDoQuarto.NECESSITA_LIMPEZA);
 
@@ -210,10 +226,10 @@ class EntradaServiceTest {
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
         TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
-        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(Optional.ofNullable(quarto2));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(ofNullable(quarto2));
 
         quarto2.setStatusDoQuarto(StatusDoQuarto.RESERVADO);
 
@@ -228,9 +244,9 @@ class EntradaServiceTest {
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
         TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
 
         Entrada entradaAtualizada = entradaService.updateEntrada(entradaAtiva.getId(), entradaRequestQuarto1, statusEntrada, tipoPagamento);
 
@@ -244,9 +260,9 @@ class EntradaServiceTest {
         StatusEntrada statusEntrada = StatusEntrada.FINALIZADA;
         TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
-        when(entradaRepository.findById(entradaFinalizada.getId())).thenReturn(Optional.ofNullable(entradaFinalizada));
+        when(entradaRepository.findById(entradaFinalizada.getId())).thenReturn(ofNullable(entradaFinalizada));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaFinalizada);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> entradaService.updateEntrada(entradaFinalizada.getId(), entradaRequestQuarto1, statusEntrada ,tipoPagamento))
@@ -259,9 +275,9 @@ class EntradaServiceTest {
         StatusEntrada statusEntrada = StatusEntrada.ATIVA;
         TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(ofNullable(quarto1));
 
         Entrada entradaAtualizada = entradaService.updateEntrada(entradaAtiva.getId(), entradaRequestQuarto2, statusEntrada, tipoPagamento);
 
@@ -276,9 +292,9 @@ class EntradaServiceTest {
         TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
 
         var valorEntrada = 250F;
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
         when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
 
         Entrada entradaAtualizada = entradaService.updateEntrada(entradaAtiva.getId(), entradaRequestQuarto1, statusEntrada, tipoPagamento);
@@ -294,9 +310,9 @@ class EntradaServiceTest {
         TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
 
         var valorEntrada = 250F;
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
         when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
 
         entradaAtiva.setDataSaida(LocalDate.now().plusDays(1));
@@ -314,9 +330,9 @@ class EntradaServiceTest {
         TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
 
         var valorEntrada = 250F;
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto2.idQuarto())).thenReturn(ofNullable(quarto1));
         when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
 
         Entrada entradaAtualizada = entradaService.updateEntrada(entradaAtiva.getId(), entradaRequestQuarto2, statusEntrada, tipoPagamento);
@@ -332,9 +348,9 @@ class EntradaServiceTest {
         TipoPagamento tipoPagamento = TipoPagamento.PIX;
 
         var valorEntrada = 250F;
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
         when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
 
         Entrada entradaAtualizada = entradaService.updateEntrada(entradaAtiva.getId(), entradaRequestQuarto1, statusEntrada, tipoPagamento);
@@ -350,9 +366,9 @@ class EntradaServiceTest {
         TipoPagamento tipoPagamento = TipoPagamento.PENDENTE;
 
         var valorEntrada = 250F;
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
         when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
@@ -367,9 +383,9 @@ class EntradaServiceTest {
         TipoPagamento tipoPagamento = TipoPagamento.PIX;
 
         var valorEntrada = 250F;
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
         when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
@@ -384,9 +400,9 @@ class EntradaServiceTest {
         TipoPagamento tipoPagamento = TipoPagamento.CARTAO;
 
         var valorEntrada = 250F;
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
         when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
@@ -401,9 +417,9 @@ class EntradaServiceTest {
         TipoPagamento tipoPagamento = TipoPagamento.DINHEIRO;
 
         var valorEntrada = 250F;
-        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(Optional.ofNullable(entradaAtiva));
+        when(entradaRepository.findById(entradaAtiva.getId())).thenReturn(ofNullable(entradaAtiva));
         when(entradaRepository.save(any(Entrada.class))).thenReturn(entradaAtiva);
-        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(Optional.ofNullable(quarto1));
+        when(quartosRepository.findById(entradaRequestQuarto1.idQuarto())).thenReturn(ofNullable(quarto1));
         when(mapaGeralRepository.calculaTotal()).thenReturn(valorEntrada);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
