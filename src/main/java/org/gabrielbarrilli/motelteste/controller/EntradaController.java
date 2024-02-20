@@ -65,7 +65,7 @@ public class EntradaController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/atualizarEntrada")
+    @PutMapping("/atualizarEntrada")
     public Entrada updtateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
         return entradaService.updateEntrada(idEntrada, entradaRequest, statusEntrada, tipoPagamento);
     }

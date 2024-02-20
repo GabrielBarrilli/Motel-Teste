@@ -17,7 +17,7 @@ public record EntradaResponse(
         String placa,
         LocalDate dataSaida,
         LocalTime horaSaida,
-        Long numero,
+        Long numeroQuarto,
         StatusPagamento statusPagamento,
         Float totalEntrada
 ) {
