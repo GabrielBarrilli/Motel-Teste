@@ -1,5 +1,6 @@
 package org.gabrielbarrilli.motelteste.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.model.builders.QuartosBuilder;
@@ -19,6 +20,12 @@ public class QuartosService {
 
     public List<Quartos> findAll(){
         return quartosRepository.findAll();
+    }
+
+    public Quartos findById(Long id) {
+
+        return quartosRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Quarto não encontrado!"));
     }
 
     public Quartos createQuarto(RegistrarQuartoRequest registrarQuartoRequest) {

@@ -3,8 +3,11 @@ package org.gabrielbarrilli.motelteste.fixture;
 import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class QuartosFixture {
-    public static Quartos quarto1() {
+    public static Quartos quartoDisponivel() {
 
         return new Quartos(
                 1L,
@@ -15,7 +18,7 @@ public class QuartosFixture {
         );
     }
 
-    public static Quartos quarto2() {
+    public static Quartos quartoOcupado() {
 
         return new Quartos(
                 2L,
@@ -24,5 +27,14 @@ public class QuartosFixture {
                 2,
                 StatusDoQuarto.DISPONIVEL
         );
+    }
+
+    public static List<Quartos> quartosList () {
+        List<Quartos> quartosList = new ArrayList<>();
+
+        quartosList.add(quartoDisponivel());
+        quartosList.add(quartoOcupado());
+
+        return quartosList;
     }
 }

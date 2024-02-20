@@ -25,6 +25,12 @@ public class QuartosController {
         return quartosService.findAll();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/findQuartoById")
+    public Quartos findById (Long idQuarto) {
+        return quartosService.findById(idQuarto);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/registrarQuarto")
     public Quartos createQuarto(RegistrarQuartoRequest registrarQuartoRequest) {

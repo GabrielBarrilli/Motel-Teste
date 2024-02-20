@@ -26,7 +26,6 @@ import org.mockito.Mock;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
@@ -58,8 +57,8 @@ class EntradaServiceTest {
     Entrada entradaAtiva = EntradaFixture.entradaAtiva();
     Entrada entradaFinalizada = EntradaFixture.entradaFinalizada();
     Entrada entradaAtivaDiferente = EntradaFixture.entradaAtivaDiferente();
-    Quartos quarto1 = QuartosFixture.quarto1();
-    Quartos quarto2 = QuartosFixture.quarto2();
+    Quartos quarto1 = QuartosFixture.quartoDisponivel();
+    Quartos quarto2 = QuartosFixture.quartoOcupado();
     CriarEntradaRequest criarEntradaRequest = CriarEntradaRequestFixture.criarEntradaRequest();
     EntradaRequest entradaRequestQuarto1 = EntradaRequestFixture.entradaRequestQuarto1();
     EntradaRequest entradaRequestQuarto2 = EntradaRequestFixture.entradaRequestQuarto2();

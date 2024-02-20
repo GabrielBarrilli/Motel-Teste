@@ -24,7 +24,7 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto1(),
+                QuartosFixture.quartoDisponivel(),
                 StatusPagamento.PENDENTE,
                 0F
         );
@@ -42,7 +42,7 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto1(),
+                QuartosFixture.quartoDisponivel(),
                 StatusPagamento.PENDENTE,
                 0F
         );
@@ -60,7 +60,7 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto1(),
+                QuartosFixture.quartoDisponivel(),
                 StatusPagamento.PENDENTE,
                 0F
         );
@@ -78,7 +78,7 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto1(),
+                QuartosFixture.quartoDisponivel(),
                 StatusPagamento.PENDENTE,
                 0F
         );
