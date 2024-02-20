@@ -1,6 +1,6 @@
 package org.gabrielbarrilli.motelteste.service;
 
-import org.gabrielbarrilli.motelteste.fixture.CriarItemRequestFixture;
+import org.gabrielbarrilli.motelteste.fixture.request.CriarItemRequestFixture;
 import org.gabrielbarrilli.motelteste.fixture.ItensFixture;
 import org.gabrielbarrilli.motelteste.model.Itens;
 import org.gabrielbarrilli.motelteste.model.request.ItensRequest;

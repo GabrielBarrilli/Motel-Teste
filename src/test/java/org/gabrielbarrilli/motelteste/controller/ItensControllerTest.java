@@ -2,7 +2,7 @@ package org.gabrielbarrilli.motelteste.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.gabrielbarrilli.motelteste.fixture.ItensFixture;
-import org.gabrielbarrilli.motelteste.fixture.ItensRequestFixture;
+import org.gabrielbarrilli.motelteste.fixture.request.ItensRequestFixture;
 import org.gabrielbarrilli.motelteste.model.Itens;
 import org.gabrielbarrilli.motelteste.model.request.ItensRequest;
 import org.gabrielbarrilli.motelteste.service.ItensService;

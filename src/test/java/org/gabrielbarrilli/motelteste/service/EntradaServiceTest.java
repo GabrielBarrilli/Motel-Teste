@@ -6,14 +6,13 @@ import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
 import org.gabrielbarrilli.motelteste.enums.StatusPagamento;
 import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
-import org.gabrielbarrilli.motelteste.fixture.CriarEntradaRequestFixture;
+import org.gabrielbarrilli.motelteste.fixture.request.CriarEntradaRequestFixture;
 import org.gabrielbarrilli.motelteste.fixture.EntradaFixture;
-import org.gabrielbarrilli.motelteste.fixture.EntradaRequestFixture;
+import org.gabrielbarrilli.motelteste.fixture.request.EntradaRequestFixture;
 import org.gabrielbarrilli.motelteste.fixture.QuartosFixture;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.model.request.CriarEntradaRequest;
-import org.gabrielbarrilli.motelteste.model.request.EntradaRequest;
 import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
 import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
@@ -60,8 +59,8 @@ class EntradaServiceTest {
     Quartos quarto1 = QuartosFixture.quartoDisponivel();
     Quartos quarto2 = QuartosFixture.quartoOcupado();
     CriarEntradaRequest criarEntradaRequest = CriarEntradaRequestFixture.criarEntradaRequest();
-    EntradaRequest entradaRequestQuarto1 = EntradaRequestFixture.entradaRequestQuarto1();
-    EntradaRequest entradaRequestQuarto2 = EntradaRequestFixture.entradaRequestQuarto2();
+    CriarEntradaRequest entradaRequestQuarto1 = EntradaRequestFixture.entradaRequestQuarto1();
+    CriarEntradaRequest entradaRequestQuarto2 = EntradaRequestFixture.entradaRequestQuarto2();
 
     @Test
     void testGetAllEntrada() {

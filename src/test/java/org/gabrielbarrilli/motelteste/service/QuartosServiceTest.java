@@ -2,10 +2,9 @@ package org.gabrielbarrilli.motelteste.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.assertj.core.api.Assertions;
-import org.gabrielbarrilli.motelteste.fixture.CreateQuartoRequest;
+import org.gabrielbarrilli.motelteste.fixture.request.CreateQuartoRequest;
 import org.gabrielbarrilli.motelteste.fixture.QuartosFixture;
 import org.gabrielbarrilli.motelteste.model.Quartos;
-import org.gabrielbarrilli.motelteste.model.builders.QuartosBuilder;
 import org.gabrielbarrilli.motelteste.model.request.RegistrarQuartoRequest;
 import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
 import org.junit.jupiter.api.BeforeEach;

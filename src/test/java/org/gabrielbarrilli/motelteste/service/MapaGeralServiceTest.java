@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
 import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
-import org.gabrielbarrilli.motelteste.fixture.AlterarValorRequestFixture;
+import org.gabrielbarrilli.motelteste.fixture.request.AlterarValorRequestFixture;
 import org.gabrielbarrilli.motelteste.fixture.EntradaFixture;
 import org.gabrielbarrilli.motelteste.fixture.MapaGeralFixture;
 import org.gabrielbarrilli.motelteste.model.Entrada;

@@ -1,4 +1,4 @@
-package org.gabrielbarrilli.motelteste.fixture;
+package org.gabrielbarrilli.motelteste.fixture.request;
 
 import org.gabrielbarrilli.motelteste.model.request.AlterarValorRequest;
 

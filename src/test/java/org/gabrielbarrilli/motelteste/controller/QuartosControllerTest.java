@@ -1,7 +1,7 @@
 package org.gabrielbarrilli.motelteste.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.gabrielbarrilli.motelteste.fixture.CreateQuartoRequest;
+import org.gabrielbarrilli.motelteste.fixture.request.CreateQuartoRequest;
 import org.gabrielbarrilli.motelteste.fixture.QuartosFixture;
 import org.gabrielbarrilli.motelteste.model.Quartos;
 import org.gabrielbarrilli.motelteste.model.request.RegistrarQuartoRequest;

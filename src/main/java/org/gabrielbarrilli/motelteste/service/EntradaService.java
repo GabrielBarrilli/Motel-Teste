@@ -10,8 +10,6 @@ import org.gabrielbarrilli.motelteste.repository.EntradaRepository;
 import org.gabrielbarrilli.motelteste.repository.MapaGeralRepository;
 import org.gabrielbarrilli.motelteste.repository.QuartosRepository;
 import org.gabrielbarrilli.motelteste.model.request.CriarEntradaRequest;
-import org.gabrielbarrilli.motelteste.model.request.EntradaRequest;
-import org.gabrielbarrilli.motelteste.model.response.EntradaResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -34,8 +32,8 @@ public class EntradaService {
         this.mapaGeralRepository = mapaGeralRepository;
     }
 
-    private EntradaResponse entradaResponse(Entrada entrada) {
-        return new EntradaResponse(entrada.getId(),
+    private org.gabrielbarrilli.motelteste.model.response.EntradaResponse entradaResponse(Entrada entrada) {
+        return new org.gabrielbarrilli.motelteste.model.response.EntradaResponse(entrada.getId(),
                 entrada.getNomeLocador(),
                 entrada.getDataRegistroEntrada(),
                 entrada.getHoraEntrada(),
@@ -49,9 +47,9 @@ public class EntradaService {
                 entrada.getTotalEntrada());
     }
 
-    public List<EntradaResponse> getAllEntrada() {
+    public List<org.gabrielbarrilli.motelteste.model.response.EntradaResponse> getAllEntrada() {
         List<Entrada> entradas = entradaRepository.findAll();
-        List<EntradaResponse> entradaResponses = new ArrayList<>();
+        List<org.gabrielbarrilli.motelteste.model.response.EntradaResponse> entradaResponses = new ArrayList<>();
 
         entradas.forEach(entrada1 -> {
             var response = entradaResponse(entrada1);
@@ -61,15 +59,15 @@ public class EntradaService {
         return entradaResponses;
     }
 
-    public EntradaResponse getEntradaById(Long id) {
+    public org.gabrielbarrilli.motelteste.model.response.EntradaResponse getEntradaById(Long id) {
         var entrada = entradaRepository.findById(id).
                 orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada"));
         return entradaResponse(entrada);
     }
 
-    public List<EntradaResponse> findAllByStatusEntrada(StatusEntrada statusEntrada) {
+    public List<org.gabrielbarrilli.motelteste.model.response.EntradaResponse> findAllByStatusEntrada(StatusEntrada statusEntrada) {
         List<Entrada> entradas = entradaRepository.findAllByStatusEntrada(statusEntrada);
-        List<EntradaResponse> entradaResponses = new ArrayList<>();
+        List<org.gabrielbarrilli.motelteste.model.response.EntradaResponse> entradaResponses = new ArrayList<>();
 
         entradas.forEach(entrada1 -> {
             var response = entradaResponse(entrada1);
@@ -79,9 +77,9 @@ public class EntradaService {
         return entradaResponses;
     }
 
-    public List<EntradaResponse> findAllByDataRegistroEntrada(LocalDate data) {
+    public List<org.gabrielbarrilli.motelteste.model.response.EntradaResponse> findAllByDataRegistroEntrada(LocalDate data) {
         List<Entrada> entradas = entradaRepository.findAllByDataRegistroEntrada(data);
-        List<EntradaResponse> entradaResponses = new ArrayList<>();
+        List<org.gabrielbarrilli.motelteste.model.response.EntradaResponse> entradaResponses = new ArrayList<>();
 
         entradas.forEach(entrada1 -> {
             var response = entradaResponse(entrada1);
@@ -91,9 +89,9 @@ public class EntradaService {
         return entradaResponses;
     }
 
-    public List<EntradaResponse> findAllByDataAtual() {
+    public List<org.gabrielbarrilli.motelteste.model.response.EntradaResponse> findAllByDataAtual() {
         List<Entrada> entradas = entradaRepository.findAllByDataRegistroEntrada(LocalDate.now());
-        List<EntradaResponse> entradaResponses = new ArrayList<>();
+        List<org.gabrielbarrilli.motelteste.model.response.EntradaResponse> entradaResponses = new ArrayList<>();
 
         entradas.forEach(entrada1 -> {
             var response = entradaResponse(entrada1);
@@ -131,7 +129,7 @@ public class EntradaService {
     }
 
 
-    public Entrada updateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
+    public Entrada updateEntrada(Long idEntrada, CriarEntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
         MapaGeralService mapaGeralService = new MapaGeralService(mapaGeralRepository, entradaRepository);
         Entrada entrada = entradaRepository.findById(idEntrada).
                 orElseThrow(() -> new EntityNotFoundException("Entrada não encontrada!"));
@@ -196,7 +194,7 @@ public class EntradaService {
         }
     }
 
-    private void updateQuarto(Long idEntrada, EntradaRequest entradaRequest) {
+    private void updateQuarto(Long idEntrada, CriarEntradaRequest entradaRequest) {
         var entrada = entradaRepository.findById(idEntrada).
                 orElseThrow(() -> new EntityNotFoundException("Não há entrada com esse id"));
         var quarto = quartosRepository.findById(entradaRequest.idQuarto()).
