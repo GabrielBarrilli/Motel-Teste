@@ -22,13 +22,13 @@ public class ItensController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/findAllItens")
-    public List<Itens> findAllItens(){
+    public List<Itens> findAllItens() {
         return itensService.findAllItens();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createItem")
-    public Itens createItem(ItensRequest itensRequest){
+    public Itens createItem(@RequestBody ItensRequest itensRequest) {
         return itensService.createItem(itensRequest);
     }
 

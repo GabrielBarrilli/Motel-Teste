@@ -18,7 +18,7 @@ public class ItensFixture {
     public static Itens item2() {
         return new Itens(
                 2L,
-                "maçã",
+                "água",
                 10F
         );
     }
