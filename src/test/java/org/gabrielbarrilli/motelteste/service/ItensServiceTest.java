@@ -1,7 +1,7 @@
 package org.gabrielbarrilli.motelteste.service;
 
-import org.gabrielbarrilli.motelteste.fixture.request.CriarItemRequestFixture;
 import org.gabrielbarrilli.motelteste.fixture.ItensFixture;
+import org.gabrielbarrilli.motelteste.fixture.request.CriarItemRequestFixture;
 import org.gabrielbarrilli.motelteste.model.Itens;
 import org.gabrielbarrilli.motelteste.model.request.ItensRequest;
 import org.gabrielbarrilli.motelteste.repository.ItensRepository;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)

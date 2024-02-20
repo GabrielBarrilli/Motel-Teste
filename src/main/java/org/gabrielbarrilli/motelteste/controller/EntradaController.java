@@ -34,8 +34,8 @@ public class EntradaController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/findEntradaById")
-    public EntradaResponse getEntradaById(Long id) {
+    @GetMapping("/findEntradaById/{id}")
+    public EntradaResponse getEntradaById(@PathVariable Long id) {
         return entradaService.getEntradaById(id);
     }
 
@@ -53,7 +53,7 @@ public class EntradaController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/buscaEntradasPorDataDigitada/{data}")
-    public List<EntradaResponse> findAllByDataRegistroEntrada(@RequestParam("data") @DateTimeFormat(pattern = "dd/MM/yyyy") @PathVariable LocalDate data) {
+    public List<EntradaResponse> findAllByDataRegistroEntrada(@PathVariable @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate data) {
         return entradaService.findAllByDataRegistroEntrada(data);
     }
 

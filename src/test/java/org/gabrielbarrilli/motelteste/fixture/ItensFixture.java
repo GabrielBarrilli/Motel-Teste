@@ -1,6 +1,5 @@
 package org.gabrielbarrilli.motelteste.fixture;
 
-import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.Itens;
 
 import java.util.ArrayList;
@@ -32,14 +31,6 @@ public class ItensFixture {
         itensList.add(item2());
 
         return itensList;
-    }
-
-    public static Itens item2() {
-        return new Itens(
-                2L,
-                "água",
-                10F
-        );
     }
 
     public static List<Itens> itensList() {
