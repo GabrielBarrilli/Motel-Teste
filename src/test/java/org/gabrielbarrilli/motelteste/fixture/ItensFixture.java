@@ -33,4 +33,22 @@ public class ItensFixture {
 
         return itensList;
     }
+
+    public static Itens item2() {
+        return new Itens(
+                2L,
+                "água",
+                10F
+        );
+    }
+
+    public static List<Itens> itensList() {
+
+        List<Itens> listaItens= new ArrayList<>();
+
+        listaItens.add(item1());
+        listaItens.add(item2());
+
+        return listaItens;
+    }
 }

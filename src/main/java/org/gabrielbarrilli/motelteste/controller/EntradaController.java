@@ -4,7 +4,6 @@ import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
 import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
 import org.gabrielbarrilli.motelteste.model.Entrada;
 import org.gabrielbarrilli.motelteste.model.request.CriarEntradaRequest;
-import org.gabrielbarrilli.motelteste.model.request.EntradaRequest;
 import org.gabrielbarrilli.motelteste.model.response.EntradaResponse;
 import org.gabrielbarrilli.motelteste.service.EntradaService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -41,8 +40,8 @@ public class EntradaController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/buscaEntradasPorStatusEntrada")
-    public List<EntradaResponse> findAllByStatusEntrada(StatusEntrada statusEntrada) {
+    @GetMapping("/buscaEntradasPorStatusEntrada/{statusEntrada}")
+    public List<EntradaResponse> findAllByStatusEntrada(@PathVariable StatusEntrada statusEntrada) {
         return entradaService.findAllByStatusEntrada(statusEntrada);
     }
 
@@ -53,8 +52,8 @@ public class EntradaController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/buscaEntradasPorDataDigitada")
-    public List<EntradaResponse> findAllByDataRegistroEntrada(@RequestParam("data") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate data) {
+    @GetMapping("/buscaEntradasPorDataDigitada/{data}")
+    public List<EntradaResponse> findAllByDataRegistroEntrada(@RequestParam("data") @DateTimeFormat(pattern = "dd/MM/yyyy") @PathVariable LocalDate data) {
         return entradaService.findAllByDataRegistroEntrada(data);
     }
 
@@ -65,8 +64,8 @@ public class EntradaController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/atualizarEntrada")
-    public Entrada updtateEntrada(Long idEntrada, EntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
+    @PutMapping("/atualizarEntrada/{idEntrada}")
+    public Entrada updtateEntrada(@PathVariable Long idEntrada, @RequestBody CriarEntradaRequest entradaRequest, StatusEntrada statusEntrada, TipoPagamento tipoPagamento) {
         return entradaService.updateEntrada(idEntrada, entradaRequest, statusEntrada, tipoPagamento);
     }
 

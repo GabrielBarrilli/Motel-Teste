@@ -3,7 +3,7 @@ package org.gabrielbarrilli.motelteste.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
-import org.gabrielbarrilli.motelteste.fixture.CriarConsumoRequestFixture;
+import org.gabrielbarrilli.motelteste.fixture.request.CriarConsumoRequestFixture;
 import org.gabrielbarrilli.motelteste.fixture.EntradaConsumoFixture;
 import org.gabrielbarrilli.motelteste.fixture.EntradaFixture;
 import org.gabrielbarrilli.motelteste.fixture.ItensFixture;

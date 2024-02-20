@@ -16,37 +16,19 @@ public class EntradaFixture {
 
         return new Entrada(
                 1L,
-                "Gabriel",
+                "Locador teste 1",
                 LocalDate.now().minusDays(1),
                 LocalTime.now(),
                 StatusEntrada.ATIVA,
                 TipoPagamento.PENDENTE,
-                "Placa teste",
+                "Placa teste 1",
                 null,
                 null,
-                QuartosFixture.quarto1(),
+                QuartosFixture.quartoDisponivel(),
                 StatusPagamento.PENDENTE,
-                0F
+                100F
         );
     }
-
-//    public static Entrada entradaAtivaConsumo() {
-//
-//        return new Entrada(
-//                1L,
-//                "Gabriel",
-//                LocalDate.now().minusDays(1),
-//                LocalTime.now(),
-//                StatusEntrada.ATIVA,
-//                TipoPagamento.PENDENTE,
-//                "Placa teste",
-//                null,
-//                null,
-//                QuartosFixture.quarto1(),
-//                StatusPagamento.PENDENTE,
-//                0F
-//        );
-//    }
 
     public static Entrada entradaAtivaDiferente() {
 
@@ -60,25 +42,43 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto1(),
+                QuartosFixture.quartoDisponivel(),
                 StatusPagamento.PENDENTE,
                 0F
         );
     }
 
-    public static Entrada entradaDataAtual() {
+    public static Entrada entradaParaController1(){
 
         return new Entrada(
-                3L,
-                "Gabriel 3",
+                1L,
+                "Locador teste 1",
                 LocalDate.now().minusDays(1),
-                LocalTime.now(),
+                LocalTime.of(10,10,10),
                 StatusEntrada.ATIVA,
                 TipoPagamento.PENDENTE,
+                "Placa teste 1",
+                null,
+                null,
+                QuartosFixture.quartoDisponivel(),
+                StatusPagamento.PENDENTE,
+                100F
+        );
+    }
+
+    public static Entrada entradaParaController2(){
+
+        return new Entrada(
+                4L,
+                "Gabriel",
+                LocalDate.now().minusDays(1),
+                LocalTime.of(10,10,10),
+                StatusEntrada.FINALIZADA,
+                TipoPagamento.PENDENTE,
                 "Placa teste",
-                null,
-                null,
-                QuartosFixture.quarto1(),
+                LocalDate.now(),
+                LocalTime.of(10,10,10),
+                QuartosFixture.quartoDisponivel(),
                 StatusPagamento.PENDENTE,
                 0F
         );
@@ -96,7 +96,7 @@ public class EntradaFixture {
                 "Placa teste",
                 null,
                 null,
-                QuartosFixture.quarto1(),
+                QuartosFixture.quartoDisponivel(),
                 StatusPagamento.PENDENTE,
                 0F
         );
@@ -108,26 +108,6 @@ public class EntradaFixture {
 
         entradasList.add(entradaAtiva());
         entradasList.add(entradaFinalizada());
-
-        return entradasList;
-    }
-
-    public static List<Entrada> entradasListAtiva() {
-
-        List<Entrada> entradasList = new ArrayList<>();
-
-        entradasList.add(entradaAtiva());
-        entradasList.add(entradaAtivaDiferente());
-
-        return entradasList;
-    }
-
-    public static List<Entrada> entradasListDataAtual() {
-
-        List<Entrada> entradasList = new ArrayList<>();
-
-        entradasList.add(entradaAtivaDiferente());
-        entradasList.add(entradaDataAtual());
 
         return entradasList;
     }
