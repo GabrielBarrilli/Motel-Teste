@@ -51,7 +51,6 @@ class ItensControllerTest {
 
         when(itensService.findAllItens()).thenReturn(itensList);
 
-
         mockMvc.perform(get(URL + "/findAllItens"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").hasJsonPath())

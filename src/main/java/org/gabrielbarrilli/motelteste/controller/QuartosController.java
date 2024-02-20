@@ -26,14 +26,14 @@ public class QuartosController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/findQuartoById")
-    public Quartos findById (Long idQuarto) {
+    @GetMapping("/findQuartoById/{idQuarto}")
+    public Quartos findById (@PathVariable Long idQuarto) {
         return quartosService.findById(idQuarto);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/registrarQuarto")
-    public Quartos createQuarto(RegistrarQuartoRequest registrarQuartoRequest) {
+    public Quartos createQuarto(@RequestBody RegistrarQuartoRequest registrarQuartoRequest) {
         return quartosService.createQuarto(registrarQuartoRequest);
     }
 

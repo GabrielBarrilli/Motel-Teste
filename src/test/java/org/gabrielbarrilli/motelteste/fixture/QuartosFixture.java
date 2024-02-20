@@ -25,7 +25,7 @@ public class QuartosFixture {
                 2L,
                 "Quarto com 2 camas de casal e frigobar",
                 2,
-                StatusDoQuarto.DISPONIVEL
+                StatusDoQuarto.OCUPADO
         );
     }
 
