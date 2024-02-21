@@ -16,12 +16,12 @@ public class EntradaResponseFixture {
     public static EntradaResponse entradaResponseAtiva() {
         return new EntradaResponse(
                 1L,
-                "Locador teste 1",
+                "Locador teste",
                 LocalDate.now().minusDays(1),
                 LocalTime.of(10,10,10),
                 StatusEntrada.ATIVA,
                 TipoPagamento.PENDENTE,
-                "Placa teste 1",
+                "Placa teste",
                 null,
                 null,
                 QuartosFixture.quartoDisponivel().getNumero(),
@@ -33,7 +33,7 @@ public class EntradaResponseFixture {
     public static EntradaResponse entradaResponseFinalizada() {
         return new EntradaResponse(
                 4L,
-                "Gabriel",
+                "Locador teste",
                 LocalDate.now().minusDays(1),
                 LocalTime.of(10,10,10),
                 StatusEntrada.FINALIZADA,

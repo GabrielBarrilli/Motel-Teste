@@ -16,12 +16,12 @@ public class EntradaFixture {
 
         return new Entrada(
                 1L,
-                "Locador teste 1",
+                "Locador teste",
                 LocalDate.now().minusDays(1),
                 LocalTime.now(),
                 StatusEntrada.ATIVA,
                 TipoPagamento.PENDENTE,
-                "Placa teste 1",
+                "Placa teste",
                 null,
                 null,
                 QuartosFixture.quartoDisponivel(),
@@ -34,7 +34,7 @@ public class EntradaFixture {
 
         return new Entrada(
                 2L,
-                "Gabriel 2",
+                "Locador teste",
                 LocalDate.now().minusDays(1),
                 LocalTime.now(),
                 StatusEntrada.ATIVA,
@@ -52,12 +52,12 @@ public class EntradaFixture {
 
         return new Entrada(
                 1L,
-                "Locador teste 1",
+                "Locador teste",
                 LocalDate.now().minusDays(1),
                 LocalTime.of(10,10,10),
                 StatusEntrada.ATIVA,
                 TipoPagamento.PENDENTE,
-                "Placa teste 1",
+                "Placa teste",
                 null,
                 null,
                 QuartosFixture.quartoDisponivel(),
@@ -70,7 +70,7 @@ public class EntradaFixture {
 
         return new Entrada(
                 4L,
-                "Gabriel",
+                "Locador teste",
                 LocalDate.now().minusDays(1),
                 LocalTime.of(10,10,10),
                 StatusEntrada.FINALIZADA,
@@ -84,11 +84,29 @@ public class EntradaFixture {
         );
     }
 
+    public static Entrada entradaParaController3(){
+
+        return new Entrada(
+                4L,
+                "Locador teste",
+                LocalDate.now().minusDays(1),
+                LocalTime.of(10,10,10),
+                StatusEntrada.ATIVA,
+                TipoPagamento.PENDENTE,
+                "Placa teste",
+                null,
+                null,
+                QuartosFixture.quartoDisponivel(),
+                StatusPagamento.PENDENTE,
+                100F
+        );
+    }
+
     public static Entrada entradaFinalizada() {
 
         return new Entrada(
                 4L,
-                "Gabriel",
+                "Locador teste",
                 LocalDate.now().minusDays(1),
                 LocalTime.now(),
                 StatusEntrada.FINALIZADA,

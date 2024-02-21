@@ -13,19 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
 import static org.mockito.Mockito.*;
-import static org.postgresql.hostchooser.HostRequirement.any;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class EntradaControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
     private EntradaService entradaService;
@@ -45,6 +41,7 @@ class EntradaControllerTest {
     Entrada entradaFinalizada = EntradaFixture.entradaFinalizada();
     Entrada entradaParaController1 = EntradaFixture.entradaParaController1();
     Entrada entradaParaController2 = EntradaFixture.entradaParaController2();
+    Entrada entradaParaCreateController = EntradaFixture.entradaParaController3();
     List<Entrada> entradaList = EntradaFixture.entradasList();
 
     CriarEntradaRequest entradaRequest = CriarEntradaRequestFixture.criarEntradaRequest();
@@ -187,7 +184,7 @@ class EntradaControllerTest {
     }
 
     @Test
-    void testFindAllByDataAtual() throws Exception{
+    void testFindAllByDataAtual() throws Exception {
 
         when(entradaService.findAllByDataRegistroEntrada(LocalDate.now())).thenReturn(emptyList());
 
@@ -197,12 +194,12 @@ class EntradaControllerTest {
     }
 
     @Test
-    void createEntrada() throws Exception{
+    void createEntrada() throws Exception {
 
-        when(entradaService.createEntrada(any(), eq(entradaAtiva.getQuartos().getId())))
-                .thenReturn(entradaAtiva);
+        when(entradaService.createEntrada(any(), eq(entradaParaCreateController.getQuartos().getId())))
+                .thenReturn(entradaParaCreateController);
 
-        mockMvc.perform(post(URL + "/registrarEntrada/" + entradaAtiva.getQuartos().getId())
+        mockMvc.perform(post(URL + "/registrarEntrada/" + entradaParaCreateController.getQuartos().getId())
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(entradaRequest)))
                 .andExpect(status().isCreated())
@@ -210,7 +207,11 @@ class EntradaControllerTest {
                 .andExpect(jsonPath("$.id").hasJsonPath())
                 .andExpect(jsonPath("$.nomeLocador").value(entradaParaController1.getNomeLocador()))
                 .andExpect(jsonPath("$.placa").value(entradaParaController1.getPlaca()))
-                .andExpect(jsonPath("$.numeroQuarto").value(entradaParaController1.getQuartos().getNumero()))
+                .andExpect(jsonPath("$.quartos.id").value(entradaParaController1.getQuartos().getId()))
+                .andExpect(jsonPath("$.quartos.numero").value(entradaParaController1.getQuartos().getNumero()))
+                .andExpect(jsonPath("$.quartos.descricao").value(entradaParaController1.getQuartos().getDescricao()))
+                .andExpect(jsonPath("$.quartos.capacidadePessoa").value(entradaParaController1.getQuartos().getCapacidadePessoa()))
+                .andExpect(jsonPath("$.quartos.statusDoQuarto").value(entradaParaController1.getQuartos().getStatusDoQuarto().toString()))
                 .andExpect(jsonPath("$.horaEntrada").value(entradaParaController1.getHoraEntrada().toString()))
                 .andExpect(jsonPath("$.horaSaida").value(entradaParaController1.getHoraSaida()))
                 .andExpect(jsonPath("$.dataSaida").value(entradaParaController1.getDataSaida()))
@@ -222,6 +223,31 @@ class EntradaControllerTest {
     }
 
     @Test
-    void updtateEntrada() {
+    void updtateEntrada() throws Exception {
+
+        when(entradaService.updateEntrada(anyLong(), any(), any(), any()))
+                .thenReturn(entradaParaCreateController);
+
+        mockMvc.perform(put(URL + "/atualizarEntrada/" + entradaParaCreateController.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(entradaRequest)))
+                .andExpect(status().isOk())
+
+                .andExpect(jsonPath("$.id").hasJsonPath())
+                .andExpect(jsonPath("$.nomeLocador").value(entradaRequest.nomeLocador()))
+                .andExpect(jsonPath("$.placa").value(entradaRequest.placa()))
+                .andExpect(jsonPath("$.dataRegistroEntrada").value(entradaParaCreateController.getDataRegistroEntrada().toString()))
+                .andExpect(jsonPath("$.horaEntrada").value(entradaParaCreateController.getHoraEntrada().toString()))
+                .andExpect(jsonPath("$.statusEntrada").value(entradaParaCreateController.getStatusEntrada().toString()))
+                .andExpect(jsonPath("$.tipoPagamento").value(entradaParaCreateController.getTipoPagamento().toString()))
+                .andExpect(jsonPath("$.dataSaida").value(entradaParaCreateController.getDataSaida()))
+                .andExpect(jsonPath("$.horaSaida").value(entradaParaCreateController.getHoraSaida()))
+                .andExpect(jsonPath("$.quartos.id").value(entradaParaCreateController.getQuartos().getId()))
+                .andExpect(jsonPath("$.quartos.numero").value(entradaParaCreateController.getQuartos().getNumero()))
+                .andExpect(jsonPath("$.quartos.descricao").value(entradaParaCreateController.getQuartos().getDescricao()))
+                .andExpect(jsonPath("$.quartos.capacidadePessoa").value(entradaParaCreateController.getQuartos().getCapacidadePessoa()))
+                .andExpect(jsonPath("$.quartos.statusDoQuarto").value(entradaParaCreateController.getQuartos().getStatusDoQuarto().toString()))
+                .andExpect(jsonPath("$.statusPagamento").value(entradaParaCreateController.getStatusPagamento().toString()))
+                .andExpect(jsonPath("$.totalEntrada").value(entradaParaCreateController.getTotalEntrada()));
     }
 }
