@@ -36,7 +36,7 @@ public class EntradaResponseFixture {
                 "Locador teste",
                 LocalDate.now().minusDays(1),
                 LocalTime.of(10,10,10),
-                StatusEntrada.FINALIZADA,
+                StatusEntrada.ATIVA,
                 TipoPagamento.PENDENTE,
                 "Placa teste",
                 LocalDate.now(),

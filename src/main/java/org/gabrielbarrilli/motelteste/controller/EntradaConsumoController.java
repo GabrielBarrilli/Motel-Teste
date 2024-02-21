@@ -28,14 +28,14 @@ public class EntradaConsumoController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/createEntradaConsumo")
-    public EntradaConsumo createEntradaConsumo(ConsumoRequest consumoRequest, Long idEntrada, Long idItens) {
-        return entradaConsumoService.createEntradaConsumo(consumoRequest, idEntrada, idItens);
+    @PostMapping("/createEntradaConsumo/{idEntrada}/{idItem}")
+    public EntradaConsumo createEntradaConsumo(@RequestBody ConsumoRequest consumoRequest, @PathVariable Long idEntrada, @PathVariable Long idItem) {
+        return entradaConsumoService.createEntradaConsumo(consumoRequest, idEntrada, idItem);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/deletarConsumo")
-    public void deleteConsumo(Long idConsumo) {
+    @DeleteMapping("/deletarConsumo/{idConsumo}")
+    public void deleteConsumo(@PathVariable Long idConsumo) {
         entradaConsumoService.deleteConsumo(idConsumo);
     }
 }

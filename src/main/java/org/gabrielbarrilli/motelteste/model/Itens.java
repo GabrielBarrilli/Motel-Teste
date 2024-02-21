@@ -1,11 +1,13 @@
 package org.gabrielbarrilli.motelteste.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "mt04_itens")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Itens {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

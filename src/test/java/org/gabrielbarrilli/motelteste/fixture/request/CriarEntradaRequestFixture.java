@@ -7,7 +7,7 @@ public class CriarEntradaRequestFixture {
     public static CriarEntradaRequest criarEntradaRequest() {
         return new CriarEntradaRequest(
                 1L,
-                "Locador teste 1",
+                "Locador teste",
                 "Placa teste"
         );
     }

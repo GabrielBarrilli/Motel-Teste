@@ -1,14 +1,17 @@
 package org.gabrielbarrilli.motelteste.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import org.gabrielbarrilli.motelteste.enums.StatusEntrada;
 import org.gabrielbarrilli.motelteste.enums.StatusPagamento;
 import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
 
 import java.time.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "mt01_entrada")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Entrada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -178,5 +181,18 @@ public class Entrada {
     }
 
     public Entrada() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entrada entrada = (Entrada) o;
+        return Objects.equals(id, entrada.id) && Objects.equals(nomeLocador, entrada.nomeLocador) && Objects.equals(dataRegistroEntrada, entrada.dataRegistroEntrada) && Objects.equals(horaEntrada, entrada.horaEntrada) && statusEntrada == entrada.statusEntrada && tipoPagamento == entrada.tipoPagamento && Objects.equals(placa, entrada.placa) && Objects.equals(dataSaida, entrada.dataSaida) && Objects.equals(horaSaida, entrada.horaSaida) && Objects.equals(quartos, entrada.quartos) && statusPagamento == entrada.statusPagamento && Objects.equals(totalEntrada, entrada.totalEntrada);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nomeLocador, dataRegistroEntrada, horaEntrada, statusEntrada, tipoPagamento, placa, dataSaida, horaSaida, quartos, statusPagamento, totalEntrada);
     }
 }

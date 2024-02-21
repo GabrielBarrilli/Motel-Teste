@@ -1,12 +1,10 @@
 package org.gabrielbarrilli.motelteste.model.response;
 
-import org.gabrielbarrilli.motelteste.model.Itens;
-
 public record ConsumoResponse(
         Long id,
         Float total,
         String nomeItem,
-        Integer Quantidade,
+        Integer quantidade,
         Long idEntrada,
         String nomeLocador,
         Long numeroQuarto,

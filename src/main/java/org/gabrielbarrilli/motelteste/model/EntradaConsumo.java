@@ -1,9 +1,14 @@
 package org.gabrielbarrilli.motelteste.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "mt03_entrada_consumo")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EntradaConsumo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,6 +85,19 @@ public class EntradaConsumo {
     }
 
     public EntradaConsumo() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EntradaConsumo that = (EntradaConsumo) o;
+        return Objects.equals(id, that.id) && Objects.equals(total, that.total) && Objects.equals(itens, that.itens) && Objects.equals(quantidade, that.quantidade) && Objects.equals(entrada, that.entrada);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, total, itens, quantidade, entrada);
     }
 }
 
