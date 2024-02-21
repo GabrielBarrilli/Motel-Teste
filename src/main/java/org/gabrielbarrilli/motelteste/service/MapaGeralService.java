@@ -58,6 +58,10 @@ public class MapaGeralService {
     public MapaGeral alterarValor(AlterarValorRequest alterarValorRequest){
         MapaGeral mapaGeral = new MapaGeral();
 
+        if(mapaGeral.getTotal() == null) {
+            mapaGeral.setTotal(0F);
+        }
+        
         mapaGeral.setData(LocalDate.now());
         mapaGeral.setHora(LocalTime.now());
         mapaGeral.setEntrada(alterarValorRequest.entrada());
