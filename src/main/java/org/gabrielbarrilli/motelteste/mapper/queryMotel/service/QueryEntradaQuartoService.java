@@ -1,8 +1,8 @@
-package org.gabrielbarrilli.motelteste.mapper.query.service;
+package org.gabrielbarrilli.motelteste.mapper.queryMotel.service;
 
-import org.gabrielbarrilli.motelteste.mapper.QueryMapper;
-import org.gabrielbarrilli.motelteste.mapper.query.model.QueryEntradaQuarto;
-import org.gabrielbarrilli.motelteste.mapper.query.QueryEntradaQuartoResponse;
+import org.gabrielbarrilli.motelteste.mapper.queryMotel.QueryMotelMapper;
+import org.gabrielbarrilli.motelteste.mapper.queryMotel.model.QueryEntradaQuarto;
+import org.gabrielbarrilli.motelteste.mapper.queryMotel.response.QueryEntradaQuartoResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +22,6 @@ public class QueryEntradaQuartoService {
         StringBuilder query = new StringBuilder();
 
         query.append(queryEntradaQuarto.queryEntradaQuarto(id));
-        return jdbcTemplate.queryForObject(query.toString(), QueryMapper.rowMapperEntradaQuarto);
+        return jdbcTemplate.queryForObject(query.toString(), QueryMotelMapper.rowMapperEntradaQuarto);
     }
 }

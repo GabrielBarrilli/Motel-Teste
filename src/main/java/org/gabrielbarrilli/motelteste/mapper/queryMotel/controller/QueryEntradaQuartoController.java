@@ -1,7 +1,7 @@
-package org.gabrielbarrilli.motelteste.mapper.query.controller;
+package org.gabrielbarrilli.motelteste.mapper.queryMotel.controller;
 
-import org.gabrielbarrilli.motelteste.mapper.query.QueryEntradaQuartoResponse;
-import org.gabrielbarrilli.motelteste.mapper.query.service.QueryEntradaQuartoService;
+import org.gabrielbarrilli.motelteste.mapper.queryMotel.response.QueryEntradaQuartoResponse;
+import org.gabrielbarrilli.motelteste.mapper.queryMotel.service.QueryEntradaQuartoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

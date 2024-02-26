@@ -1,4 +1,4 @@
-package org.gabrielbarrilli.motelteste.mapper.query;
+package org.gabrielbarrilli.motelteste.mapper.queryMotel.response;
 
 public record QueryEntradaQuartoResponse(
         Long idEntrada,

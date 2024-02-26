@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/Motel-Testes
+    url: jdbc:postgresql://localhost:5432/seap-local
     username: postgres
     password: root
 
