@@ -11,7 +11,7 @@ public class QueryMapper {
             ((rs, rowNum) -> new QueryCodigoServidorResponse(
                     rs.getInt("codPessoa"),
                     rs.getString("nomePessoa"),
-                    LocalDate.parse("dataNascimento"),
+                    rs.getString("dataNascimento"),
                     rs.getString("nomePai"),
                     rs.getString("nomeMae"),
                     Boolean.parseBoolean("atestadoFisicoMental"),
@@ -19,7 +19,7 @@ public class QueryMapper {
                     rs.getInt("codServidor"),
                     rs.getString("rg"),
                     rs.getString("cpf"),
-                    LocalDate.parse("dataExpedicaoRg"),
+                    rs.getString("dataExpedicaoRg"),
                     rs.getString("tituloEleitor"),
                     rs.getString("zona"),
                     rs.getString("secao"),

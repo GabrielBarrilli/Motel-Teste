@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record QueryCodigoServidorResponse(
         Integer codPessoa,
         String nomePessoa,
-        LocalDate dataNascimento,
+        String dataNascimento,
         String nomePai,
         String nomeMae,
         Boolean atestadoFisicoMental,
@@ -15,7 +15,7 @@ public record QueryCodigoServidorResponse(
 
         String rg,
         String cpf,
-        LocalDate dataExpedicaoRg,
+        String dataExpedicaoRg,
         String tituloEleitor,
         String zona,
         String secao,
