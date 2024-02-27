@@ -3,6 +3,9 @@ package org.gabrielbarrilli.motelteste.mapper.queryApiRh.controller;
 import org.gabrielbarrilli.motelteste.mapper.queryApiRh.response.QueryCodigoServidorResponse;
 import org.gabrielbarrilli.motelteste.mapper.queryApiRh.response.QueryMatriculaNomeCpfResponse;
 import org.gabrielbarrilli.motelteste.mapper.queryApiRh.service.QueryRhService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -19,13 +22,20 @@ public class QueryRhController {
 
     @ResponseStatus(OK)
     @GetMapping("/buscaServidorPorId/{id}")
-    public QueryCodigoServidorResponse buscaServidorPorId (@PathVariable Integer id) {
+    public QueryCodigoServidorResponse buscaServidorPorId(@PathVariable Integer id) {
         return queryRhService.buscaServidorPorId(id);
     }
 
     @ResponseStatus(OK)
     @GetMapping("buscaPorMatriculaNomeCpf/{cpf}/{nome}/{matricula}")
-    public QueryMatriculaNomeCpfResponse buscaPorMatriculaNomeCpf(@PathVariable String cpf, @PathVariable String nome, @PathVariable String matricula) {
-        return queryRhService.buscaPorMatriculaNomeCpf(cpf, nome, matricula);
+    public Page<QueryMatriculaNomeCpfResponse> buscaPorMatriculaNomeCpf(
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) String matricula,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return queryRhService.buscaPorMatriculaNomeCpf(cpf, nome, matricula, pageable);
     }
 }
