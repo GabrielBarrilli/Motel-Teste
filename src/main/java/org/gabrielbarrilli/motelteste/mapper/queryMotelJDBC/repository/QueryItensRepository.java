@@ -22,16 +22,16 @@ public class QueryItensRepository {
 
     private final RowMapper<QueryItens> rowMapperQueryItens =
             ((rs, rowNum) -> new QueryItens(
-                    rs.getLong("mt03_codigo_itens"),
-                    rs.getString("mt03_descricao"),
-                    rs.getFloat("mt03_valor")
+                    rs.getLong("mt04_codigo_itens"),
+                    rs.getString("mt04_descricao"),
+                    rs.getFloat("mt04_valor")
             ));
 
     public void criarItem(QueryItens itens) {
 
         final var sql = """
                 
-                INSERT INTO mt03_itens (mt03_descricao, mt03_valor) VALUES (?, ?)""" ;
+                INSERT INTO mt04_itens (mt04_descricao, mt04_valor) VALUES (?, ?)""" ;
 
         jdbcTemplate.update(sql, itens.descricao(), itens.valor());
     }
@@ -40,7 +40,7 @@ public class QueryItensRepository {
 
         final var sql = """
                 
-                SELECT * FROM mt03_itens""";
+                SELECT * FROM mt04_itens""";
 
         final var lista = jdbcTemplate.query(sql, rowMapperQueryItens);
 
@@ -49,22 +49,22 @@ public class QueryItensRepository {
         return new PageImpl<>(lista, pageRequest, size);
     }
 
-    public void atualizarItem(QueryItens queryItens) {
+    public void atualizarItem(QueryItens itens) {
 
         final var sql = """
                 
-                UPDATE mt03_itens SET mt03_descricao = ?, mt03_valor = ?
-                WHERE mt03_codigo_itens = ?;
+                UPDATE mt04_itens SET mt04_descricao = ?, mt04_valor = ?
+                WHERE mt04_codigo_itens = ?;
                 """;
 
-        jdbcTemplate.update(sql, queryItens.descricao(), queryItens.valor(), queryItens.id());
+        jdbcTemplate.update(sql, itens.descricao(), itens.valor(), itens.id());
     }
 
     public void deletarItem (Long id) {
 
         final var sql = """
                 
-                DELETE FROM mt03_itens WHERE mt03_codigo_itens = ?""";
+                DELETE FROM mt04_itens WHERE mt04_codigo_itens = ?""";
 
         jdbcTemplate.update(sql, id);
     }

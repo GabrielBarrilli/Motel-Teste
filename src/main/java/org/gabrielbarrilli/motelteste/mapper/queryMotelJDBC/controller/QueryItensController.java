@@ -29,7 +29,7 @@ public class QueryItensController {
     }
 
     @ResponseStatus(OK)
-    @PostMapping("/obterItensQuery")
+    @GetMapping("/obterItensQuery")
     public Page<QueryItens> obterItens(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
