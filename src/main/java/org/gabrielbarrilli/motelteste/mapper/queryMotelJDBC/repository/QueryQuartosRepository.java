@@ -79,6 +79,16 @@ public class QueryQuartosRepository {
         return new PageImpl<>(lista.subList(start, end), pageable, lista.size());
     }
 
+    public QueryQuartos busqueById (Long id) {
+
+        final var sql = """
+                
+                SELECT * FROM mt02_quartos
+                WHERE mt02_codigo_quartos = ?""";
+
+        return jdbcTemplate.queryForObject(sql, rowMapperQueryQuartos, id);
+    }
+
     public void atualizarQuarto(Long id, QueryQuartos quartos, StatusDoQuarto statusDoQuarto) {
 
         final var sql = """

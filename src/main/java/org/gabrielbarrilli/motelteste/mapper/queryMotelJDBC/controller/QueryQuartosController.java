@@ -34,6 +34,12 @@ public class QueryQuartosController {
     }
 
     @ResponseStatus(OK)
+    @GetMapping("/obterQuartoByIdQuery/{id}")
+    public QueryQuartos busqueById (@PathVariable Long id) {
+        return quartosService.busqueById(id);
+    }
+
+    @ResponseStatus(OK)
     @PutMapping("/atualizarQuartoQuery")
     public void atualizarQuarto(Long id, QueryQuartos quartos, StatusDoQuarto statusDoQuarto) {
 

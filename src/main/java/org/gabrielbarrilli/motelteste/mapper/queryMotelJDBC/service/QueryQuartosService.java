@@ -37,6 +37,11 @@ public class QueryQuartosService {
         return new PageImpl<>(quartos, pageable, page.getTotalElements());
     }
 
+    public QueryQuartos busqueById (Long id) {
+
+        return quartosRepository.busqueById(id);
+    }
+
     public void atualizarQuarto(Long id, QueryQuartos quartos, StatusDoQuarto statusDoQuarto) {
         quartosRepository.atualizarQuarto(id, quartos, statusDoQuarto);
     }
