@@ -1,10 +1,12 @@
 package org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.model.QueryQuartos;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -38,7 +40,7 @@ public class QueryQuartosRepository {
                     rs.getString("mt02_status_do_quarto")
             ));
 
-    public void criarQuarto(QueryQuartos quartos) {
+    public void criarQuarto(QueryQuartos quartos, StatusDoQuarto statusDoQuarto) {
 
         final var sql = """
                 
@@ -50,22 +52,19 @@ public class QueryQuartosRepository {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"mt02_codigo_quartos"});
             ps.setString(1, quartos.descricao());
             ps.setInt(2, quartos.capacidadePessoa());
-            ps.setString(3, quartos.statusDoQuarto());
+            ps.setString(3, statusDoQuarto.toString());
             return ps;
         }, keyHolder);
 
-        // Obtém o ID gerado automaticamente
         long idGerado = requireNonNull(keyHolder.getKey()).longValue();
 
-        // Agora você pode usar o ID gerado para criar a numeração do quarto
         String numeroDoQuarto = "Q" + idGerado;
 
-        // Atualiza o quarto com a numeração
         atualizarNumeroDoQuarto(idGerado, numeroDoQuarto);
     }
 
 
-    public Page<QueryQuartos> obterQuartos (int page, int size) {
+    public Page<QueryQuartos> obterQuartos (Pageable pageable) {
 
         final var sql = """
                 
@@ -73,12 +72,14 @@ public class QueryQuartosRepository {
 
         final var lista = jdbcTemplate.query(sql, rowMapperQueryQuartos);
 
-        final var pageRequest = PageRequest.of(page, size);
+        int start = (int) pageable.getOffset();
 
-        return new PageImpl<>(lista, pageRequest, size);
+        int end = Math.min((start + pageable.getPageSize()), lista.size());
+
+        return new PageImpl<>(lista.subList(start, end), pageable, lista.size());
     }
 
-    public void atualizarQuarto(QueryQuartos quartos) {
+    public void atualizarQuarto(Long id, QueryQuartos quartos, StatusDoQuarto statusDoQuarto) {
 
         final var sql = """
                 
@@ -89,8 +90,8 @@ public class QueryQuartosRepository {
                 WHERE mt02_codigo_quartos = ?;
                 """;
 
-        jdbcTemplate.update(sql, quartos.id(), quartos.descricao(),
-                quartos.capacidadePessoa(), quartos.statusDoQuarto(), quartos.id());
+        jdbcTemplate.update(sql, id, quartos.descricao(),
+                quartos.capacidadePessoa(), statusDoQuarto.toString(), id);
     }
 
     public void deletarQuarto (Long id) {

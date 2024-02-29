@@ -4,7 +4,7 @@ import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 
 public record QueryQuartos (
         Long id,
-        Long numero,
+        Long numeroQuarto,
         String descricao,
         Integer capacidadePessoa,
         String statusDoQuarto

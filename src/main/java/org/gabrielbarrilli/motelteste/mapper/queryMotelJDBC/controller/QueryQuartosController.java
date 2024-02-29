@@ -1,5 +1,6 @@
 package org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.controller;
 
+import org.gabrielbarrilli.motelteste.enums.StatusDoQuarto;
 import org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.model.QueryItens;
 import org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.model.QueryQuartos;
 import org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.service.QueryQuartosService;
@@ -22,26 +23,21 @@ public class QueryQuartosController {
 
     @ResponseStatus(CREATED)
     @PostMapping("/criarQuartoQuery")
-    public void criarQuarto(QueryQuartos quartos) {
-        quartosService.criarQuarto(quartos);
+    public void criarQuarto(QueryQuartos quartos, StatusDoQuarto statusDoQuarto) {
+        quartosService.criarQuarto(quartos, statusDoQuarto);
     }
 
     @ResponseStatus(OK)
     @GetMapping("/obterQuartosQuery")
-    public Page<QueryQuartos> obterQuartos(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-
-        return quartosService.obterQuartos(pageable, page, size);
+    public Page<QueryQuartos> obterQuartos (Pageable pageable) {
+        return quartosService.obterQuartos(pageable);
     }
 
     @ResponseStatus(OK)
     @PutMapping("/atualizarQuartoQuery")
-    public void atualizarQuarto(QueryQuartos quartos) {
+    public void atualizarQuarto(Long id, QueryQuartos quartos, StatusDoQuarto statusDoQuarto) {
 
-        quartosService.atualizarQuarto(quartos);
+        quartosService.atualizarQuarto(id, quartos, statusDoQuarto);
     }
 
     @ResponseStatus(NO_CONTENT)
