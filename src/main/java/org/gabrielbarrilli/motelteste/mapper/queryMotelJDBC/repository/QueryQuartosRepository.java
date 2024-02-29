@@ -34,9 +34,10 @@ public class QueryQuartosRepository {
 
         final var sql = """
                 
-                INSERT INTO mt02_quartos (mt02_descricao, mt02_capacidade_pessoa, mt02_status_do_quarto) VALUES(?, ?, ?)""";
+                INSERT INTO mt02_quartos (mt02_numero, mt02_descricao, mt02_capacidade_pessoa, mt02_status_do_quarto) VALUES(?, ?, ?, ?)""";
 
-        jdbcTemplate.update(sql, quartos.descricao(), quartos.capacidadePessoa(), quartos.statusDoQuarto());
+        jdbcTemplate.update(sql, quartos.numero(), quartos.descricao(), quartos.capacidadePessoa(), quartos.statusDoQuarto());
+        jdbcTemplate.update(sql, quartos.numero(), quartos.descricao(), quartos.capacidadePessoa(), quartos.statusDoQuarto());
     }
 
     public Page<QueryQuartos> obterQuartos (int page, int size) {
