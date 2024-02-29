@@ -3,12 +3,9 @@ package org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.controller;
 import org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.model.QueryItens;
 import org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.service.QueryItensService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Comparator;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -47,7 +44,7 @@ public class QueryItensController {
 
     @ResponseStatus(NO_CONTENT)
     @DeleteMapping("/deletarItemQuery/{id}")
-    public void deletarItem (@PathVariable Long id) {
+    public void deletarItem(@PathVariable Long id) {
         queryItensService.deletarItem(id);
     }
 }

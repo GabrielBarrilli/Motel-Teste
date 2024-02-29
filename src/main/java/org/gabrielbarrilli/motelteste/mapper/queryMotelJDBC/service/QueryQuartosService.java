@@ -19,6 +19,7 @@ public class QueryQuartosService {
     }
 
     public void criarQuarto (QueryQuartos quartos) {
+
         quartosRepository.criarQuarto(quartos);
     }
 

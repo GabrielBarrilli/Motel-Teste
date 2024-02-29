@@ -7,7 +7,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 @Repository
 public class QueryQuartosRepository {
@@ -34,11 +42,28 @@ public class QueryQuartosRepository {
 
         final var sql = """
                 
-                INSERT INTO mt02_quartos (mt02_numero, mt02_descricao, mt02_capacidade_pessoa, mt02_status_do_quarto) VALUES(?, ?, ?, ?)""";
+                INSERT INTO mt02_quartos (mt02_descricao, mt02_capacidade_pessoa, mt02_status_do_quarto) VALUES(?, ?, ?)""";
 
-        jdbcTemplate.update(sql, quartos.numero(), quartos.descricao(), quartos.capacidadePessoa(), quartos.statusDoQuarto());
-        jdbcTemplate.update(sql, quartos.numero(), quartos.descricao(), quartos.capacidadePessoa(), quartos.statusDoQuarto());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"mt02_codigo_quartos"});
+            ps.setString(1, quartos.descricao());
+            ps.setInt(2, quartos.capacidadePessoa());
+            ps.setString(3, quartos.statusDoQuarto());
+            return ps;
+        }, keyHolder);
+
+        // Obtém o ID gerado automaticamente
+        long idGerado = requireNonNull(keyHolder.getKey()).longValue();
+
+        // Agora você pode usar o ID gerado para criar a numeração do quarto
+        String numeroDoQuarto = "Q" + idGerado;
+
+        // Atualiza o quarto com a numeração
+        atualizarNumeroDoQuarto(idGerado, numeroDoQuarto);
     }
+
 
     public Page<QueryQuartos> obterQuartos (int page, int size) {
 
@@ -75,5 +100,12 @@ public class QueryQuartosRepository {
                 DELETE FROM mt02_quartos WHERE mt02_codigo_quartos = ?""";
 
         jdbcTemplate.update(sql, id);
+    }
+
+    private void atualizarNumeroDoQuarto(long idQuarto, String numeroDoQuarto) {
+        String numeroSemQ = numeroDoQuarto.replace("Q", "");
+
+        final var sql = "UPDATE mt02_quartos SET mt02_numero = CAST(? AS BIGINT) WHERE mt02_codigo_quartos = ?";
+        jdbcTemplate.update(sql, numeroSemQ, idQuarto);
     }
 }
