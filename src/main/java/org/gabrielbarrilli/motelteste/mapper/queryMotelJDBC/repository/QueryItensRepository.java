@@ -49,6 +49,15 @@ public class QueryItensRepository {
         return new PageImpl<>(lista, pageRequest, size);
     }
 
+    public QueryItens obterItemPorId (Long id) {
+
+        final var sql = """
+                SELECT * FROM mt04_itens
+                WHERE mt04_codigo_itens = ?""";
+
+        return jdbcTemplate.queryForObject(sql, rowMapperQueryItens, id);
+    }
+
     public void atualizarItem(QueryItens itens) {
 
         final var sql = """

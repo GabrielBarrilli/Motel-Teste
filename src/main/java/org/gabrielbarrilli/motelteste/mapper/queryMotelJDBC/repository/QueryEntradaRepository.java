@@ -1,18 +1,24 @@
 package org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.gabrielbarrilli.motelteste.enums.StatusPagamento;
 import org.gabrielbarrilli.motelteste.enums.TipoPagamento;
 import org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.model.QueryEntrada;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import static java.time.LocalTime.parse;
 import static org.gabrielbarrilli.motelteste.enums.StatusEntrada.ATIVA;
 
 @Repository
@@ -48,17 +54,24 @@ public class QueryEntradaRepository {
 
     public void criarEntrada(QueryEntrada entrada) {
 
-       // var quarto = quartosRepository.busqueById(entrada.numeroQuarto());
-
         final var sql = """
-                
                 INSERT INTO mt01_entrada
-                (mt01_nome_locador, mt01_data_registro_entrada, mt01_hora_entrada,
-                mt01_status_entrada, mt01_tipo_pagamento, mt01_placa, mt01_data_saida,
-                mt01_hora_saida, fkmt01mt02_codigo_quartos, mt01_status_pagamento, mt01_total_entrada)
+                (mt01_nome_locador,
+                mt01_data_registro_entrada,
+                mt01_hora_entrada,
+                mt01_status_entrada,
+                mt01_tipo_pagamento,
+                mt01_placa,
+                mt01_data_saida,
+                mt01_hora_saida,
+                fkmt01mt02_codigo_quartos,
+                mt01_status_pagamento,
+                mt01_total_entrada)
                 VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
+
+        var quarto = quartosRepository.busqueById(entrada.numeroQuarto());
 
         var data = LocalDate.now().toString();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -69,8 +82,88 @@ public class QueryEntradaRepository {
         var tipoPagamento = TipoPagamento.PENDENTE.toString();
         var statusPagamento = StatusPagamento.PENDENTE.toString();
 
-        jdbcTemplate.update(sql, entrada.nomeLocador(), data, time, statusEntrada, tipoPagamento,
-                entrada.placa(), entrada.dataSaida(), entrada.horaSaida(), entrada.numeroQuarto(), statusPagamento, entrada.totalEntrada());
+        if (quarto == null) {
+            throw new EntityNotFoundException("Quarto inexistente!");
+        }
+
+        jdbcTemplate.update(sql,
+                entrada.nomeLocador(),
+                Date.valueOf(data),
+                time,
+                statusEntrada,
+                tipoPagamento,
+                entrada.placa(),
+                null,
+                null,
+                entrada.numeroQuarto(),
+                statusPagamento,
+                0
+        );
 
     }
+
+    public Page<QueryEntrada> obterEntradas (Pageable pageable) {
+
+        final var sql = """
+                
+                SELECT * FROM mt01_entrada""";
+
+        final var lista = jdbcTemplate.query(sql, rowMapperQueryEntrada);
+
+        int start = (int) pageable.getOffset();
+
+        int end = Math.min((start + pageable.getPageSize()), lista.size());
+
+        return new PageImpl<>(lista.subList(start, end), pageable, lista.size());
+    }
+
+    public QueryEntrada buscarPorId (Long id) {
+
+        final var sql = """
+                
+                SELECT * FROM mt01_entrada
+                WHERE mt01_codigo_entrada = ?
+                
+                """;
+
+        return jdbcTemplate.queryForObject(sql, rowMapperQueryEntrada, id);
+    }
+
+    public void atualizarEntrada (Long id, QueryEntrada entrada) {
+
+        final var sql = """
+                
+                UPDATE mt01_entrada
+                SET
+                    mt01_status_entrada = ?,
+                    mt01_tipo_pagamento = ?,
+                    mt01_placa = ?,
+                    mt01_hora_saida = ?,
+                    fkmt01mt02_codigo_quartos = ?,
+                    mt01_status_pagamento = ?
+                WHERE mt01_codigo_entrada = ?
+                """;
+
+        LocalTime horaSaida = parse(entrada.horaSaida());
+
+        jdbcTemplate.update(sql,
+                entrada.statusEntrada(),
+                entrada.tipoPagamento(),
+                entrada.placa(),
+                horaSaida,
+                entrada.numeroQuarto(),
+                entrada.statusPagamento(),
+                id
+        );
+    }
+
+    public void deletarEntrada(Long id) {
+
+        final var sql = """
+                
+                DELETE FROM mt01_entrada WHERE mt01_codigo_entrada = ?""";
+
+        jdbcTemplate.update(sql, id);
+    }
+
 }

@@ -1,7 +1,5 @@
 package org.gabrielbarrilli.motelteste.mapper.queryMotelJDBC.model;
 
-import org.gabrielbarrilli.motelteste.enums.StatusPagamento;
-
 public record QueryEntrada(
 
         Long id,
