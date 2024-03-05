@@ -83,7 +83,7 @@ FROM rh02_servidor rh02
 	<title>
 		<band height="99" splitType="Stretch">
 			<staticText>
-				<reportElement x="151" y="20" width="500" height="60" uuid="e41209fa-5c35-4eff-983d-31aa464387a5"/>
+				<reportElement x="151" y="0" width="500" height="90" uuid="e41209fa-5c35-4eff-983d-31aa464387a5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none"/>
 				<text><![CDATA[ESTADO DO MARANHÃO
 SECRETARIA DE ESTADO DE ADMINISTRAÇÃO PENITENCIÁRIA
@@ -93,6 +93,10 @@ UNIDADE GESTORA DE PESSOAS]]></text>
 			<line>
 				<reportElement x="152" y="90" width="499" height="1" uuid="40560bb6-35c4-4eb1-8e7c-863c0b181c54"/>
 			</line>
+			<image>
+				<reportElement x="33" y="18" width="55" height="55" uuid="e6ddda09-e79c-47cc-9254-30f72889943b"/>
+				<imageExpression><![CDATA[$P{background}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<columnHeader>
@@ -150,56 +154,57 @@ UNIDADE GESTORA DE PESSOAS]]></text>
 				<reportElement x="13" y="16" width="100" height="30" uuid="150c9bc1-ce30-4abf-bdc0-a25950d59528">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6cab08fe-8928-4685-8fa9-8588fea6e8f8"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{codpessoa}]]></textFieldExpression>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$P{codpessoa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="155" y="19" width="100" height="30" uuid="38410e04-03d4-4810-90b0-11aded50de83">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6be00add-270c-44a4-b7e3-4496bf8a1856"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{codservidor}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{codservidor}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="292" y="19" width="100" height="30" uuid="715924b7-7323-4d08-bfca-45d6ca1921c0">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4b0ef7e9-23a6-4669-8f2d-bfa0e90ea67e"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{nome}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="440" y="20" width="100" height="30" uuid="008b0b98-5449-4160-9942-92885557bd0a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d01ce088-81bd-4e7c-8c94-95c993d8ecab"/>
 				</reportElement>
 				<textElement markup="none"/>
-				<textFieldExpression><![CDATA[$F{datadenascimento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{datadenascimento}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="582" y="20" width="100" height="30" uuid="93ac8af9-f008-4263-a68b-3bc897d8141e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5776e391-ed2d-443d-a20c-db077144c78f"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{descricaosexo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{descricaosexo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="10" y="120" width="100" height="30" uuid="391489c8-aa28-4006-aa9d-db9e651eab51">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="085a7596-65a7-4415-b990-8a1d8ccb4543"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{rg}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{rg}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="152" y="120" width="100" height="30" uuid="b38c5108-c537-4721-ac61-dbe22dbc7efc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="80c79026-30a0-406a-8e4f-26f15a7482de"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{cpf}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="292" y="120" width="100" height="30" uuid="9c57ca74-e65a-4104-b779-c87400135b28">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fa8ba8aa-6b32-499a-ae6a-1776b8864b0f"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{nomemae}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{nomemae}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="440" y="120" width="100" height="30" uuid="36620aac-a027-422c-9691-fe1e1fc993d8">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b572efe5-67f7-4d58-80df-2dcd9847b940"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{nomepai}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{nomepai}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="152" y="81" width="100" height="30" uuid="1030e20b-ff53-4ab0-8c14-a74d49f30be8">
