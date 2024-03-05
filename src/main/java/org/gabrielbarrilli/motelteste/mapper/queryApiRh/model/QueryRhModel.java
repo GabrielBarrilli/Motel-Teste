@@ -156,4 +156,32 @@ public class QueryRhModel {
 
         return query.toString();
     }
+
+    public String queryBuscaServidorRelatorio(Integer codServidor) {
+
+        StringBuilder query = new StringBuilder();
+
+        query.append("""
+                SELECT
+                    rh01.rh01_cod_pessoa AS codPessoa,
+                    cg29.cg29_path as pathFoto,
+                    rh02.rh02_cod_servidor as codServidor,
+                    rh01.rh01_nome as nome,
+                    rh01.rh01_data_nascimento as dataDeNascimento,
+                    cg03.cg03_descricao as descricaoSexo,
+                    rh01.rh01_mae as nomeMae,
+                    rh01.rh01_pai as nomePai,
+                    rh56.rh56_rg as rg,
+                    rh56.rh56_cpf as cpf
+                                
+                FROM rh02_servidor rh02
+                         LEFT JOIN public.rh01_pessoa rh01 on rh02.fkrh02rh01_cod_pessoa = rh01.rh01_cod_pessoa
+                         LEFT JOIN public.cg03_sexo cg03 on rh01.fkrh01cg03_cod_sexo = cg03.cg03_cod_sexo
+                         LEFT JOIN public.rh56_documento_pessoal rh56 on rh01.rh01_cod_pessoa = rh56.fkrh56rh01_cod_pessoa
+                         LEFT JOIN public.cg29_pessoa_foto cg29 on rh01.rh01_cod_pessoa = cg29.fkcg29rh01_cod_pessoa
+                                
+                WHERE rh02.rh02_cod_servidor = """).append(codServidor);
+
+        return query.toString();
+    }
 }

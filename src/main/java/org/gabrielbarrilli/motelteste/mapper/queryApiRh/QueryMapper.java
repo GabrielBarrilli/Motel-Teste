@@ -2,6 +2,7 @@ package org.gabrielbarrilli.motelteste.mapper.queryApiRh;
 
 import org.gabrielbarrilli.motelteste.mapper.queryApiRh.response.QueryCodigoServidorResponse;
 import org.gabrielbarrilli.motelteste.mapper.queryApiRh.response.QueryMatriculaNomeCpfResponse;
+import org.gabrielbarrilli.motelteste.mapper.queryApiRh.response.QueryServidorRelatorioResponse;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.time.LocalDate;
@@ -64,6 +65,20 @@ public class QueryMapper {
                     rs.getInt("codServidor"),
                     rs.getString("matricula"),
                     rs.getString("nome"),
+                    rs.getString("cpf")
+            ));
+
+    public static RowMapper<QueryServidorRelatorioResponse> rowMapperServidorRelatorio =
+            ((rs, rowNum) -> new QueryServidorRelatorioResponse(
+                    rs.getInt("codPessoa"),
+                    rs.getString("pathFoto"),
+                    rs.getInt("codServidor"),
+                    rs.getString("nome"),
+                    rs.getString("dataDeNascimento"),
+                    rs.getString("descricaoSexo"),
+                    rs.getString("nomeMae"),
+                    rs.getString("nomePai"),
+                    rs.getString("rg"),
                     rs.getString("cpf")
             ));
 }

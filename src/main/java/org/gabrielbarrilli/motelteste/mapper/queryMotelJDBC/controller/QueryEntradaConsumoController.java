@@ -32,20 +32,20 @@ public class QueryEntradaConsumoController {
     }
 
     @ResponseStatus(OK)
-    @GetMapping("/obterConsumosPorId")
-    public Page<QueryEntradaConsumo> obterConsumosPorId (Long id, Pageable pageable) {
+    @GetMapping("/obterConsumosPorId/{id}")
+    public Page<QueryEntradaConsumo> obterConsumosPorId (@PathVariable Long id, Pageable pageable) {
         return entradaConsumoService.obterConsumosPorId(id, pageable);
     }
 
     @ResponseStatus(OK)
-    @PutMapping("/atualizarConsumo")
-    public void atualizarConsumo (Long id, QueryEntradaConsumo entradaConsumo) {
+    @PutMapping("/atualizarConsumo/{id}")
+    public void atualizarConsumo (@PathVariable Long id, QueryEntradaConsumo entradaConsumo) {
         entradaConsumoService.atualizarConsumo(id, entradaConsumo);
     }
 
     @ResponseStatus(NO_CONTENT)
-    @DeleteMapping("/deletarConsumo")
-    public void deleteConsumo (Long id) {
+    @DeleteMapping("/deletarConsumo/{id}")
+    public void deleteConsumo (@PathVariable Long id) {
         entradaConsumoService.deleteConsumo(id);
     }
 }

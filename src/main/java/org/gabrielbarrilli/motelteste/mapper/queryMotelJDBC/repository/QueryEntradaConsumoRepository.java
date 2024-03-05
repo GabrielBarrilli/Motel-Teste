@@ -30,7 +30,7 @@ public class QueryEntradaConsumoRepository {
         this.itemRepository = itemRepository;
     }
 
-    private static RowMapper<QueryEntradaConsumo> rowMapperEntradaConsumo =
+    private static final RowMapper<QueryEntradaConsumo> rowMapperEntradaConsumo =
             ((rs, rowNum) -> new QueryEntradaConsumo(
                     rs.getLong("mt03_codigo_entrada_produto"),
                     rs.getFloat("mt03_total"),

@@ -29,9 +29,9 @@ public class QueryRhController {
     @ResponseStatus(OK)
     @GetMapping("buscaPorMatriculaNomeCpf/{cpf}/{nome}/{matricula}")
     public Page<QueryMatriculaNomeCpfResponse> buscaPorMatriculaNomeCpf(
-            @RequestParam(required = false) String cpf,
-            @RequestParam(required = false) String nome,
-            @RequestParam(required = false) String matricula,
+            @RequestParam(required = false) @PathVariable String cpf,
+            @RequestParam(required = false) @PathVariable String nome,
+            @RequestParam(required = false) @PathVariable String matricula,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 

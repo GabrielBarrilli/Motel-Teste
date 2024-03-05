@@ -4,6 +4,7 @@ import org.gabrielbarrilli.motelteste.mapper.queryApiRh.QueryMapper;
 import org.gabrielbarrilli.motelteste.mapper.queryApiRh.model.QueryRhModel;
 import org.gabrielbarrilli.motelteste.mapper.queryApiRh.response.QueryCodigoServidorResponse;
 import org.gabrielbarrilli.motelteste.mapper.queryApiRh.response.QueryMatriculaNomeCpfResponse;
+import org.gabrielbarrilli.motelteste.mapper.queryApiRh.response.QueryServidorRelatorioResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -41,5 +42,14 @@ public class QueryRhService {
         int end = Math.min((start + pageable.getPageSize()), page.size());
 
         return new PageImpl<>(page.subList(start, end), pageable, page.size());
+    }
+
+    public QueryServidorRelatorioResponse buscaServidorPorCodigoServidorRelatorio(Integer codServidor) {
+
+        StringBuilder query = new StringBuilder();
+
+        query.append(queryRhModel.queryBuscaServidorRelatorio(codServidor));
+
+        return jdbcTemplate.queryForObject(query.toString(), QueryMapper.rowMapperServidorRelatorio);
     }
 }
