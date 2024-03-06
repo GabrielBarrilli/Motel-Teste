@@ -2,42 +2,27 @@
 <!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cracha-servidor" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b4e39dcc-3ec7-4748-ad7d-e89c7cc34700">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Banco API RH"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="background" class="java.awt.image.BufferedImage"/>
+	<parameter name="logoSeap" class="java.awt.image.BufferedImage"/>
+	<parameter name="codPessoa" class="java.lang.Integer"/>
+	<parameter name="codServidor" class="java.lang.Integer"/>
+	<parameter name="nome" class="java.lang.String"/>
+	<parameter name="dataDeNascimento" class="java.lang.String"/>
+	<parameter name="descricaoSexo" class="java.lang.String"/>
+	<parameter name="rg" class="java.lang.String"/>
+	<parameter name="cpf" class="java.lang.String"/>
+	<parameter name="nomeMae" class="java.lang.String"/>
+	<parameter name="nomePai" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT
-    rh01.rh01_cod_pessoa AS codPessoa,
-    cg29.cg29_path as pathFoto,
-    rh02.rh02_cod_servidor as codServidor,
-    rh01.rh01_nome as nome,
-    rh01.rh01_data_nascimento as dataDeNascimento,
-    cg03.cg03_descricao as descricaoSexo,
-    rh01.rh01_mae as nomeMae,
-    rh01.rh01_pai as nomePai,
-    rh56.rh56_rg as rg,
-    rh56.rh56_cpf as cpf
-
-
-
-
-
-
-FROM rh02_servidor rh02
-         LEFT JOIN public.rh01_pessoa rh01 on rh02.fkrh02rh01_cod_pessoa = rh01.rh01_cod_pessoa
-         LEFT JOIN public.cg03_sexo cg03 on rh01.fkrh01cg03_cod_sexo = cg03.cg03_cod_sexo
-         LEFT JOIN public.rh56_documento_pessoal rh56 on rh01.rh01_cod_pessoa = rh56.fkrh56rh01_cod_pessoa
-         LEFT JOIN public.cg29_pessoa_foto cg29 on rh01.rh01_cod_pessoa = cg29.fkcg29rh01_cod_pessoa]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="codpessoa" class="java.lang.Long">
+	<field name="codPessoa" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="codpessoa"/>
 		<property name="com.jaspersoft.studio.field.label" value="codpessoa"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="rh01_pessoa"/>
 	</field>
-	<field name="pathfoto" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="pathfoto"/>
-		<property name="com.jaspersoft.studio.field.label" value="pathfoto"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cg29_pessoa_foto"/>
-	</field>
-	<field name="codservidor" class="java.lang.Long">
+	<field name="codServidor" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="codservidor"/>
 		<property name="com.jaspersoft.studio.field.label" value="codservidor"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="rh02_servidor"/>
@@ -47,22 +32,22 @@ FROM rh02_servidor rh02
 		<property name="com.jaspersoft.studio.field.label" value="nome"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="rh01_pessoa"/>
 	</field>
-	<field name="datadenascimento" class="java.sql.Date">
+	<field name="dataDeNascimento" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.name" value="datadenascimento"/>
 		<property name="com.jaspersoft.studio.field.label" value="datadenascimento"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="rh01_pessoa"/>
 	</field>
-	<field name="descricaosexo" class="java.lang.String">
+	<field name="descricaoSexo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="descricaosexo"/>
 		<property name="com.jaspersoft.studio.field.label" value="descricaosexo"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cg03_sexo"/>
 	</field>
-	<field name="nomemae" class="java.lang.String">
+	<field name="nomeMae" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nomemae"/>
 		<property name="com.jaspersoft.studio.field.label" value="nomemae"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="rh01_pessoa"/>
 	</field>
-	<field name="nomepai" class="java.lang.String">
+	<field name="nomePai" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nomepai"/>
 		<property name="com.jaspersoft.studio.field.label" value="nomepai"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="rh01_pessoa"/>
@@ -83,7 +68,7 @@ FROM rh02_servidor rh02
 	<title>
 		<band height="99" splitType="Stretch">
 			<staticText>
-				<reportElement x="151" y="0" width="500" height="90" uuid="e41209fa-5c35-4eff-983d-31aa464387a5"/>
+				<reportElement x="151" y="20" width="500" height="60" uuid="e41209fa-5c35-4eff-983d-31aa464387a5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none"/>
 				<text><![CDATA[ESTADO DO MARANHÃO
 SECRETARIA DE ESTADO DE ADMINISTRAÇÃO PENITENCIÁRIA
@@ -94,7 +79,7 @@ UNIDADE GESTORA DE PESSOAS]]></text>
 				<reportElement x="152" y="90" width="499" height="1" uuid="40560bb6-35c4-4eb1-8e7c-863c0b181c54"/>
 			</line>
 			<image>
-				<reportElement x="33" y="18" width="55" height="55" uuid="e6ddda09-e79c-47cc-9254-30f72889943b"/>
+				<reportElement x="20" y="20" width="80" height="71" uuid="2ff03277-cefd-47c5-ad53-1933b0e8328b"/>
 				<imageExpression><![CDATA[$P{background}]]></imageExpression>
 			</image>
 		</band>
@@ -149,19 +134,18 @@ UNIDADE GESTORA DE PESSOAS]]></text>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="203" splitType="Stretch">
+		<band height="210" splitType="Stretch">
 			<textField>
 				<reportElement x="13" y="16" width="100" height="30" uuid="150c9bc1-ce30-4abf-bdc0-a25950d59528">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6cab08fe-8928-4685-8fa9-8588fea6e8f8"/>
 				</reportElement>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA[$P{codpessoa}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{codPessoa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="155" y="19" width="100" height="30" uuid="38410e04-03d4-4810-90b0-11aded50de83">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6be00add-270c-44a4-b7e3-4496bf8a1856"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$P{codservidor}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{codServidor}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="292" y="19" width="100" height="30" uuid="715924b7-7323-4d08-bfca-45d6ca1921c0">
@@ -174,13 +158,13 @@ UNIDADE GESTORA DE PESSOAS]]></text>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d01ce088-81bd-4e7c-8c94-95c993d8ecab"/>
 				</reportElement>
 				<textElement markup="none"/>
-				<textFieldExpression><![CDATA[$P{datadenascimento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{dataDeNascimento}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="582" y="20" width="100" height="30" uuid="93ac8af9-f008-4263-a68b-3bc897d8141e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5776e391-ed2d-443d-a20c-db077144c78f"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$P{descricaosexo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{descricaoSexo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="10" y="120" width="100" height="30" uuid="391489c8-aa28-4006-aa9d-db9e651eab51">
@@ -198,13 +182,13 @@ UNIDADE GESTORA DE PESSOAS]]></text>
 				<reportElement x="292" y="120" width="100" height="30" uuid="9c57ca74-e65a-4104-b779-c87400135b28">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fa8ba8aa-6b32-499a-ae6a-1776b8864b0f"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$P{nomemae}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{nomeMae}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="440" y="120" width="100" height="30" uuid="36620aac-a027-422c-9691-fe1e1fc993d8">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b572efe5-67f7-4d58-80df-2dcd9847b940"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$P{nomepai}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{nomePai}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="152" y="81" width="100" height="30" uuid="1030e20b-ff53-4ab0-8c14-a74d49f30be8">
@@ -242,6 +226,10 @@ UNIDADE GESTORA DE PESSOAS]]></text>
 				</textElement>
 				<text><![CDATA[RG]]></text>
 			</staticText>
+			<image>
+				<reportElement x="266" y="-80" width="270" height="290" uuid="c33526ea-e7f5-4fdb-be30-8a7701314c6c"/>
+				<imageExpression><![CDATA[$P{logoSeap}]]></imageExpression>
+			</image>
 		</band>
 	</detail>
 	<pageFooter>

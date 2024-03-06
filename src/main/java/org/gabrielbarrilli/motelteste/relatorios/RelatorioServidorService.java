@@ -37,58 +37,70 @@ public class RelatorioServidorService {
     }
 
     public void servidorRelatorio(Integer codServidor, HttpServletResponse response) throws Exception {
-        //localiza as imagens
+
         final String MODELO_FERIAS_RETIFICAR_JRXML = "/relatorios/cracha-servidor.jrxml";
 
-        //nome do pdf
         String fileName = "cracha-servidor";
 
-        BufferedImage background = reportImageUtil.getBufferedImage("imagens/fotoServidor/background.png");
+        BufferedImage background = reportImageUtil.getBufferedImage("imagens/personagem.jpeg");
+        BufferedImage logoSeap = reportImageUtil.getBufferedImage("imagens/background.png");
 
-        //faz a query do servidor
         var servidor = queryRhService.buscaServidorPorCodigoServidorRelatorio(codServidor);
+        System.out.println(servidor.codPessoa());
+        System.out.println(servidor.nome());
 
-        //cria um objeto igual a query, com os mesmos parametros, só que inserindo get e set
         ServidorRelatorio servidorRelatorio = new ServidorRelatorio();
 
-
-        //cria uma lista
         List<ServidorRelatorio> servidorRelatorioList = new ArrayList<>();
 
-        //joga o objeto dentro dalista
         servidorRelatorioList.add(servidorRelatorio);
 
-        //pega os dados do servidor e joga no teste
-        teste(servidor);
+        servidorRelatorio = criaServidor(servidor);
+        System.out.println(servidorRelatorio.getNome());
 
         final Map<String, Object> PARAMETROS = new HashMap<>();
-        //associa os parametros com o nome das variaveis do objeto
-        getParametros(PARAMETROS, background, servidorRelatorio);
+        getParametros(PARAMETROS, background,logoSeap, servidorRelatorio);
 
-        //printa pta pdf
         printPDF(MODELO_FERIAS_RETIFICAR_JRXML, servidorRelatorioList, fileName, PARAMETROS, response);
     }
 
-    private static ServidorRelatorio teste(QueryServidorRelatorioResponse servidor) {
+    private static ServidorRelatorio criaServidor(QueryServidorRelatorioResponse servidor) {
 
         ServidorRelatorio servidorRelatorio = new ServidorRelatorio();
         servidorRelatorio.setCodPessoa(servidor.codPessoa());
-        servidorRelatorio.setPathFoto(servidor.pathFoto());
         servidorRelatorio.setCodServidor(servidor.codServidor());
         servidorRelatorio.setNome(servidor.nome());
         servidorRelatorio.setDataDeNascimento(servidor.dataDeNascimento());
         servidorRelatorio.setDescricaoSexo(servidor.descricaoSexo());
         servidorRelatorio.setNomeMae(servidor.nomeMae());
-        servidorRelatorio.setNomePai(servidor.nomePai());
+        servidorRelatorio.setNomePai(servidor.nomePai()!=null? servidorRelatorio.nomePai : "");
         servidorRelatorio.setCpf(servidor.cpf());
         servidorRelatorio.setRg(servidor.rg());
 
         return servidorRelatorio;
     }
 
-    private void getParametros(Map<String, Object> parametros, BufferedImage background,ServidorRelatorio servidorRelatorio) {
+//    private static ServidorRelatorio teste(QueryServidorRelatorioResponse servidor) {
+//
+//        ServidorRelatorio servidorRelatorio = new ServidorRelatorio();
+//        servidorRelatorio.setCodPessoa(servidor.codPessoa());
+//        servidorRelatorio.setPathFoto(servidor.pathFoto());
+//        servidorRelatorio.setCodServidor(servidor.codServidor());
+//        servidorRelatorio.setNome(servidor.nome());
+//        servidorRelatorio.setDataDeNascimento(servidor.dataDeNascimento());
+//        servidorRelatorio.setDescricaoSexo(servidor.descricaoSexo());
+//        servidorRelatorio.setNomeMae(servidor.nomeMae());
+//        servidorRelatorio.setNomePai(servidor.nomePai());
+//        servidorRelatorio.setCpf(servidor.cpf());
+//        servidorRelatorio.setRg(servidor.rg());
+//
+//        return servidorRelatorio;
+//    }
+
+    private void getParametros(Map<String, Object> parametros, BufferedImage background,BufferedImage logoSeap,ServidorRelatorio servidorRelatorio) {
 
         parametros.put("background", background);
+        parametros.put("logoSeap", logoSeap);
         parametros.put("codPessoa", servidorRelatorio.getCodPessoa());
         parametros.put("codServidor", servidorRelatorio.getCodServidor());
         parametros.put("nome", servidorRelatorio.getNome());
@@ -107,7 +119,9 @@ public class RelatorioServidorService {
         OutputStream outputStream = response.getOutputStream();
         response.setContentType("application/pdf");
         response.setHeader("Content-disposition", "inline; filename=" + fileName);
+
         var report = JasperCompileManager.compileReport(relativeWebPath);
+
         JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(dataSource, false);
         JasperPrint print = JasperFillManager.fillReport(report, parametros, source);
         JasperExportManager.exportReportToPdfStream(print, outputStream);
